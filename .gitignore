@@ -1,0 +1,25 @@
+# Dependências e saídas de build
+node_modules/
+frontend/dist/
+frontend/dist-ssr/
+*.log
+*.tsbuildinfo
+
+# Junções locais para o landing-pages (agente, skills e hooks) — não pertencem a este repositório
+.claude/
+
+# Estado local do detector do impeccable (a configuração compartilhada, config.json, entra)
+.impeccable/hook.cache.json
+.impeccable/live/
+.impeccable/config.local.json
+
+# Material bruto do cliente (repositório público): fica só na máquina de trabalho.
+# O site usa as versões otimizadas em frontend/public/img/.
+frontend/design/originais/
+frontend/design/recortes-pdf/
+docs/fontes/
+**/.impeccable/hook.cache.json
+
+# Referências visuais: capturas de sites de terceiros e a prancha da marca (só as notas entram)
+frontend/design/referencias/*
+!frontend/design/referencias/notas.md

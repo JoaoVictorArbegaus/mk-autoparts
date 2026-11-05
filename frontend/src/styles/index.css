@@ -1,0 +1,12 @@
+@import 'lenis/dist/lenis.css';
+@import './base.css';
+@import './componentes.css';
+@import './landing.css';
+@import './paginas.css';
+@import './admin.css';
+
+/* Elementos com transform controlado pelo Motion não têm transição CSS de transform. */
+.m,
+[data-reveal] {
+  transition-property: opacity;
+}

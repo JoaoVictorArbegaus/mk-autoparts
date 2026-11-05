@@ -1,0 +1,35 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "gradient-text",
+        "value": "*",
+        "files": [
+          "frontend/src/styles/landing.css"
+        ],
+        "createdAt": "2026-11-04T19:28:47.240Z",
+        "reason": "Direção A aprovada pelo responsável humano: cromado da marca (sistema de logotipos v1.1) numa palavra do h1, registrado em design/direcao-visual.md"
+      },
+      {
+        "rule": "gradient-text",
+        "value": "*",
+        "files": [
+          "**/styles/landing.css"
+        ],
+        "createdAt": "2026-11-04T23:31:48.840Z",
+        "reason": "Cromado da marca (sistema de logotipos v1.1) só na palavra 'caminhões' do h1; aprovado na direção A (design/direcao-visual.md). Glob sem prefixo porque o hook informa o caminho relativo a frontend/."
+      },
+      {
+        "rule": "gradient-text",
+        "value": "*",
+        "files": [
+          "src/styles/landing.css"
+        ],
+        "createdAt": "2026-11-05T01:53:44.450Z",
+        "reason": "Cromado da marca (sistema de logotipos v1.1) só na palavra 'caminhões' do h1; aprovado na direção A (frontend/design/direcao-visual.md). Caminho relativo a frontend/, como o hook informa."
+      }
+    ]
+  }
+}

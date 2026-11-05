@@ -1,0 +1,400 @@
+/* Tokens do contrato (design/direcao-visual.md) e base mobile-first. */
+:root {
+  --navy: #0b1a36;
+  --navy-2: #13254a;
+  --navy-3: #081329;
+  --royal: #1c4fd0;
+  --royal-escuro: #163fa8;
+  --royal-tinta: #e8eefc;
+  --vivid: #3d7eff;
+  --silver: #d9dee5;
+  --paper: #f3f5f8;
+  --white: #ffffff;
+  --ink: #0b1a36;
+  --ink-2: #5b6678;
+  --muted-dark: #9aa6b8;
+  --linha-form: #c3cad6;
+  --tom-2: #e6eaf1;
+  --promo-red: #c81e2a;
+  --promo-yellow: #ffc531;
+  --chrome: linear-gradient(180deg, #ffffff 0%, #d2d8e0 44%, #76808f 50%, #9da6b3 58%, #eef1f5 100%);
+
+  --sup-navy: var(--navy);
+  --sup-navy-3: var(--navy-3);
+  --sup-paper: var(--paper);
+
+  --f-tit: 'Saira', 'Arial Narrow', system-ui, sans-serif;
+  --f-txt: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --topo-h: 64px;
+  --emenda-h: 44px;
+  --raio: 14px;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --foco: var(--royal);
+  --sombra-alta: 0 18px 40px -18px rgb(11 26 54 / 0.35), 0 4px 12px -6px rgb(11 26 54 / 0.18);
+  --vidro: rgb(11 26 54 / 0.58);
+  --vidro-borda: rgb(217 222 229 / 0.2);
+}
+@media (min-width: 960px) {
+  :root {
+    --topo-h: 72px;
+    --emenda-h: 72px;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-padding-top: calc(var(--topo-h) + 16px);
+}
+html.sem-rolagem {
+  overflow: hidden;
+}
+body {
+  margin: 0;
+  font-family: var(--f-txt);
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--ink);
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+img {
+  height: auto;
+}
+h1,
+h2,
+h3,
+p,
+ul,
+ol,
+dl,
+dd,
+figure,
+fieldset {
+  margin: 0;
+}
+ul,
+ol {
+  padding: 0;
+  list-style: none;
+}
+fieldset {
+  border: 0;
+  padding: 0;
+  min-width: 0;
+}
+legend {
+  padding: 0;
+}
+a {
+  color: inherit;
+}
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+button {
+  cursor: pointer;
+  background: none;
+  border: 0;
+  padding: 0;
+}
+button:disabled {
+  cursor: not-allowed;
+}
+input[type='search']::-webkit-search-cancel-button {
+  display: none;
+}
+h1,
+h2,
+h3 {
+  font-family: var(--f-tit);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+:focus-visible {
+  outline: 3px solid var(--foco);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+main:focus {
+  outline: none;
+}
+::selection {
+  background: var(--vivid);
+  color: #fff;
+}
+.tab,
+.card__cod,
+.orc__cod,
+.cod-lado {
+  font-variant-numeric: tabular-nums;
+}
+
+.contido {
+  width: 100%;
+  max-width: 1320px;
+  margin-inline: auto;
+  padding-inline: clamp(16px, 4vw, 40px);
+}
+.sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+.pular {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 100;
+  padding: 12px 18px;
+  border-radius: 999px;
+  background: var(--white);
+  color: var(--navy);
+  font-weight: 600;
+  transform: translateY(-160%);
+  transition: transform 0.2s var(--ease);
+}
+.pular:focus {
+  transform: none;
+}
+
+main {
+  display: block;
+  padding-top: var(--topo-h);
+  min-height: 60vh;
+}
+main[data-rota='landing'] {
+  padding-top: 0;
+}
+
+/* Superfícies e foco por tom */
+.sec {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding-block: clamp(48px, 6vw, 88px) calc(var(--emenda-h) + clamp(32px, 4vw, 56px));
+}
+.sec--navy {
+  --foco: var(--vivid);
+  color: var(--white);
+  /* O brilho fica abaixo da emenda: o topo da seção é marinho puro, igual à cor que a emenda pinta. */
+  background: radial-gradient(90% 55% at 85% 40%, rgb(61 126 255 / 0.12), transparent 70%), linear-gradient(180deg, var(--navy) 0%, var(--navy) 12%, var(--navy-2) 100%);
+}
+.sec--navy-3 {
+  --foco: var(--vivid);
+  color: var(--white);
+  background: var(--navy-3);
+}
+.sec--paper {
+  --foco: var(--royal);
+  background: var(--paper);
+  color: var(--ink);
+}
+
+/* Camadas de fundo (canvas/WebGL) atrás do conteúdo, entram em fade. */
+.bg-layer {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1.2s var(--ease);
+}
+.bg-layer.is-ready {
+  opacity: 1;
+}
+.bg-layer.is-fallback {
+  background: radial-gradient(70% 55% at 50% 100%, rgb(28 79 208 / 0.45), transparent 70%);
+}
+.sec > .bg-layer {
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 120px, #000 calc(100% - var(--emenda-h) - 40px), transparent calc(100% - var(--emenda-h)));
+  mask-image: linear-gradient(180deg, transparent 0, #000 120px, #000 calc(100% - var(--emenda-h) - 40px), transparent calc(100% - var(--emenda-h)));
+}
+
+/*
+ * Emenda em corte inclinado: a seção seguinte "entra" em diagonal (subindo para a direita), com filete
+ * azul vivo de 3px na borda e um brilho que percorre o filete. Só clip-path e background-position.
+ */
+.emenda {
+  --fio: 3px;
+  position: absolute;
+  inset: auto 0 -1px;
+  z-index: 1;
+  height: var(--emenda-h);
+  pointer-events: none;
+}
+.emenda__fundo,
+.emenda__filete {
+  position: absolute;
+  inset: 0;
+}
+.emenda__fundo {
+  background: var(--emenda);
+  clip-path: polygon(0 100%, 100% var(--fio), 100% 100%);
+}
+.emenda__filete {
+  clip-path: polygon(0 calc(100% - var(--fio)), 100% 0, 100% var(--fio), 0 100%);
+  background:
+    linear-gradient(90deg, transparent 0, rgb(255 255 255 / 0.95) 50%, transparent 100%) no-repeat,
+    linear-gradient(90deg, rgb(61 126 255 / 0.25) 0%, var(--vivid) 35%, var(--vivid) 100%);
+  background-size: 18% 100%, 100% 100%;
+  background-position: -20% 0, 0 0;
+  animation: emenda-brilho 7s var(--ease) infinite;
+}
+@keyframes emenda-brilho {
+  0% {
+    background-position: -20% 0, 0 0;
+  }
+  55%,
+  100% {
+    background-position: 120% 0, 0 0;
+  }
+}
+
+/* Cabeçalho de seção: filete azul vivo a 12° antes do título */
+.sec__cabeca {
+  display: grid;
+  gap: 12px;
+  margin-bottom: clamp(24px, 4vw, 40px);
+  max-width: 760px;
+}
+.sec__cabeca--linha {
+  max-width: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+}
+.sec__cabeca--linha > div:first-child {
+  display: grid;
+  gap: 12px;
+  max-width: 720px;
+}
+.titulo-sec {
+  position: relative;
+  padding-left: 20px;
+  font-size: clamp(1.75rem, 1.2rem + 2vw, 2.75rem);
+  font-weight: 800;
+  font-style: italic;
+  font-stretch: 116%;
+}
+.titulo-sec::before {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: 0.14em;
+  bottom: 0.14em;
+  width: 4px;
+  border-radius: 2px;
+  background: var(--vivid);
+  transform: skewX(-12deg);
+}
+.sec__apoio {
+  font-size: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+  max-width: 62ch;
+}
+.sec--navy .sec__apoio,
+.sec--navy-3 .sec__apoio {
+  color: var(--silver);
+}
+
+/* SplitTitle (adaptado de prime-padel-platform): o espaço fica fora da máscara */
+.split__mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding: 0 0.12em 0.08em 0;
+  margin-right: -0.12em;
+}
+.split__word {
+  display: inline-block;
+}
+
+.placeholder {
+  padding: 12px 16px;
+  border-radius: 10px;
+  background: rgb(28 79 208 / 0.08);
+  color: var(--ink-2);
+  font-size: 0.875rem;
+  font-style: italic;
+}
+.placeholder--escuro {
+  background: rgb(255 255 255 / 0.07);
+  color: var(--silver);
+}
+
+.chip-lado {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 8px;
+  border-radius: 6px;
+  background: var(--navy);
+  color: var(--white);
+  font-family: var(--f-tit);
+  font-weight: 700;
+  font-size: 0.75rem;
+  font-stretch: 110%;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.link-acao {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  color: var(--royal);
+  font-weight: 600;
+  font-size: 0.9375rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.link-acao:hover {
+  color: var(--royal-escuro);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .emenda span {
+    animation: none;
+  }
+  /* Movimento reduzido: todo o conteúdo visível desde o início, sem entradas. */
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
