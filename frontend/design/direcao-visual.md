@@ -123,13 +123,13 @@ folga.
 | --- | --- | --- |
 | Fotos de produto (recortes do PDF, ~405×268) | cards e detalhe, sempre sobre placa branca | `object-fit: scale-down` (nunca ampliam); 360 px no detalhe; sem zoom |
 | Recortes das promoções (fundo escuro) | cards e detalhe, sobre placa marinho | idem |
-| Foto do caminhão (`originais/fotos/933354b5…png`, 1672×941) | fundo do hero, véu marinho à esquerda (desktop) e por cima (celular) | JPEG 800/1280/1672 em `public/img/hero/` |
+| Foto do caminhão recebida do cliente (`docs/produtos/`) | fundo do hero, véu marinho à esquerda (desktop) e por cima (celular) | JPEG 800/1280/1672 em `public/img/hero/` |
 | Artes de promoção (1024×1536) | seção Promoções (grade de 3 no desktop, trilho no celular) | ~300 px de largura |
 | Fachada (878×877, recortada) | "Loja e contato" | 440 px |
 | Estoque (807×880 e 840×866, recortadas) | "Sobre", lado a lado em retrato 4:5, escalonadas, com legenda | ~400 px |
 | `image3.png` (arte com texto) | não usada | — |
 
-Recortes obrigatórios (originais intactos em `design/originais/`): interface do
+Recortes obrigatórios (materiais recebidos intactos em `docs/produtos/`): interface do
 Instagram (pontos do carrossel, seta) e placas de veículos legíveis (corte ou
 desfoque). Nenhum logo de terceiros no site (montadoras e fornecedores em texto);
 as artes de promoção do cliente aparecem como estão (`DEC-013`). Todas as imagens
@@ -149,7 +149,7 @@ em WebP em `public/img/`.
    real de peças, em marquee pausável; cada uma abre o catálogo filtrado.
 3. **Categorias** (claro): 6 cartões marinho em 3 colunas (referência: cartões
    de "peça em destaque"). Todos usam a mesma foto de estúdio de um caminhão sem
-   marca (`originais/categorias/base.png`); cada cartão aproxima a região da sua
+   marca (`public/img/categorias/caminhao-base-1536.jpg`); cada cartão aproxima a região da sua
    categoria e acende as peças em azul vivo com brilho (SVG sobre a foto; motor em
    efeito raio-X). Abaixo: número, contagem real de peças e nome em itálico
    maiúsculo com filete a 12°. Em teste: os destaques desenhados podem ser

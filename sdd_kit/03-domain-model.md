@@ -107,9 +107,9 @@ classificação adotada estão em `frontend/design/catalogo-revisao.md`
 
 ## Extração do PDF
 
-- Fonte: `frontend/design/originais/catalogo-pdf/`. Os preços de promoção vêm
-  do material de promoções do cliente (`PEND-016`).
+- Fonte: `docs/produtos/CATALOGO MK AUTOPARTS 2025.pdf`. Os preços de promoção vêm
+  das imagens recebidas em `docs/produtos/` (`PEND-016`).
 - Fotos de produto extraídas ou fornecidas são otimizadas para WebP em
-  `frontend/public/img/produtos/`; os originais ficam em `design/originais/`.
+  `frontend/public/img/produtos/`; os materiais recebidos ficam em `docs/produtos/`.
 - Dados ilegíveis ou ambíguos no PDF não são completados por inferência: viram
   pergunta ao responsável humano.

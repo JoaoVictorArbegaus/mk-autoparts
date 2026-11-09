@@ -31,6 +31,9 @@ src/content/*.ts  ──►  src/content/catalogo.ts (acesso, busca, filtro — 
   `localStorage` (`DEC-010`). No produto definitivo, a mesma interface passa a
   enviar para a API; o painel lê por funções de `src/rastreio/metricas.ts`, que
   somam a base fictícia aos eventos locais e depois serão trocadas pela API.
+- O admin de demonstração em `src/admin/` mantém cópias dos produtos e vendedores
+  somente na memória do React. O login usa `sessionStorage` apenas para sustentar a
+  navegação da demonstração; nenhuma edição chega ao catálogo público (`DEC-015`).
 - Nada de `window`, `document` ou `localStorage` durante o render (pré-renderização).
 
 ## Produto definitivo

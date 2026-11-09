@@ -11,7 +11,8 @@ O objetivo principal do produto é ser o **catálogo dos vendedores**, substitui
 PDF e as imagens; a landing institucional é secundária e deve apresentar a empresa
 de forma rápida. No produto definitivo, cada vendedor terá link próprio e a empresa
 terá métricas por vendedor, produto e carrinho (`DEC-009`); o protótipo simula
-isso sem backend (`DEC-010`).
+isso sem backend (`DEC-010`) e também demonstra a futura operação administrativa
+em `/admin`, sem persistência (`DEC-015`).
 
 No protótipo, o catálogo online com landing page institucional funciona assim: o cliente
 descobre as peças, filtra por montadora, modelo, categoria e marca, monta uma lista
@@ -32,6 +33,8 @@ produto real para o visitante, mas não tem backend.
   promoção, o preço promocional.
 - Lista de orçamento no navegador, enviada pelo WhatsApp com mensagem pronta.
 - Demonstrar o link de vendedor e o painel de métricas, simulados (`DEC-010`).
+- Demonstrar o futuro admin de produtos, promoções e vendedores, sem salvar
+  alterações (`DEC-015`).
 - Servir de base visual e de comportamento para o SDD do produto definitivo.
 
 ### Atores
@@ -41,7 +44,8 @@ produto real para o visitante, mas não tem backend.
 - **Vendedor (fictício):** tem link próprio de demonstração; recebe a lista no
   WhatsApp.
 - **Cliente MK na apresentação:** abre `/painel` para ver as métricas simuladas.
-- **Apresentador (equipe de desenvolvimento):** demonstra o protótipo ao cliente.
+- **Apresentador (equipe de desenvolvimento):** demonstra o site, o painel e o
+  admin visual ao cliente.
 
 ### Incluído no protótipo
 
@@ -57,11 +61,15 @@ produto real para o visitante, mas não tem backend.
   "Atendimento: <nome>"; registro das ações do visitante e dos carrinhos no
   `localStorage`; painel `/painel` com números fictícios fixos somados às ações da
   demonstração.
+- Admin de demonstração em `/admin`: login simulado e telas de produtos,
+  promoções, vendedores e métricas. As alterações ficam só na memória da página,
+  não alteram o site público e somem ao recarregar (`DEC-015`).
 
 ### Fora do escopo do protótipo
 
 - Backend, API, banco de dados, autenticação.
-- Painel administrativo e qualquer cadastro pela interface.
+- Painel administrativo **real**, cadastro persistente e gestão de usuários. O
+  `/admin` do protótipo é apenas uma demonstração visual (`DEC-015`).
 - Kits, Reels do Instagram e contas de clientes (recursos da KiProdutos não
   escolhidos para o protótipo).
 - Vendedores reais, cadastro de vendedores, regras de prazo e conflito de
@@ -84,8 +92,8 @@ a partir de `docs/client-questions.md`. A KiProdutos é a referência de process
 arquitetura (backend, painel, mídia, segurança, infraestrutura), sem herdar
 automaticamente suas regras.
 
-Direção já conhecida (`DEC-009`; rascunho em
-`docs/fontes/regras-de-negocio-v0.1.md`, ainda não aprovado como SDD):
+Direção já conhecida e consolidada em `DEC-009` e `DEC-011`; os detalhes ainda
+dependem das respostas de `docs/client-questions.md`:
 
 - **Atores:** visitante/cliente, vendedor (com link próprio, recebe os carrinhos) e
   administrador (catálogo, promoções, vendedores, métricas).

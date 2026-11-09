@@ -8,7 +8,8 @@ não pertence à tarefa atual.
 
 Este projeto está na fase de **protótipo de apresentação** (`DEC-001`): uma landing
 page com catálogo online de produtos pré-cadastrados, **somente frontend**, sem
-backend, banco de dados, painel administrativo, autenticação ou deploy de produção.
+backend, banco de dados, administração real, autenticação ou deploy de produção. O
+`/admin` de `DEC-015` é apenas uma demonstração visual e não persiste alterações.
 O objetivo é apresentar a proposta à MK Autoparts e coletar as especificações do
 produto definitivo, que serão decididas depois.
 
@@ -126,7 +127,8 @@ Adaptações deste projeto ao agente:
 - Nunca invente depoimentos, números, preços, endereço, horários, marcas
   representadas ou fotos da MK Autoparts.
 - Os produtos pré-cadastrados do protótipo vêm do PDF/fotos fornecidos pelo cliente
-  (`frontend/design/originais/`). Enquanto não houver, usar produtos de exemplo
+  (`docs/produtos/`). A marca recebida fica em `docs/design/`. Enquanto não houver
+  material suficiente, usar produtos de exemplo
   claramente sinalizados como `[EXEMPLO]` no dado e na interface.
 - Placeholders seguem o padrão do agente: `[PLACEHOLDER: ...]`.
 - Todo o texto em português do Brasil.

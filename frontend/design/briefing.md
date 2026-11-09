@@ -18,7 +18,7 @@
 
 ## 2. Produtos e preços
 
-- Fonte: PDF atual em `originais/catalogo-pdf/` (a receber). Promoções: imagens
+- Fonte: PDF atual em `docs/produtos/`. Promoções: imagens
   enviadas hoje pelo WhatsApp (a receber, `PEND-016`).
 - O PDF não tem preços. Só as promoções têm preço; os demais produtos aparecem sem
   valor e são orçados pelo WhatsApp (`DEC-008`).
@@ -73,10 +73,10 @@ Só fatos confirmados:
 
 ## 9. Identidade visual
 
-- **Logo:** sistema de logotipos v1.1 em `originais/logo/` (selo oficial cromado,
+- **Logo:** sistema de logotipos v1.1 em `docs/design/` (selo oficial cromado,
   lettering vetorial em monograma, assinatura e horizontal; 6 variações de cor;
   favicons; `LEIA-ME.txt` e `site/brand-tokens.css`). Prancha em
-  `originais/logo/mk-prancha-sistema-de-marca.png`.
+  `docs/design/mk-prancha-sistema-de-marca.png`.
 - **Cores da marca:** prata `#D9DEE5`, azul royal `#1C4FD0`, azul vivo `#3D7EFF`,
   azul-marinho `#0B1A36`, branco; gradiente cromado só para tela.
 - **Fontes da marca:** lettering próprio (itálico 12°, MK pesado de quinas vivas,

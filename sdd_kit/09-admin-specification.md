@@ -8,7 +8,7 @@ Só visual: os produtos do site continuam no arquivo de dados (`frontend/src/con
 | --- | --- |
 | `/admin` | Login simulado (qualquer usuário e senha) |
 | `/admin/produtos` | Lista com busca, filtro por categoria e situação, ativar/desativar, "Novo produto" |
-| `/admin/produtos/novo`, `/admin/produtos/editar?slug=` | Formulário: nome, categoria, lados LD/LE com códigos MK e originais, aplicações (marca do veículo, modelo, anos), descrição, foto (prévia local), destaque, ativo |
+| `/admin/produtos/novo`, `/admin/produtos/editar?slug=` | Formulário: nome, categoria, marca, lados LD/LE com códigos MK e originais, aplicações (marca do veículo, modelo, anos), descrição, foto (prévia local) e situação ativo/inativo |
 | `/admin/promocoes` | Produtos em promoção, preço e preço "de"; adicionar e remover |
 | `/admin/vendedores` | Lista, novo vendedor, link `?v=` com copiar, ativar/desativar; WhatsApp do vendedor = número da empresa na demonstração |
 | `/admin/metricas` | Painel de métricas (`RN-10`) |

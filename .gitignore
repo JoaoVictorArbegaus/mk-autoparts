@@ -18,6 +18,8 @@ frontend/dist-ssr/
 frontend/design/originais/
 frontend/design/recortes-pdf/
 docs/fontes/
+docs/design/
+docs/produtos/
 **/.impeccable/hook.cache.json
 
 # Referências visuais: capturas de sites de terceiros e a prancha da marca (só as notas entram)

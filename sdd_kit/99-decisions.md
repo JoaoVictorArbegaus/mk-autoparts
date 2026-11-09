@@ -18,10 +18,11 @@ autorização humana, atualização dos documentos afetados e novo registro aqui
 - **Status:** ACEITA (responsável humano).
 - **Decisão:** A primeira entrega é um protótipo de apresentação para a MK
   Autoparts: landing page + catálogo online com produtos pré-cadastrados, sem
-  backend, banco, painel, autenticação ou deploy de produção.
-- **Consequência:** `07`, `09`, `11` e parte de `12`/`13` ficam fora do escopo. As
-  especificações do produto definitivo serão decididas depois da apresentação,
-  com a KiProdutos como referência de processo.
+  backend, banco, autenticação real ou deploy de produção. `DEC-015` acrescenta
+  posteriormente um admin apenas demonstrativo, sem persistência.
+- **Consequência:** API, banco, administração real e parte de `12`/`13` ficam fora
+  do escopo. As especificações do produto definitivo serão decididas depois da
+  apresentação, com a KiProdutos como referência de processo.
 
 ### DEC-002 — Frontend pelo agente e skills do landing-pages
 
@@ -100,8 +101,8 @@ autorização humana, atualização dos documentos afetados e novo registro aqui
   substituindo o PDF e as imagens de promoção enviadas pelo WhatsApp. O produto
   definitivo terá link por vendedor com atribuição da navegação, registro de
   eventos, carrinho no servidor (ativo, abandonado, finalizado) e painel de
-  métricas por vendedor, produto e funil. Fonte:
-  `docs/fontes/regras-de-negocio-v0.1.md` (rascunho).
+  métricas por vendedor, produto e funil. Direção consolidada e aprovada pelo
+  responsável humano nesta decisão.
 - **Protótipo:** simulado conforme `DEC-010`, que substitui a decisão anterior de
   não simular nada.
 - **Consequência:** O protótipo mantém o destino do WhatsApp e as ações do visitante
@@ -166,7 +167,7 @@ autorização humana, atualização dos documentos afetados e novo registro aqui
 ### DEC-013 — Artes de promoção na landing
 
 - **Status:** ACEITA (responsável humano).
-- **Decisão:** As artes de promoção do cliente (`originais/produtos/promo*.jpeg`)
+- **Decisão:** As artes de promoção recebidas do cliente (`docs/produtos/`)
   aparecem num carrossel na landing, cada uma levando ao produto em promoção. O
   produto tem card e detalhe próprios, com a peça recortada da arte e o preço da
   arte (`RN-02A`). O texto das artes não substitui o texto acessível: cada arte tem
@@ -179,8 +180,10 @@ autorização humana, atualização dos documentos afetados e novo registro aqui
 ### DEC-014 — Contatos, endereço e marca
 
 - **Status:** ACEITA (responsável humano).
-- **Decisão:** Endereço Av. Corina Caon, 103 – Ponte Grande, Lages – SC (o PDF de
-  abril de 2025 traz R. Josefina Amorim, 364, considerado desatualizado). WhatsApp
+- **Decisão:** Para o protótipo, usar o endereço Av. Corina Caon, 103 – Ponte
+  Grande, Lages – SC. O PDF de abril de 2025 traz R. Josefina Amorim, 364; por isso
+  rua, número, complemento, bairro, cidade, UF e CEP serão reapresentados ao
+  contratante para confirmação (`PEND-028`). WhatsApp
   (49) 99110-0096 para a lista e os botões de contato; telefone (49) 3018-8278
   exibido como "Ligar" no contato e no rodapé. Identidade pelo sistema de
   logotipos v1.1, com grafia "MK Autoparts".

@@ -1,7 +1,7 @@
 # Revisão da transcrição do catálogo
 
-Fonte: `originais/catalogo-pdf/CATALOGO MK AUTOPARTS 2025.pdf` (7 páginas, Canva,
-abril de 2025) e as três artes de `originais/produtos/`. Resultado em
+Fonte: `docs/produtos/CATALOGO MK AUTOPARTS 2025.pdf` (7 páginas, Canva,
+abril de 2025) e as três imagens recebidas em `docs/produtos/`. Resultado em
 `frontend/src/content/` (`produtos.ts`, `categorias.ts`, `montadoras.ts`,
 `tipos.ts`) e imagens em `frontend/public/img/produtos/` e `img/promocoes/`.
 

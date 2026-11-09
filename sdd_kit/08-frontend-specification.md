@@ -12,7 +12,7 @@
   - **várias rotas pré-renderizadas**: `scripts/prerender.mjs` gera
     `dist/index.html`, `dist/catalogo/index.html` e
     `dist/produto/<slug>/index.html` para cada produto ativo,
-    `dist/painel/index.html` e `dist/404.html`;
+    `dist/painel/index.html`, as rotas de `/admin/*` e `dist/404.html`;
   - **roteamento próprio** com a History API (componente `Link` e hook de rota em
     `src/router/`), sem biblioteca de rotas; a navegação interna não recarrega a
     página e respeita o Lenis;
@@ -27,6 +27,13 @@
 | `/catalogo` | Catálogo com busca e filtros na query string |
 | `/produto/<slug>` | Detalhe do produto |
 | `/painel` | Painel de métricas simulado (`RN-10`), `noindex`, fora da navegação |
+| `/admin` | Login simulado do admin (`DEC-015`), `noindex`, fora da navegação pública |
+| `/admin/produtos` | Lista e edição visual de produtos |
+| `/admin/produtos/novo` | Cadastro visual de produto |
+| `/admin/produtos/editar?slug=` | Edição visual de produto |
+| `/admin/promocoes` | Gestão visual de promoções |
+| `/admin/vendedores` | Gestão visual de vendedores e links |
+| `/admin/metricas` | Painel simulado dentro do admin |
 | qualquer outra | 404 com link para landing e catálogo |
 
 A lista de orçamento é um painel lateral (tela cheia no celular) acessível pelo
@@ -103,6 +110,7 @@ pelo WhatsApp e receba o orçamento com preços e disponibilidade" (texto final 
 | `src/router/` | Roteamento próprio |
 | `src/orcamento/` | Contexto React e persistência da lista |
 | `src/pages/` | Landing, Catálogo, Produto, 404 |
+| `src/admin/` | Admin de demonstração (`DEC-015`), sem persistência |
 | `src/components/` | Seções, cards, botões, primitivas de animação |
 | `src/styles/` | CSS |
 | `design/` | Briefing, referências, opções e contrato visual, originais |
@@ -132,7 +140,7 @@ decidida. Não reutilizar a identidade da KiProdutos.
 
 ## Marca e materiais (`DEC-014`)
 
-- Identidade: sistema de logotipos v1.1 em `frontend/design/originais/logo/`
+- Identidade: sistema de logotipos v1.1 em `docs/design/`
   (`LEIA-ME.txt`, `site/brand-tokens.css`). Paleta da marca: prata `#D9DEE5`,
   azul royal `#1C4FD0`, azul vivo `#3D7EFF`, azul-marinho `#0B1A36`, branco. O
   gradiente cromado é só para tela. A direção visual parte desses tokens.
