@@ -4,6 +4,10 @@ frontend/dist/
 frontend/dist-ssr/
 *.log
 *.tsbuildinfo
+.env
+.env.*
+!.env.example
+!frontend/.env.example
 
 # Junções locais para o landing-pages (agente, skills e hooks) — não pertencem a este repositório
 .claude/

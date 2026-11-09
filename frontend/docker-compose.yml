@@ -1,10 +1,13 @@
 # Sobe o protótipo da MK Autoparts: docker compose up -d --build
-# Abre em http://localhost:8084 (outra porta: PORTA=3000 docker compose up -d --build)
+# Por padrão, expõe apenas em http://127.0.0.1:8084 para uso atrás de proxy reverso.
 name: mk-autoparts
 services:
   site:
-    build: .
+    build:
+      context: .
+      args:
+        VITE_SITE_URL: "${SITE_URL:-https://dominio-a-definir.invalid}"
     image: mk-autoparts-prototipo:latest
     ports:
-      - "${PORTA:-8084}:80"
+      - "${IP_BIND:-127.0.0.1}:${PORTA:-8084}:80"
     restart: unless-stopped

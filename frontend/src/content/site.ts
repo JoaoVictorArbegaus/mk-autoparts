@@ -5,8 +5,8 @@
  */
 import { WHATSAPP_EMPRESA } from './vendedores';
 
-// PLACEHOLDER: domínio de publicação ainda não definido (briefing, seção 8).
-export const SITE_URL = 'https://dominio-a-definir.invalid';
+// Definido no build da publicação; o fallback explícito evita inventar domínio.
+export const SITE_URL = (import.meta.env.VITE_SITE_URL || 'https://dominio-a-definir.invalid').replace(/\/+$/, '');
 
 export const empresa = {
   nome: 'MK Autoparts',

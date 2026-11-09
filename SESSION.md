@@ -13,7 +13,7 @@ pertencem ao `sdd_kit/`.
   lista de orçamento, `/painel`, sete rotas de `/admin/*` e 404. Ver `frontend/README.md`.
 - Na última validação completa, `npm run build` passou (typecheck, build, SSR,
   pré-renderização de 86 rotas + 404 e validação dos dados) e `npm test` passou
-  (28 testes das regras puras).
+  (30 testes das regras puras).
 - Rodada de ajustes da landing aplicada: hero com a foto do caminhão
   (`public/img/hero/`), emendas em corte inclinado com filete azul (no lugar da onda),
   categorias em cartões marinho com a foto base do caminhão e peças destacadas em SVG
@@ -27,6 +27,9 @@ pertencem ao `sdd_kit/`.
   ficam na memória da sessão do admin e não alteram o site.
 - Docker: `frontend/docker-compose.yml` (nginx, porta 8084): `docker compose up -d --build`
   em `frontend/`.
+- Preparação de VPS: bind seguro em `127.0.0.1`, `SITE_URL` configurável no build,
+  `.env.example` e roteiro em `docs/deploy-vps.md`. Publicação ainda depende dos
+  dados da VPS, endereço público, HTTPS e proteção por senha/IP.
 - Imagens de uso no site em `frontend/public/img/` (hero e categorias em JPEG). Os
   materiais recebidos ficam em `docs/produtos/` e `docs/design/`. Fotos da loja foram
   recortadas sem a interface do Instagram, com placas de veículos e logos de
@@ -41,6 +44,8 @@ pertencem ao `sdd_kit/`.
 - DOC-01: fontes Markdown e PDFs de apresentação/validação em `docs/reuniao/`
   aguardam revisão do responsável e do sócio. Planejamento consolidado em
   `docs/planejamento-funcionalidades.md`.
+- PROTO-08: configuração de VPS preparada no repositório; subida aguardando acesso,
+  endereço público e definição do proxy/proteção.
 
 ## Continuidade
 
@@ -51,7 +56,7 @@ pertencem ao `sdd_kit/`.
 - Destaques das categorias são desenhados em SVG; se o cliente quiser mais realismo,
   trocar por 6 edições da IA sobre `base.png` (prompts na conversa de ajustes) mantendo
   o mesmo cartão e zoom.
-- JS principal: ~151 KB gzip (React, Motion, Lenis, dados e painel no mesmo bundle);
+- JS principal: ~160 KB gzip (React, Motion, Lenis, dados e painel no mesmo bundle);
   dividir o painel em outro chunk é a primeira otimização se o Lighthouse pedir.
 - Frases das artes ("peças originais", "grande variedade", "atendimento
   especializado") não entram no texto do site até confirmação.

@@ -18,6 +18,9 @@ Sem backend, sem login e sem dados pessoais coletados. Regras que valem:
   no produto definitivo, painel exige autenticação.
 - Se o protótipo for publicado num endereço temporário, marcar `noindex` para não
   ser indexado antes do produto definitivo (`13-infrastructure.md`).
+- Como `/admin` aceita qualquer credencial na demonstração, uma publicação
+  temporária deve proteger **todo o endereço** no proxy reverso com senha ou
+  restrição de IP. Credenciais e certificados ficam somente na VPS.
 
 ## Produto definitivo
 

@@ -20,6 +20,7 @@ demonstração visual: não salva nem altera o catálogo público (`DEC-015`).
 | `sdd_kit/` | Especificação (SDD) e decisões |
 | `docs/client-questions.md` | Dúvidas abertas para o cliente |
 | `docs/planejamento-funcionalidades.md` | Ideias, prioridades e dependências ainda não aprovadas |
+| `docs/deploy-vps.md` | Preparação e checklist para publicação temporária em VPS |
 | `docs/fontes/` | Documentos recebidos (rascunho de regras, dados da empresa), guardados como vieram |
 | `docs/reuniao/` | Fontes e PDFs de apresentação e validação preparados para a reunião |
 | `frontend/` | Protótipo implementado em Vite + React + TypeScript |
@@ -42,4 +43,5 @@ landing-pages também são locais.
 O frontend é feito com o agente `gerador-landing` e as skills `ui-ux-pro-max`,
 `design-taste-frontend` e `impeccable` de `D:\IntelliJ\Workspace\landing-pages`.
 O projeto está implementado em `frontend/`. Comandos principais: `npm install`,
-`npm run dev`, `npm test`, `npm run build` e `npm run preview`.
+`npm run dev`, `npm test`, `npm run build` e `npm run preview`. Para o container:
+`cp .env.example .env && docker compose up -d --build` em `frontend/`.

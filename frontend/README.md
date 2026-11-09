@@ -27,6 +27,19 @@ npm run build     # typecheck + build + SSR + pré-renderização (+ validação
 npm run preview   # serve o dist/ (http://127.0.0.1:4173)
 ```
 
+## Docker e VPS temporária
+
+```bash
+cp .env.example .env
+docker compose config
+docker compose up -d --build
+docker compose ps
+```
+
+O padrão expõe o site apenas em `127.0.0.1:8084`, para uso atrás de proxy reverso
+com HTTPS e proteção por senha/IP. `SITE_URL` em `.env` define canonical, Open Graph
+e JSON-LD no build. O roteiro completo está em `../docs/deploy-vps.md`.
+
 ## Onde fica cada coisa
 
 | Caminho | Conteúdo |

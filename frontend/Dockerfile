@@ -4,6 +4,8 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci --no-audit --no-fund
 COPY . .
+ARG VITE_SITE_URL=https://dominio-a-definir.invalid
+ENV VITE_SITE_URL=${VITE_SITE_URL}
 RUN npm run build
 
 # Etapa 2: só o HTML estático servido pelo nginx, sem Node
