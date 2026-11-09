@@ -29,7 +29,8 @@ pertencem ao `sdd_kit/`.
 - Imagens em WebP em `frontend/public/img/` (hero e categorias em JPEG); recortes PNG do PDF movidos para
   `frontend/design/recortes-pdf/` (fonte para regerar). Fotos da loja recortadas (sem a
   interface do Instagram) e com placas de veículos e logos de fornecedores desfocados.
-- Não há repositório Git.
+- Repositório Git público: https://github.com/JoaoVictorArbegaus/mk-autoparts (branch
+  `main`). Material bruto do cliente, referências e `.claude/` ficam fora (`.gitignore`).
 
 ## Trabalho ativo
 
