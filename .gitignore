@@ -2,6 +2,7 @@
 node_modules/
 frontend/dist/
 frontend/dist-ssr/
+deploy/vps/out/
 *.log
 *.tsbuildinfo
 .env

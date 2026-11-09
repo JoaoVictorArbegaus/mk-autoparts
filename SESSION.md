@@ -27,9 +27,12 @@ pertencem ao `sdd_kit/`.
   ficam na memória da sessão do admin e não alteram o site.
 - Docker: `frontend/docker-compose.yml` (nginx, porta 8084): `docker compose up -d --build`
   em `frontend/`.
-- Preparação de VPS: bind seguro em `127.0.0.1`, `SITE_URL` configurável no build,
-  `.env.example` e roteiro em `docs/deploy-vps.md`. Publicação ainda depende dos
-  dados da VPS, endereço público, HTTPS e proteção por senha/IP.
+- Publicação ativa em `https://mkautoparts.jksoftware.com.br`, pública e sem
+  Cloudflare Access (`DEC-016`). Release `65e611cc3dd0` em Compose/rede isolados,
+  atrás do Nginx central e proxy Cloudflare; TLS `Strict`, renovação simulada e origem
+  restrita às faixas oficiais da Cloudflare. Smoke público aprovado nas rotas
+  principais e 404; Chrome desktop/celular sem mensagens de console ou rolagem
+  horizontal. Runbook e rollback em `deploy/vps/`.
 - Imagens de uso no site em `frontend/public/img/` (hero e categorias em JPEG). Os
   materiais recebidos ficam em `docs/produtos/` e `docs/design/`. Fotos da loja foram
   recortadas sem a interface do Instagram, com placas de veículos e logos de
@@ -44,8 +47,6 @@ pertencem ao `sdd_kit/`.
 - DOC-01: fontes Markdown e PDFs de apresentação/validação em `docs/reuniao/`
   aguardam revisão do responsável e do sócio. Planejamento consolidado em
   `docs/planejamento-funcionalidades.md`.
-- PROTO-08: configuração de VPS preparada no repositório; subida aguardando acesso,
-  endereço público e definição do proxy/proteção.
 
 ## Continuidade
 

@@ -1,0 +1,11 @@
+# Integrar estas entradas ao /opt/mksia/core/docker-compose.yml durante a subida.
+# Não usar este arquivo sozinho como Compose.
+services:
+  nginx:
+    networks:
+      mk_autoparts: {}
+
+networks:
+  mk_autoparts:
+    external: true
+    name: mk_autoparts_edge

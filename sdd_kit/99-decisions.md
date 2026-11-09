@@ -204,3 +204,18 @@ autorização humana, atualização dos documentos afetados e novo registro aqui
   definitivo, `PEND-011`).
 - **Consequência:** `/admin/*` é `noindex`, fora da navegação pública e sem eventos de rastreio;
   edição de produto usa `/admin/produtos/editar?slug=` para a rota ser pré-renderizada.
+
+### DEC-016 — Publicação pública do protótipo
+
+- **Status:** ACEITA (responsável humano).
+- **Decisão:** O protótipo em `mkautoparts.jksoftware.com.br` é acessível ao público,
+  sem Cloudflare Access, senha ou lista de identidades. O proxy da Cloudflare fornece
+  DNS/CDN/TLS de borda, mas não autentica visitantes.
+- **Admin demonstrativo:** `/admin` também é publicamente acessível por URL direta.
+  Continua valendo `DEC-015`: qualquer login é aceito, nada persiste e nenhuma ação
+  altera o catálogo público.
+- **Consequência:** `noindex` permanece em todas as rotas para desencorajar indexação,
+  mas não é apresentado como controle de acesso. A origem pode aceitar somente as
+  faixas da Cloudflare para impedir acesso direto ao IP sem restringir o público.
+- **Limite:** esta decisão vale apenas para o protótipo sem backend ou dados reais; o
+  produto definitivo exigirá autenticação e autorização nas áreas administrativas.

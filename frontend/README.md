@@ -38,7 +38,9 @@ docker compose ps
 
 O padrão expõe o site apenas em `127.0.0.1:8084`, para uso atrás de proxy reverso
 com HTTPS e proteção por senha/IP. `SITE_URL` em `.env` define canonical, Open Graph
-e JSON-LD no build. O roteiro completo está em `../docs/deploy-vps.md`.
+e JSON-LD no build. Esse Compose continua útil para execução isolada. A VPS
+compartilhada usa artefato estático, rede Docker interna e Nginx central conforme
+`../deploy/vps/README.md`; o roteiro resumido está em `../docs/deploy-vps.md`.
 
 ## Onde fica cada coisa
 

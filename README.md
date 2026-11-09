@@ -10,6 +10,9 @@ Fase atual: **protótipo de apresentação**, somente frontend, com produtos
 pré-cadastrados em arquivo estático. Sem backend. O `/admin` existente é uma
 demonstração visual: não salva nem altera o catálogo público (`DEC-015`).
 
+Publicação temporária: <https://mkautoparts.jksoftware.com.br>. O protótipo é
+público, usa `noindex` e não exige autenticação (`DEC-016`).
+
 ## Onde fica cada coisa
 
 | Caminho | Conteúdo |
@@ -21,6 +24,7 @@ demonstração visual: não salva nem altera o catálogo público (`DEC-015`).
 | `docs/client-questions.md` | Dúvidas abertas para o cliente |
 | `docs/planejamento-funcionalidades.md` | Ideias, prioridades e dependências ainda não aprovadas |
 | `docs/deploy-vps.md` | Preparação e checklist para publicação temporária em VPS |
+| `deploy/vps/` | Pacote operacional da VPS: release, Compose, Nginx, TLS e rollback |
 | `docs/fontes/` | Documentos recebidos (rascunho de regras, dados da empresa), guardados como vieram |
 | `docs/reuniao/` | Fontes e PDFs de apresentação e validação preparados para a reunião |
 | `frontend/` | Protótipo implementado em Vite + React + TypeScript |
