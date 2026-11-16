@@ -34,6 +34,8 @@
 | `/admin/promocoes` | Gestão visual de promoções |
 | `/admin/vendedores` | Gestão visual de vendedores e links |
 | `/admin/metricas` | Painel simulado dentro do admin |
+| `/vendedor` | Painel do vendedor simulado (`RN-13`, `DEC-018`, `DEC-021`): login simulado, orçamentos ativos com aviso de alteração, montar orçamento, preços e desconto, gerar link, PDF e Word. `noindex`, fora da navegação pública |
+| `/orcamento` | Orçamento aberto pelo link do vendedor (`RN-13`): itens, preço antigo riscado, novo preço e porcentagem, total; o cliente altera, adiciona produtos e usa "Solicitar orçamento" ou "Falar com `<nome>`" (rota provisória) |
 | qualquer outra | 404 com link para landing e catálogo |
 
 A lista de orçamento é um painel lateral (tela cheia no celular) acessível pelo
@@ -48,12 +50,14 @@ Ordem inicial; a ordem final e o tratamento visual ficam em
    Brasil), busca rápida que leva a `/catalogo?q=`, CTAs "Ver catálogo" e "Falar no
    WhatsApp", sobre a foto do caminhão na estrada.
 2. **Montadoras atendidas:** faixa com os nomes das montadoras que existem nos dados,
-   cada uma levando ao catálogo filtrado. Sem logos de terceiros (`PEND-007`).
+   cada uma levando ao catálogo filtrado. Sem logos de terceiros (`PEND-007`) e sem
+   quantidade de peças (`RN-14`).
 3. **Categorias:** atalhos para o catálogo por categoria (exceto Implementos e
-   acessórios, sem foto de peça), com link para o catálogo completo.
+   acessórios, sem foto de peça), com link para o catálogo completo. Sem quantidade
+   de peças (`RN-14`).
 4. **Promoções:** só as artes de promoção do cliente (`DEC-013`), cada uma
    levando ao produto. Produtos com `destaque: true` não aparecem na landing.
-5. **Sobre e envio para todo o Brasil:** loja de autopeças em Lages – SC desde 2021;
+5. **Sobre e envio para todo o Brasil (sem números de peças, `RN-14`; no lugar, "Desde 2021", "Envio para todo o Brasil" e "Loja em Lages – SC"):** loja de autopeças em Lages – SC desde 2021;
    importação, exportação e distribuição; como comprar (escolher no catálogo →
    montar a lista → enviar pelo WhatsApp → fechar com o atendimento). Texto
    "Sobre nós" definitivo depende do cliente.
@@ -73,7 +77,7 @@ Ordem inicial; a ordem final e o tratamento visual ficam em
 - Em qualquer ordenação, os produtos em promoção vêm primeiro; com busca, a
   promoção só desempata a relevância.
 
-- Cabeçalho com campo de busca, contador de resultados e ordenação.
+- Cabeçalho com campo de busca e ordenação, sem contador de resultados (`RN-14`).
 - Desktop: filtros em coluna lateral. Celular: botão "Filtrar" com ícone de
   abrir/fechar e painel sobreposto, com contador de filtros ativos.
 - Chips dos filtros ativos com remoção individual e "Limpar filtros".
@@ -99,6 +103,15 @@ celular, lista empilhada. Breadcrumb Catálogo › Categoria › Produto.
 Conforme `RN-04`, `RN-05`, `RF-16` a `RF-18`. Aviso fixo no painel: "Envie a lista
 pelo WhatsApp e receba o orçamento com preços e disponibilidade" (texto final em
 `PEND-003`).
+
+Fim da lista, perto do botão de orçar (`RN-11`, `RN-12`, `DEC-017`):
+
+- **Com vendedor atribuído:** só o botão "Solicitar orçamento", ligado ao vendedor, com
+  o aviso "Atendimento: `<nome>`". Nenhuma escolha de outro vendedor.
+- **Sem vendedor:** botão principal "Solicitar orçamento" (rodízio) e, abaixo, a seção
+  "Escolher um vendedor" com cartões de foto e nome. Sem foto real, avatar com iniciais.
+  A seção é compacta para não afastar o botão principal, e o painel lateral continua
+  utilizável no celular em tela cheia.
 
 ## Organização do código
 
@@ -135,7 +148,7 @@ decidida. Não reutilizar a identidade da KiProdutos.
   cliques × adicionados, carrinhos finalizados × não finalizados, tabela por
   vendedor e funil. Gráficos feitos com SVG próprio seguindo a skill `dataviz`,
   sem biblioteca de gráficos. No celular, tabelas viram listas.
-- Rodapé do painel com os links de teste de cada vendedor fictício e o botão "Zerar
+- Rodapé do painel com os links de teste de cada vendedor e o botão "Zerar
   dados da demonstração".
 
 ## Marca e materiais (`DEC-014`)
@@ -144,11 +157,12 @@ decidida. Não reutilizar a identidade da KiProdutos.
   (`LEIA-ME.txt`, `site/brand-tokens.css`). Paleta da marca: prata `#D9DEE5`,
   azul royal `#1C4FD0`, azul vivo `#3D7EFF`, azul-marinho `#0B1A36`, branco. O
   gradiente cromado é só para tela. A direção visual parte desses tokens.
-- Cabeçalho: logo horizontal (03) com 40 px de altura no desktop e monograma (01)
-  com 32 px no celular; versão "principal-fundo-escuro" sobre fundo escuro e
-  "positiva-fundo-claro" sobre fundo claro. Favicons em `logo/favicon/`.
-- O selo oficial (PNG) entra só como imagem (ex.: rodapé, compartilhamento), não
-  como logo do cabeçalho.
+- **Logo principal (`DEC-020`):** o selo oficial `docs/design/selo-oficial/mk-04-selo-oficial-*.png`,
+  circular, no cabeçalho, no painel do vendedor e nos documentos, em tamanho adaptado
+  (512, 1080 e 1600 px de origem; em tela, versões WebP derivadas).
+- Rodapé, favicons, monograma e as demais partes seguem o sistema de logotipos v1.1;
+  fundo escuro usa "principal-fundo-escuro" e fundo claro "positiva-fundo-claro". Favicons
+  em `docs/design/favicon/`.
 - Grafia na interface: "MK Autoparts".
 - Peça com lados: card mostra "LD / LE"; detalhe tem seletor de lado (LD, LE, Par)
   e lista os códigos de cada lado.

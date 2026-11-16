@@ -16,6 +16,8 @@ resolvida com o cliente.
   informado pelo atendimento no orçamento do WhatsApp.
 - O catálogo serve para o cliente encontrar e organizar as peças que quer.
 - Não há total na lista, porque ela mistura itens com e sem preço.
+- **Exceção:** o orçamento montado pelo vendedor tem preço e desconto definidos por ele
+  (`RN-13`). Isso não muda o catálogo público.
 - Textos de chamada usam "Solicitar orçamento" ou "Adicionar ao orçamento", nunca
   "Comprar" ou "Carrinho".
 
@@ -64,11 +66,11 @@ resolvida com o cliente.
 ## RN-05 — Mensagem do WhatsApp
 
 - Destino: o WhatsApp do vendedor da sessão (`RN-07`); sem vendedor, o da empresa,
-  `+55 49 99110-0096` (bio do Instagram), sujeito a confirmação (`PEND-005`). Na
-  demonstração, os vendedores fictícios também usam o número da empresa.
-- No produto definitivo, quem não tem vendedor envia a lista para o contato central
-  (no futuro, possivelmente uma IA), que encaminha ao grupo dos vendedores
-  (`DEC-011`); no protótipo, o número da empresa, (49) 99110-0096, faz esse papel.
+  `+55 49 99110-0096` (bio do Instagram), sujeito a confirmação (`PEND-005`).
+- Quem não tem vendedor é atendido pelo vendedor da vez no rodízio (`RN-11`) ou pelo
+  que escolher (`RN-12`), conforme `DEC-017`. O contato central e a IA de `DEC-011`
+  ficam fora do plano atual. Os botões de contato geral, sem vendedor definido,
+  continuam no número da empresa.
 - Com vendedor na sessão, a mensagem começa com "Olá, `<nome do vendedor>`!" no
   lugar de "Olá, MK Autoparts!".
 - Mensagem da lista, url-encoded:
@@ -104,15 +106,20 @@ Tudo nesta seção é **demonstração**: roda só no navegador, com dados fict�
 
 ## RN-07 — Link de vendedor
 
-- Os vendedores fictícios ficam em `src/content/vendedores.ts`, com nomes
-  claramente de demonstração e o WhatsApp da empresa. Nenhum telefone inventado.
+- Os vendedores (`DEC-022`) ficam em `src/content/vendedores.ts`, com os nomes e
+  WhatsApps recebidos da MK. Nenhum telefone é inventado.
 - Entrar por qualquer rota com `?v=<código>` de um vendedor ativo grava o vendedor
   no navegador; as visitas seguintes, mesmo sem o parâmetro, continuam atribuídas.
-- **Demonstração:** vale o último link usado; a atribuição não expira (`PEND-019`).
+- Vale o último link aberto (`DEC-017`). **Demonstração:** a atribuição não expira; o
+  prazo de validade segue em `PEND-019`.
 - Código inexistente ou vendedor inativo: o site abre normalmente, sem vendedor
   (origem "direta"), e não apaga uma atribuição válida anterior.
 - Com vendedor, o site mostra um aviso discreto e permanente "Atendimento: `<nome>`",
   sem cobrir conteúdo nem CTAs.
+- **Atendimento travado (`DEC-017`):** com vendedor na sessão, o site não oferece a
+  escolha de outro vendedor em nenhum ponto (lista, produto, contato). "Solicitar
+  orçamento" e os botões de contato vão sempre ao WhatsApp dele. Os clientes são
+  de cada vendedor.
 
 ## RN-08 — Registro das ações (eventos)
 
@@ -144,7 +151,7 @@ Tudo nesta seção é **demonstração**: roda só no navegador, com dados fict�
 - Rota `/painel`, sem link na navegação, sem login, com selo "Demonstração —
   números fictícios" e `noindex`.
 - Os números somam uma **base fictícia fixa** (`src/content/demo-metricas.ts`,
-  coerente com os produtos e vendedores fictícios) aos eventos registrados no
+  coerente com os produtos e os vendedores de `DEC-022`) aos eventos registrados no
   navegador, para o painel reagir ao vivo durante a apresentação.
 - Indicadores: produtos mais e menos clicados; cliques × adicionados por produto e
   taxa (adicionados ÷ cliques); carrinhos finalizados × não finalizados e taxa de
@@ -152,6 +159,102 @@ Tudo nesta seção é **demonstração**: roda só no navegador, com dados fict�
   finalizados e não finalizados) incluindo "Direto"; funil visita → clique →
   carrinho → finalizado.
 - Filtro por vendedor. Sem filtro de período na demonstração.
-- O painel lista os links dos vendedores fictícios para teste e tem o botão
+- O painel lista os links dos vendedores para teste e tem o botão
   "Zerar dados da demonstração", que apaga eventos, carrinhos e vendedor gravados
   (a base fictícia permanece).
+
+## Atendimento, painel do vendedor e privacidade de números
+
+Regras da versão seguinte do protótipo, no que for simulado, e do produto definitivo.
+Decisões: `DEC-017`, `DEC-018`, `DEC-019`.
+
+## RN-11 — Rodízio de vendedores (visitante sem link)
+
+- Vale só quando a sessão **não** tem vendedor atribuído (`RN-07`).
+- A **fila** é uma lista ordenada de vendedores ativos; o primeiro é o da vez. A ordem
+  inicial é a de `03-domain-model.md`.
+- Ao clicar em "Solicitar orçamento" na lista, o pedido vai para o primeiro da fila, que
+  passa para o **fim**; os demais avançam uma posição. Um cliente para cada vendedor,
+  na ordem de chegada.
+- O visitante é redirecionado ao WhatsApp desse vendedor, com a mensagem de `RN-05`
+  iniciada por "Olá, `<nome>`!".
+- Vendedor desativado sai da fila; vendedor novo entra no fim. Vendedor fora do horário
+  é pulado (`RN-15`). Vendedor sem resposta depende de `PEND-033`.
+- **Demonstração:** a fila fica no `localStorage` do navegador e só demonstra a
+  sequência. O rodízio real é do servidor e vale para todos os visitantes. A fila e o
+  próximo da vez aparecem no admin de demonstração.
+
+## RN-12 — Escolha manual de vendedor (visitante sem link)
+
+- No fim da lista, perto do botão de orçar, uma seção "Escolher um vendedor" mostra
+  foto (ou iniciais) e nome de cada vendedor ativo.
+- Escolher um vendedor abre o WhatsApp dele com a mensagem de `RN-05` e **consome a
+  vez**: o vendedor escolhido vai para o fim da fila e os demais mantêm a ordem
+  (`DEC-017`). Exemplo: fila A B C D E F; escolher D leva a A B C E F D; escolher F em
+  seguida leva a A B C E D F.
+- **Não aparece** quando há vendedor atribuído por link (`RN-07`).
+- Sem foto do vendedor, a interface usa avatar com as iniciais; nunca se inventa foto.
+- Vendedor fora do horário não aparece na escolha (`RN-15`).
+
+## RN-13 — Painel do vendedor e orçamento do vendedor (`DEC-018`, `DEC-021`)
+
+- Área exclusiva dos vendedores, em rota própria (`/vendedor`), fora da navegação
+  pública e `noindex`. O acesso é controlado pelo administrador principal (`DEC-021`).
+  Na demonstração o login é simulado.
+- O vendedor monta um **orçamento** escolhendo produtos, lado, quantidade e observação,
+  com as mesmas regras de `RN-04`, e informa o cliente (nome, opcional).
+- **Preço:** o vendedor digita o preço unitário de cada item, ou deixa sem preço e o item
+  aparece como "sob consulta". Item em promoção parte do preço promocional (`RN-02A`),
+  que ele pode alterar. Sem preço, o item fica fora do total.
+- **Desconto:** em valor (R$) ou em porcentagem, em itens específicos ou no total. O
+  desconto nunca deixa o preço negativo.
+- **Exibição do desconto:** o preço antigo aparece riscado, o novo logo abaixo e, ao lado
+  dos dois, a porcentagem de desconto (calculada sobre o preço antigo; uma casa decimal
+  só quando não for inteira). No total, o subtotal fica riscado acima do total final,
+  com a porcentagem ao lado.
+- **Formas de envio:** o vendedor escolhe uma ou mais: **link**, **PDF** ou **documento
+  editável** (Word). Todas trazem os mesmos dados.
+- **Link:** abre a página do orçamento (`/orcamento`) com itens, preços e desconto,
+  atribui a sessão ao vendedor que o gerou (`RN-07`) e trava a escolha de outro
+  vendedor. O item que deixou de existir é removido com aviso, como em `RN-04`. Na
+  demonstração, o orçamento vai codificado na URL.
+- **O cliente no link:** pode alterar quantidades, remover itens e adicionar produtos do
+  catálogo. O preço e o desconto do vendedor continuam nos itens dele; o item adicionado
+  pelo cliente entra "sob consulta" e o total é recalculado. Ele tem duas ações, ambas
+  só para o vendedor dono do link: "Solicitar orçamento" (envia a lista atual) e "Falar
+  com `<nome>`" (abre a conversa, sem a lista).
+- **Documento (PDF e Word):** padronizado, com o logo principal (`DEC-020`), nome e
+  contato do vendedor, cliente, itens com código, lado, quantidade, preço, desconto e
+  total, observação e data. Validade e textos fixos: `PEND-035`.
+- **Orçamentos ativos:** o painel lista os orçamentos ativos do vendedor (cliente, data,
+  itens, total). Quando o cliente altera um pelo link, o orçamento ganha o aviso "Alterado
+  pelo cliente" com o que mudou (item, ação, data), até o vendedor marcar como visto. O
+  vendedor pode encerrar o orçamento.
+- **Demonstração:** o orçamento e o aviso ficam no `localStorage`; o aviso aparece quando
+  o link é aberto e alterado no mesmo navegador (por exemplo, em outra aba). Entre
+  aparelhos, só com servidor.
+- O orçamento e o documento nunca mostram quantidade em estoque (`RN-14`).
+
+## RN-14 — Sem quantidades de peças em área pública (`DEC-019`)
+
+- As páginas públicas não mostram quantidade de peças: por marca de veículo, por
+  categoria, por produto, no catálogo todo ou como contador de resultados da busca e
+  dos filtros. O bloco "Sobre" não traz números de peças, categorias ou montadoras.
+- A faixa de marcas da landing mostra apenas os nomes, e os cartões de categoria apenas
+  nome e imagem. O catálogo mostra os produtos na rolagem ou depois do filtro, sem total.
+- No celular, o botão do painel de filtros diz "Ver resultados", sem número.
+- No bloco "Sobre", os números dão lugar a "Desde 2021", "Envio para todo o Brasil" e
+  "Loja em Lages – SC".
+- A quantidade que o cliente coloca na própria lista (`RN-04`) não é afetada. Áreas
+  internas (`/admin`, `/painel`, painel do vendedor) podem mostrar contagens.
+
+## RN-15 — Horário dos vendedores (`DEC-023`)
+
+- Cada vendedor pode ter faixas de atendimento por dia da semana, no horário de
+  Brasília. Sem faixas cadastradas, o vendedor está sempre disponível.
+- Fora do horário, o vendedor não recebe pedido do rodízio (é **pulado**, sem perder a
+  posição na fila) e não aparece em "Escolher um vendedor".
+- **Demonstração:** o horário é editado no admin de demonstração. Se todos estiverem fora
+  do horário, o pedido vai para o WhatsApp da empresa, e o cliente que chegou pelo link
+  de um vendedor fora do horário segue com ele e vê o aviso de que a resposta virá no
+  horário dele. Ambos são comportamentos de demonstração até `PEND-038`.

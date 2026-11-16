@@ -86,6 +86,8 @@ autorização humana, atualização dos documentos afetados e novo registro aqui
   WhatsApp, onde o atendimento faz o orçamento. Produtos em promoção mostram selo e
   preço promocional (original riscado só se informado).
 - **Substitui:** `DEC-004` (preço em todos os produtos).
+- **Complemento:** vale para o catálogo público. O orçamento montado pelo vendedor
+  pode ter preços e descontos definidos por ele (`DEC-018`).
 - **Consequência:** Sem ordenação por preço nem total da lista; filtro "Somente
   promoções" mantido; `Offer` no JSON-LD só em promoção. A lista ganha uma
   observação opcional para o cliente informar o caminhão e a cidade de envio.
@@ -125,12 +127,15 @@ autorização humana, atualização dos documentos afetados e novo registro aqui
   demonstração e botão para zerar os dados locais.
 - **Fora:** prazo e conflito de atribuição definitivos, carrinho no servidor,
   abandono por tempo, login, LGPD e integrações (`PEND-019` a `PEND-026`).
-- **Substitui:** o item "Protótipo" de `DEC-009`.
+- **Substitui:** o item "Protótipo" de `DEC-009`. Os vendedores fictícios e o número
+  único da empresa foram substituídos pelos vendedores reais de `DEC-022`.
 
 ### DEC-011 — Fluxo de atendimento por vendedor e grupo de vendedores
 
 - **Status:** ACEITA como regra do produto definitivo (responsável humano). Não
-  precisa estar no protótipo.
+  precisa estar no protótipo. **Parcialmente substituída por `DEC-017`:** o trecho
+  sobre o visitante sem link (contato central e grupo de vendedores) passa a seguir
+  o rodízio e a escolha manual de `DEC-017`. O restante continua vigente.
 - **Decisão:**
   - O cliente que entra em contato com a loja pelo WhatsApp é atendido por um
     vendedor, que envia o próprio link do catálogo. A navegação e a lista ficam
@@ -219,3 +224,130 @@ autorização humana, atualização dos documentos afetados e novo registro aqui
   faixas da Cloudflare para impedir acesso direto ao IP sem restringir o público.
 - **Limite:** esta decisão vale apenas para o protótipo sem backend ou dados reais; o
   produto definitivo exigirá autenticação e autorização nas áreas administrativas.
+
+### DEC-017 — Cliente do vendedor, rodízio e escolha de vendedor
+
+- **Status:** ACEITA (responsável humano). Regra do produto definitivo; a versão
+  seguinte do protótipo a demonstra de forma simulada (`DEC-010`). Os detalhes que
+  restam do rodízio estão em `PEND-033`.
+- **Contexto:** na MK, cada vendedor tem clientes próprios que só ele atende. Neste
+  momento o cliente não tem conta: quem define o vendedor é o link que ele abriu.
+- **Decisão:**
+  - **Chegou por link de vendedor:** o atendimento fica travado nesse vendedor. O
+    site não oferece a escolha de outro vendedor; "Solicitar orçamento" leva ao
+    WhatsApp dele. Se o cliente abrir o link de outro vendedor, vale o link aberto
+    por último.
+  - **Chegou sem link de vendedor:** ao finalizar a lista, "Solicitar orçamento"
+    distribui o atendimento por **rodízio**: uma fila circular de vendedores, um
+    cliente para cada um na ordem de chegada, e a fila avança a cada pedido.
+  - **Escolha manual (só sem link):** no fim da lista, perto do botão de orçar, uma
+    seção com foto e nome dos vendedores permite ao cliente escolher um. A escolha
+    redireciona ao WhatsApp do vendedor escolhido e **consome a vez** do rodízio.
+  - **Fila:** lista ordenada; o primeiro é o da vez. Quem atende um cliente, por
+    rodízio ou por escolha, vai para o **fim** da fila. Os demais mantêm a ordem.
+    Exemplo: fila A B C D E F; o cliente escolhe D, e a fila vira A B C E F D; outro
+    cliente escolhe F, e a fila vira A B C E D F.
+- **Substitui:** o trecho de `DEC-011` em que o visitante sem link envia a lista ao
+  contato central. O contato central e a IA continuam fora do plano atual.
+- **Protótipo:** a fila fica no `localStorage` do navegador, portanto só demonstra a
+  sequência; o rodízio real exige servidor para ser compartilhado entre todos os
+  visitantes.
+
+### DEC-018 — Painel do vendedor: orçamento, preços, link e documento
+
+- **Status:** ACEITA (responsável humano). Direção do produto definitivo; a versão
+  seguinte do protótipo demonstra o painel de forma simulada, sem backend, ampliando
+  `DEC-015`.
+- **Decisão:** o produto terá um painel **somente para os vendedores**, em rota
+  separada da administração do catálogo (`DEC-021`). Nele o vendedor:
+  - monta um orçamento (carrinho) com itens específicos para um cliente;
+  - define o **preço** de cada item (ou envia sem preço, a critério dele) e pode
+    aplicar **desconto**, em valor ou em porcentagem, em itens específicos ou no total.
+    O cliente vê o preço antigo riscado, o novo logo abaixo e, ao lado dos dois, a
+    porcentagem de desconto;
+  - escolhe como encaminhar o orçamento: **link**, **PDF** ou **documento editável**
+    (Word), um, dois ou os três;
+  - o link abre o orçamento com os itens, os preços e o desconto, atribui a sessão ao
+    vendedor e trava a escolha de outro (`DEC-017`). O cliente pode alterar o
+    orçamento (quantidades, remover, adicionar produtos) e falar apenas com o vendedor
+    dono do link, ou só pedir o orçamento. O PDF e o documento trazem os mesmos dados
+    com a identidade da MK Autoparts.
+- **Relação com `DEC-008`:** o catálogo público continua sem preço fora de promoção.
+  Só o orçamento do vendedor tem preço, digitado por ele.
+- **Protótipo:** o link carrega o orçamento na própria URL e os arquivos são gerados
+  no navegador. Nada é salvo em servidor. PDF e Word exigem bibliotecas novas, com
+  registro conforme `DEC-003`. Na URL o cliente consegue alterar os valores; por isso
+  o orçamento só é confiável no produto definitivo, salvo no servidor.
+- **Orçamentos ativos e avisos:** o painel lista os orçamentos ativos do vendedor. Quando
+  o cliente altera um deles pelo link, o painel mostra o aviso e o que mudou, até o
+  vendedor marcar como visto. Por enquanto o aviso é só dentro do painel; WhatsApp, e-mail
+  ou som ficam para depois. A demonstração funciona no mesmo navegador (duas abas); entre
+  aparelhos o aviso exige servidor.
+- **Formatos:** o modelo do PDF e do Word e a forma de avisar mudanças são detalhados
+  na implementação.
+- **Fora:** login real, histórico completo, status comerciais e métricas do vendedor
+  (produto definitivo, `PEND-023`).
+
+### DEC-019 — Nenhuma quantidade de peças em local público
+
+- **Status:** ACEITA (responsável humano).
+- **Decisão:** nenhuma página pública mostra quantidade de peças: nem por marca de
+  veículo, categoria ou produto, nem o total do catálogo, nem o contador de resultados
+  da busca ou dos filtros, nem números no bloco "Sobre". No lugar dos números do
+  "Sobre" entram fatos já confirmados: "Desde 2021", "Envio para todo o Brasil" e
+  "Loja em Lages – SC". A faixa de marcas da landing mostra só os nomes. O catálogo mostra apenas os produtos na rolagem ou depois de
+  filtrar por categoria.
+- **Alcance:** áreas internas (`/admin`, `/painel`, painel do vendedor) podem mostrar
+  contagens. A quantidade que o cliente coloca na própria lista não é afetada.
+
+### DEC-020 — Logo principal: selo oficial
+
+- **Status:** ACEITA (responsável humano). Substitui `DEC-014` e a seção "Marca e
+  materiais" de `08-frontend-specification.md` no que diz respeito ao logo principal.
+- **Decisão:** o logo principal do site, do painel do vendedor e dos documentos é o
+  selo oficial pedido pelo contratante: `docs/design/selo-oficial/mk-04-selo-oficial-*.png`
+  (512, 1080 e 1600 px), em tamanho adaptado a cada uso. Rodapé, favicons, monograma e
+  demais partes continuam como estão, pelo sistema de logotipos v1.1, com a grafia
+  "MK Autoparts".
+- **Consequência:** o selo é imagem raster circular; o cabeçalho precisa de altura ou
+  de uma composição que o acomode, e o monograma (`DEC-014`) deixa de ser o logo do
+  cabeçalho no celular se o selo couber. A direção visual (`direcao-visual.md`)
+  é ajustada junto com a implementação.
+
+### DEC-021 — Contas: só a equipe da MK
+
+- **Status:** ACEITA (responsável humano).
+- **Decisão:** nesta fase o cliente final não tem conta. Só a equipe da MK faz login: o
+  **administrador principal** controla quais contas acessam a área do vendedor
+  (`/vendedor`) e a administração.
+- **Protótipo:** login simulado nas duas áreas (`DEC-015`). O login real, os perfis e as
+  permissões entram no produto definitivo (`PEND-023`).
+
+### DEC-022 — Vendedores reais da MK no protótipo
+
+- **Status:** ACEITA (responsável humano). Substitui os vendedores fictícios de
+  `DEC-010`.
+- **Decisão:** o protótipo usa os oito vendedores da MK com nome e WhatsApp reais,
+  autorizados pela contratante (`03-domain-model.md`). Cada vendedor tem o próprio
+  link `?v=<código>`, entra no rodízio (`DEC-017`) e recebe o pedido no próprio
+  WhatsApp. A foto fica em `frontend/public/img/vendedores/<codigo>.webp`; até chegar,
+  aparecem as iniciais.
+- **Número da empresa:** (49) 99110-0096 continua nos botões de contato geral (botão
+  flutuante com a lista vazia, "Falar no WhatsApp", loja e rodapé), onde não há
+  vendedor definido.
+- **Consequência:** a base fictícia do painel de métricas (`demo-metricas.ts`) passa a
+  usar esses vendedores. O repositório e o site são públicos, mas a contratante
+  autorizou o uso dos nomes e números.
+- **Nomes:** valem exatamente como foram enviados; ajustes ficam para depois.
+
+### DEC-023 — Horário dos vendedores
+
+- **Status:** ACEITA (responsável humano). As regras finais dependem de `PEND-038`.
+- **Decisão:** cada vendedor tem horário de atendimento. Fora do horário, o vendedor deixa
+  de ser opção: não recebe pedido do rodízio e não aparece na escolha manual
+  (`DEC-017`).
+- **Protótipo:** o horário é editável no admin de demonstração. Vendedor sem horário
+  cadastrado fica sempre disponível; nenhum horário é inventado. Os horários reais
+  dependem da resposta da MK.
+- **Em aberto:** o que fazer se todos estiverem fora do horário e como tratar o cliente
+  que chegou pelo link de um vendedor fora do horário (`PEND-038`).

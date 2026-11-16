@@ -137,8 +137,8 @@ Adaptações deste projeto ao agente:
 
 - Não criar backend, banco, API, autenticação real ou pagamento. O admin `/admin`
   (`DEC-015`) e as métricas são demonstrações só visuais: nada salva nem altera o site.
-- Na simulação, nunca inventar telefones: vendedores fictícios usam o WhatsApp da
-  empresa.
+- Nunca inventar telefones: os vendedores do protótipo são os reais da MK, com os
+  números recebidos (`DEC-022`); os demais contatos usam o WhatsApp da empresa.
 - Não adicionar dependência além da stack do agente e das extensões de `DEC-003` sem
   necessidade concreta e registro.
 - Não publicar, fazer deploy, commit ou push sem pedido humano.

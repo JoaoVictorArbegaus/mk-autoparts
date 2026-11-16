@@ -80,8 +80,8 @@ compartilhada usa artefato estático, rede Docker interna e Nginx central confor
 - `components/fundos/Aurora.tsx`, `DotField.tsx`, `Topo.tsx`, `components/CountUp.tsx`,
   `SplitTitle.tsx`, `Motion.tsx`: copiados de `landing-pages/clientes/prime-padel-platform`
   (adaptações de React Bits e kokonutui, licença MIT, créditos no topo de cada arquivo).
-- Emenda em onda (`components/Emenda.tsx` + `.emenda` em `base.css`): adaptada da `WaveSeam`
-  da KiProdutos.
+- Emenda em corte inclinado a 12° (`components/Emenda.tsx` + `.emenda` em `base.css`): substituiu
+  a onda, que veio da `WaveSeam` da KiProdutos e foi descartada por decisão do responsável.
 - Padrões da KiProdutos (query de catálogo, lista com revalidação) serviram de referência; o
   código daqui foi escrito para as regras da MK (sem preço fora de promoção, lados LD/LE,
   vendedor da sessão).

@@ -19,6 +19,16 @@ demonstração**, que não é a decisão final. Fontes recebidas ficam em `docs/
   (`DEC-007`).
 - Landing com montadoras, categorias, promoções e destaques, sobre/envio para o
   Brasil, clientes, contato e loja física (`08-frontend-specification.md`).
+- Logo principal: o selo oficial `docs/design/selo-oficial/mk-04-selo-oficial-*.png`;
+  o restante segue o sistema v1.1 (`DEC-020`).
+- Cliente com link de vendedor não escolhe outro vendedor; sem link há rodízio e escolha
+  manual, que consome a vez (`DEC-017`).
+- O vendedor monta o orçamento com preço (opcional) e desconto em valor ou %, e envia por
+  link, PDF ou Word; o cliente pode alterar o orçamento e falar só com o dono do link
+  (`DEC-018`). Vendedores reais no protótipo (`DEC-022`). Só a equipe da MK tem conta, controlada pelo administrador principal
+  (`DEC-021`).
+- Nenhuma quantidade de peças em área pública, inclusive o contador de resultados
+  (`DEC-019`).
 - O produto definitivo é um catálogo para os vendedores, com link por vendedor e
   métricas (`DEC-009`); o protótipo simula isso com vendedores fictícios, registro
   no navegador e painel `/painel` com números fictícios (`DEC-010`).
@@ -77,14 +87,17 @@ demonstração**, que não é a decisão final. Fontes recebidas ficam em `docs/
 - **PEND-017 — Contatos e vendedores:** quantos são, nomes, funções e WhatsApp de
   proprietário, atendentes e vendedores. Haverá setores (ex.: balcão, vendas
   externas)? Quais contatos aparecem publicamente e quais podem receber clientes?
-- **PEND-030 — Escolha e distribuição do atendimento:** permitir que o cliente
-  escolha um vendedor ao enviar a lista, preservando compradores parceiros. Definir
-  a prioridade entre vendedor do link, vendedor escolhido, último vendedor do
-  cliente e regra padrão. Sem preferência, decidir entre contato central, sorteio,
-  rodízio, fila de oportunidades ou distribuição por menor carga.
+- **PEND-030 — Distribuição do atendimento:** a regra base está decidida em
+  `DEC-017`: link de vendedor trava o atendimento; sem link, rodízio ou escolha manual.
+  Falta definir o cliente recorrente que volta sem link (manter o último vendedor
+  dele ou voltar ao rodízio) e a prioridade entre vendedor do link, vendedor escolhido
+  e último vendedor.
+- **PEND-033 — Rodízio:** ordem inicial da fila (hoje, a ordem em que os nomes foram
+  enviados); o que fazer com vendedor que não responde; há um rodízio só ou por equipe
+  ou categoria? O horário de atendimento está em `PEND-038`.
 - **PEND-019 — Atribuição:** prazo de validade do link do vendedor (sugestão:
-  30 dias) e regra de conflito entre dois links (sugestão: vale o último).
-  *Demonstração:* vale o último, sem prazo.
+  30 dias). A regra de conflito está decidida: vale o último link aberto (`DEC-017`).
+  *Demonstração:* sem prazo.
 - **PEND-020 — Finalizar o carrinho:** confirmar que é o envio pelo WhatsApp para
   o vendedor da sessão. Sem vendedor, vai para o contato central, que encaminha ao
   grupo dos vendedores (`DEC-011`). *Demonstração:* envio pelo WhatsApp; sem vendedor, número da
@@ -112,6 +125,32 @@ demonstração**, que não é a decisão final. Fontes recebidas ficam em `docs/
 - **PEND-025 — LGPD:** aviso de cookies/consentimento, política de privacidade e
   termos; quem fornece os textos?
 - **PEND-026 — Analytics:** já usam Pixel, Google Analytics ou Google Meu Negócio?
+
+### Painel do vendedor e atendimento (`DEC-017` a `DEC-021`)
+
+- **PEND-034 — Fotos dos vendedores:** nomes e WhatsApps dos oito vendedores já recebidos
+  (`DEC-022`). Falta a foto de cada um e a autorização de uso. *Demonstração:* iniciais no
+  lugar da foto.
+- **PEND-035 — Documento do orçamento:** modelo (layout) do PDF e do Word; validade do
+  orçamento; textos fixos (condições de pagamento, prazo, frete, garantia); quem fornece
+  esses textos. Avisar o vendedor de mudanças no orçamento só dentro do painel basta, ou
+  também por WhatsApp, e-mail ou som? (decidido por enquanto: só no painel).
+- **PEND-038 — Horário dos vendedores (pergunta à contratante):** em que dias e horários
+  cada vendedor atende, incluindo almoço, sábado e feriados? Fora do horário o vendedor
+  deixa de ser opção no rodízio e na escolha (`DEC-023`); a MK confirma como quer isso:
+  - se todos estiverem fora do horário, o pedido vai para o WhatsApp da empresa, fica
+    registrado para o primeiro que voltar ou o site avisa que o atendimento retoma no
+    próximo horário?
+  - o cliente que chegou pelo link de um vendedor fora do horário continua com ele e vê um
+    aviso, ou é atendido por outro?
+  - como o vendedor registra folga, férias ou ausência num dia comum?
+  - quem altera os horários: o vendedor ou só o administrador?
+  *Demonstração:* sem horário cadastrado o vendedor está sempre disponível; pedido sem
+  ninguém no horário vai para a empresa; cliente de link segue com o vendedor e vê aviso.
+- **PEND-039 — Nomes dos vendedores (pergunta à contratante):** confirmar como cada nome
+  deve aparecer no site, nome completo ou só o primeiro, e a grafia: Luiz Guide,
+  Marcelo, Marcelos (é outra pessoa, ou um nome com "s"?), Mauricio, Silvio, Taine
+  Ribeiro, Vitor Mota e Daniel Avila. *Demonstração:* os nomes como foram enviados.
 
 ### Catálogo e venda
 

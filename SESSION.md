@@ -15,7 +15,7 @@ pertencem ao `sdd_kit/`.
   pré-renderização de 86 rotas + 404 e validação dos dados) e `npm test` passou
   (30 testes das regras puras).
 - Rodada de ajustes da landing aplicada: hero com a foto do caminhão
-  (`public/img/hero/`), emendas em corte inclinado com filete azul (no lugar da onda),
+  (`public/img/hero/`), emendas em corte inclinado com filete azul (no lugar da onda, definitivo),
   categorias em cartões marinho com a foto base do caminhão e peças destacadas em SVG
   com zoom por categoria (`public/img/categorias/`), Promoções só com as artes,
   fotos do estoque em largura total, promoções primeiro no catálogo e chips de
@@ -42,15 +42,24 @@ pertencem ao `sdd_kit/`.
 
 ## Trabalho ativo
 
+- Próxima reunião: aplicar as mudanças pedidas pela MK (atendimento travado por link,
+  rodízio, escolha de vendedor, painel `/vendedor` com preço, desconto, link, PDF e Word,
+  sem quantidades públicas, selo como logo principal, melhorias M1 a M7). Regras em
+  `DEC-017` a `DEC-021`; plano em `docs/planejamento-proxima-reuniao.md`; tarefas `REU-*`
+  em `TASKS.md`. Documentação pronta; código ainda não alterado.
+- Vendedores reais (`DEC-022`): oito, com nomes e WhatsApps em `sdd_kit/03-domain-model.md`
+  (autorizados pela contratante; nono dígito já incluído). Fotos em
+  `frontend/public/img/vendedores/<codigo>.webp`. Horários por vendedor: `DEC-023`; perguntas
+  `PEND-038` (horário) e `PEND-039` (nomes) aguardam envio à contratante.
 - PROTO-05: Lighthouse no celular (`RNF-05`) e roteiro de apresentação.
 - PROTO-06: placeholders e frases das artes aguardando o cliente.
-- DOC-01: fontes Markdown e PDFs de apresentação/validação em `docs/reuniao/`
-  aguardam revisão do responsável e do sócio. Planejamento consolidado em
+- DOC-01: fontes Markdown, PDFs e roteiro TXT para o Notas do iPhone em
+  `docs/reuniao/` aguardam revisão. Planejamento consolidado em
   `docs/planejamento-funcionalidades.md`.
 
 ## Continuidade
 
-- Vendedores fictícios: `?v=joao`, `?v=maria`, `?v=carlos` (WhatsApp da empresa).
+- Hoje o código ainda tem os fictícios `?v=joao`, `?v=maria`, `?v=carlos` (WhatsApp da empresa); a troca é a REU-11.
 - Paleta dos gráficos do painel: `#1C4FD0` e `#EB6834` (validada pela skill `dataviz`).
 - Ignore do detector do impeccable: `gradient-text` só em `landing.css` (cromado
   aprovado), em `.impeccable/config.json` (glob `**/styles/landing.css`).

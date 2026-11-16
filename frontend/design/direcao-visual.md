@@ -86,6 +86,8 @@ laranja existe só nos gráficos do `/painel`.
 - **Itálico de 12°** como geometria: filete `--vivid` de 2 px inclinado antes de
   cada h2, faixa "Promoção" inclinada, cortes das emendas e linhas de velocidade.
 - **Cromado** só no logo e numa palavra do h1 (reflexo em CSS).
+- **Logo principal = selo oficial circular** (`DEC-020`) no cabeçalho, no painel do vendedor
+  e nos documentos. A composição do cabeçalho com o selo é definida na implementação.
 - **Sombras**: só em cards elevados no hover, no painel lateral e no menu;
   cantos de 14 px nos cards, 999 px nos botões (pílula).
 - **Catálogo**: fundo `--paper`, cards brancos, cabeçalho marinho com o mesmo
@@ -175,9 +177,9 @@ em WebP em `public/img/`.
 
 ### Catálogo, detalhe, lista, painel, 404
 
-- **Catálogo** (`/catalogo`): faixa marinho com h1, busca e contador; chips de
-  categoria roláveis; filtros na coluna lateral (desktop) ou painel "Filtrar" com
-  contador (celular); chips ativos; ordenação; grade 4/3/2 colunas, lotes de 24.
+- **Catálogo** (`/catalogo`): faixa marinho com h1 e busca, sem contador de resultados
+  (`RN-14`); chips de categoria roláveis; filtros na coluna lateral (desktop) ou painel
+  "Filtrar" com contador de filtros (celular); chips ativos; ordenação; grade 4/3/2 colunas, lotes de 24.
 - **Card**: placa branca 4:3 com a foto (marinho nos produtos de promoção, com faixa
   vermelha a 12° e preço amarelo), nome (2 linhas), código em Plex tabular, chip
   "LD / LE", categoria (oculta no celular), botão "Adicionar ao orçamento" (com

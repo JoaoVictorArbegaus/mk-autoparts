@@ -57,14 +57,56 @@ guardado em `localStorage` sob a chave
 `mk-orcamento-v1`, junto com a observação opcional (`RN-04`). Nome, código e
 imagem nunca são salvos; vêm dos dados atuais.
 
-### Vendedor (fictício, `DEC-010`)
+### Vendedor (`DEC-022`)
 
 | Campo | Tipo | Regra |
 | --- | --- | --- |
 | `codigo` | string | único, minúsculas, usado em `?v=` |
-| `nome` | string | nome de demonstração |
-| `whatsapp` | string | na demonstração, sempre o número da empresa |
-| `ativo` | boolean | inativo não atribui (`RN-07`) |
+| `nome` | string | como enviado pela MK |
+| `whatsapp` | string | número com DDI e DDD, só dígitos |
+| `foto` | string opcional | `/img/vendedores/<codigo>.webp`; sem ela, a interface usa as iniciais |
+| `ativo` | boolean | inativo não atribui (`RN-07`) e sai da fila (`RN-11`) |
+| `horario` | lista opcional | faixas `{ dia, inicio, fim }` por dia da semana, no horário de Brasília. Sem horário cadastrado, o vendedor está sempre disponível (`RN-15`, `PEND-038`) |
+
+Vendedores recebidos da MK, na ordem inicial da fila (Daniel, recebido depois, entra no
+fim). Sete números foram enviados com 8 dígitos depois do DDD 49; o responsável mandou
+acrescentar o `9` logo depois do `49`. O número de Daniel já veio completo e é o mesmo
+WhatsApp da empresa.
+
+| `codigo` | `nome` | `whatsapp` |
+| --- | --- | --- |
+| `luiz` | Luiz Guide | `5549999234046` |
+| `marcelo` | Marcelo | `5549985040318` |
+| `marcelos` | Marcelos | `5549999468221` |
+| `mauricio` | Mauricio | `5549984282320` |
+| `silvio` | Silvio | `5549999019555` |
+| `taine` | Taine Ribeiro | `5549991063669` |
+| `vitor` | Vitor Mota | `5549999065664` |
+| `daniel` | Daniel Avila | `5549991100096` |
+
+`Marcelo` e `Marcelos` são duas pessoas. O nome de Luiz fica só "Luiz Guide", a pedido do responsável. Não se cria foto: o vínculo é pelo `codigo`.
+
+### Orçamento do vendedor (`RN-13`)
+
+| Campo | Tipo | Regra |
+| --- | --- | --- |
+| `vendedor` | código | Vendedor que gerou o orçamento |
+| `cliente` | texto opcional | Nome para o documento |
+| `itens` | lista | `{ slug, lado?, quantidade, preco?, desconto? }`; `desconto` é `{ tipo: 'valor' \| 'percentual', valor }` |
+| `descontoTotal` | `{ tipo, valor }` opcional | Aplicado ao subtotal dos itens com preço |
+| `observacao` | texto até 500 | Igual à lista (`RN-04`) |
+| `id` | string | Identifica o orçamento no link e no painel |
+| `estado` | `ativo` \| `encerrado` | Só orçamentos ativos aparecem na lista de trabalho do vendedor |
+| `alteracoes` | lista | O que o cliente mudou pelo link: item, ação e data; some do aviso quando o vendedor marca como visto |
+
+Preço, desconto, porcentagem exibida e total são calculados e validados por funções
+puras testáveis. Item sem `preco` fica "sob consulta" e fora do total. O desconto
+nunca deixa o preço negativo.
+
+### Fila do rodízio (`RN-11`)
+
+Lista ordenada de códigos de vendedores ativos, guardada em `localStorage` na
+demonstração (`mk-fila-v1`). Quem atende vai para o fim.
 
 ### Dados da simulação (navegador)
 
@@ -82,7 +124,7 @@ imagem nunca são salvos; vêm dos dados atuais.
 
 `src/content/demo-metricas.ts` guarda contagens fixas por produto e vendedor
 (visitas, cliques, adições, remoções, carrinhos finalizados e não finalizados),
-geradas para os produtos reais do catálogo e os vendedores fictícios. É gerada uma
+geradas para os produtos reais do catálogo e os vendedores de `DEC-022`. É gerada uma
 vez, versionada no código e marcada como fictícia.
 
 ## Validação dos dados

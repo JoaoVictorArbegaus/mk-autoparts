@@ -41,8 +41,8 @@ produto real para o visitante, mas não tem backend.
 
 - **Visitante:** consulta landing, catálogo e produtos; monta a lista de orçamento;
   segue para o WhatsApp. Pode chegar por link de vendedor ou direto.
-- **Vendedor (fictício):** tem link próprio de demonstração; recebe a lista no
-  WhatsApp.
+- **Vendedor (`DEC-022`):** os oito vendedores da MK, cada um com link próprio; recebe
+  a lista no próprio WhatsApp.
 - **Cliente MK na apresentação:** abre `/painel` para ver as métricas simuladas.
 - **Apresentador (equipe de desenvolvimento):** demonstra o site, o painel e o
   admin visual ao cliente.
@@ -57,7 +57,7 @@ produto real para o visitante, mas não tem backend.
   orçados pelo WhatsApp.
 - Lista de orçamento persistida em `localStorage`, com envio pelo WhatsApp.
 - Produtos pré-cadastrados em arquivo estático (`03-domain-model.md`).
-- Simulação (`DEC-010`): vendedores fictícios com link `?v=<código>` e aviso
+- Simulação (`DEC-010`): vendedores da MK com link `?v=<código>` e aviso
   "Atendimento: <nome>"; registro das ações do visitante e dos carrinhos no
   `localStorage`; painel `/painel` com números fictícios fixos somados às ações da
   demonstração.
@@ -72,11 +72,9 @@ produto real para o visitante, mas não tem backend.
   `/admin` do protótipo é apenas uma demonstração visual (`DEC-015`).
 - Kits, Reels do Instagram e contas de clientes (recursos da KiProdutos não
   escolhidos para o protótipo).
-- Vendedores reais, cadastro de vendedores, regras de prazo e conflito de
-  atribuição, carrinho no servidor, login no painel, LGPD e integrações
-  (`DEC-010`).
-- Números de WhatsApp de vendedores: todos os vendedores fictícios usam o número
-  da empresa.
+- Cadastro real de vendedores, prazo de atribuição, rodízio compartilhado entre
+  visitantes, carrinho no servidor, login real, LGPD e integrações (`DEC-010`,
+  `DEC-017`, `DEC-021`).
 - Preço de produtos fora de promoção e total da lista (`DEC-008`); preço público
   no futuro em `PEND-001`.
 - Checkout, pagamento, frete, estoque, nota fiscal.

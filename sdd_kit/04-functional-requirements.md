@@ -25,8 +25,8 @@
   em promoção vêm primeiro; com busca, a promoção só desempata a relevância.
 - **RF-09** Busca, filtros e ordenação ficam na URL (query string) e podem ser
   compartilhados; voltar no navegador restaura o estado anterior.
-- **RF-10** Contador de resultados, botão "Limpar filtros" e estado vazio com
-  sugestão de falar no WhatsApp.
+- **RF-10** Botão "Limpar filtros" e estado vazio com sugestão de falar no WhatsApp.
+  Sem contador de resultados (`RN-14`).
 - **RF-11** Com muitos produtos, carregamento incremental ao rolar (lotes de 24),
   sem paginação numérica.
 - **RF-12** No celular, os filtros ficam num painel que abre e fecha por um botão
@@ -67,3 +67,33 @@
 - **RF-24** Registro dos carrinhos finalizados e não finalizados (`RN-09`).
 - **RF-25** Painel `/painel` com os indicadores, filtro por vendedor, links de teste
   e "Zerar dados da demonstração" (`RN-10`).
+
+## Atendimento por vendedor, painel do vendedor e privacidade (`DEC-017` a `DEC-019`)
+
+- **RF-26** Com vendedor atribuído, nenhuma tela oferece a escolha de outro vendedor
+  (`RN-07`).
+- **RF-27** Sem vendedor, a lista tem "Solicitar orçamento", que usa o rodízio e abre
+  o WhatsApp do vendedor da vez (`RN-11`).
+- **RF-28** Sem vendedor, a lista tem a seção "Escolher um vendedor" com foto e nome;
+  escolher abre o WhatsApp do vendedor (`RN-12`).
+- **RF-29** O admin de demonstração mostra a fila do rodízio e o próximo da vez
+  (`RN-11`).
+- **RF-30** Painel do vendedor (`/vendedor`) com login simulado: montar orçamento com
+  cliente, itens, lado, quantidade e observação (`RN-13`).
+- **RF-31** Definir preço por item (ou deixar sem preço) e desconto em valor ou
+  porcentagem, por item ou no total, mostrando preço antigo riscado, novo preço e a
+  porcentagem (`RN-13`).
+- **RF-32** Encaminhar o orçamento por link, PDF ou documento editável, à escolha do
+  vendedor (`RN-13`).
+- **RF-33** Abrir um link de orçamento mostra itens, preços e desconto, atribui a
+  sessão ao vendedor que o gerou e deixa o cliente alterar, adicionar itens, solicitar
+  o orçamento ou falar só com esse vendedor (`RN-13`).
+- **RF-34** Faixa de marcas, cartões de categoria, bloco "Sobre", contador de
+  resultados e demais áreas públicas sem quantidade de peças (`RN-14`).
+- **RF-35** Acesso ao painel do vendedor e à administração por conta controlada pelo
+  administrador principal; o cliente final não tem conta (`DEC-021`). Na demonstração,
+  o login é simulado.
+- **RF-36** Horário de atendimento por vendedor, editável no admin de demonstração; fora
+  do horário o vendedor sai do rodízio e da escolha (`RN-15`).
+- **RF-37** O painel do vendedor lista os orçamentos ativos e avisa quando o cliente alterou
+  um deles, com o que mudou; o vendedor marca como visto ou encerra (`RN-13`).

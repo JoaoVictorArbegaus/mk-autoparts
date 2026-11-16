@@ -22,11 +22,12 @@ público, usa `noindex` e não exige autenticação (`DEC-016`).
 | `TASKS.md` | Tarefas ativas |
 | `sdd_kit/` | Especificação (SDD) e decisões |
 | `docs/client-questions.md` | Dúvidas abertas para o cliente |
+| `docs/planejamento-proxima-reuniao.md` | Mudanças pedidas pela MK, melhorias propostas e caminho até o orçamento |
 | `docs/planejamento-funcionalidades.md` | Ideias, prioridades e dependências ainda não aprovadas |
 | `docs/deploy-vps.md` | Preparação e checklist para publicação temporária em VPS |
 | `deploy/vps/` | Pacote operacional da VPS: release, Compose, Nginx, TLS e rollback |
 | `docs/fontes/` | Documentos recebidos (rascunho de regras, dados da empresa), guardados como vieram |
-| `docs/reuniao/` | Fontes e PDFs de apresentação e validação preparados para a reunião |
+| `docs/reuniao/` | Fontes, PDFs e roteiro TXT de respostas preparados para a reunião |
 | `frontend/` | Protótipo implementado em Vite + React + TypeScript |
 | `frontend/design/briefing.md` | Briefing do cliente |
 | `frontend/design/referencias/` | **Imagens de referência visual** (qualquer nome/extensão) + `notas.md` |

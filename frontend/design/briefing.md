@@ -73,7 +73,9 @@ Só fatos confirmados:
 
 ## 9. Identidade visual
 
-- **Logo:** sistema de logotipos v1.1 em `docs/design/` (selo oficial cromado,
+- **Logo principal (`DEC-020`):** o selo oficial `docs/design/selo-oficial/mk-04-selo-oficial-*.png`,
+  pedido pelo contratante. As demais partes usam o sistema abaixo.
+- **Sistema de logotipos:** v1.1 em `docs/design/` (selo oficial cromado,
   lettering vetorial em monograma, assinatura e horizontal; 6 variações de cor;
   favicons; `LEIA-ME.txt` e `site/brand-tokens.css`). Prancha em
   `docs/design/mk-prancha-sistema-de-marca.png`.
