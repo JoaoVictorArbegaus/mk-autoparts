@@ -22,7 +22,7 @@ function Arte({ p }: { p: Produto }) {
   if (!a) return null;
   return (
     <Link href={`/produto/${p.slug}`} className="arte">
-      <img src={a.src400} srcSet={`${a.src400} 400w, ${a.src} 760w`} sizes="(min-width: 768px) 380px, 80vw" width={400} height={600} alt={`Arte da promoção: ${p.nome} por ${formatarPreco(p.promocao!.preco)}`} loading="lazy" decoding="async" />
+      <img src={a.src400} srcSet={`${a.src400} 400w, ${a.src560} 560w, ${a.src} 760w`} sizes="(min-width: 768px) 380px, 74vw" width={400} height={600} alt={`Arte da promoção: ${p.nome} por ${formatarPreco(p.promocao!.preco)}`} loading="lazy" decoding="async" />
       <span className="arte__legenda">
         <span>{p.nome}</span>
         <strong>{formatarPreco(p.promocao!.preco)}</strong>

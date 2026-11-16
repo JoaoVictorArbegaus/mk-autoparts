@@ -806,7 +806,8 @@
   color: var(--royal);
 }
 .card--promo .card__aplic {
-  color: var(--vivid);
+  /* Azul vivo clareado: o --vivid sobre o marinho-2 ficava em 4,0:1 (mínimo 4,5:1). */
+  color: #6b9bff;
 }
 .card__cod {
   font-size: 0.8125rem;

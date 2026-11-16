@@ -20,7 +20,7 @@ export function FormBusca({ id, rotulo, placeholder, placeholderCurto, botao, gr
       </label>
       <Icone nome="busca" tamanho={22} className="busca__lupa" />
       <input id={id} name="q" type="search" value={q} onChange={e => setQ(e.target.value)} placeholder={dica} autoComplete="off" enterKeyHint="search" />
-      <button type="submit" className="busca__ir">
+      <button type="submit" className="busca__ir" aria-label={botao}>
         <span>{botao}</span>
         <Icone nome="seta" tamanho={20} />
       </button>

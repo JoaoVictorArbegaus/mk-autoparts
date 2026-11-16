@@ -14,7 +14,7 @@ Fase de protótipo (`DEC-001`). Somente frontend, com dados estáticos.
 | PROTO-00 | Estrutura do projeto e SDD do protótipo | DONE | — |
 | PROTO-01 | Briefing completo e massa de produtos (`produtos.ts`) a partir do PDF | DONE | Revisão do cliente em `PEND-029` (não bloqueia) |
 | PROTO-07 | Admin de demonstração (`DEC-015`) | DONE | — |
-| PROTO-05 | Medição Lighthouse no celular (`RNF-05`) e roteiro de apresentação | READY | — (Etapa 4 do agente já verificada: build, screenshots, console, rolagem lateral) |
+| PROTO-05 | Roteiro de apresentação. Lighthouse no celular medido (build local no Docker): landing desempenho ~60, LCP 5,3 s; catálogo ~80, LCP 4,8 s; acessibilidade 100, boas práticas 100, CLS 0 nas duas; SEO 66 por causa do `noindex` proposital. Meta de desempenho do `RNF-05` não atingida, aceita no protótipo (o peso restante é React + Motion e as animações da landing) | READY | — |
 | PROTO-06 | Confirmações do cliente para trocar placeholders (Sobre nós, Clientes, CEP, feriados, domínio) e as frases das artes | BLOCKED | Respostas do cliente (`docs/client-questions.md`) |
 | DOC-01 | Revisar os dois PDFs e suas fontes em `docs/reuniao/` | BLOCKED | Revisão do responsável e do sócio |
 
@@ -37,7 +37,7 @@ apresentadas.
 | REU-11 | Vendedores reais da MK no protótipo (nomes e WhatsApps de `03-domain-model.md`); base do painel com eles; fotos quando chegarem | READY | Fotos em `PEND-034` |
 | REU-13 | Aviso fora do horário comercial (segunda a sexta, 8h às 18h, Brasília) na lista, na escolha de vendedor e no `/orcamento`; constante de configuração | READY | REU-02 |
 | REU-14 | Painel do vendedor: orçamentos ativos, aviso "Alterado pelo cliente", marcar como visto e encerrar | READY | REU-04, REU-05 |
-| REU-15 | Hero com mosaico: imagem aplicada (`DEC-024`); falta conferir o Lighthouse no celular | READY | — |
+| REU-15 | Hero com mosaico (`DEC-024`): aplicado e medido no Lighthouse (ver PROTO-05) | DONE | — |
 | REU-12 | Melhorias M1 a M7 do planejamento | READY | Revisão de escopo com o responsável |
 
 ## Depois da apresentação

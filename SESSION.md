@@ -37,8 +37,7 @@ pertencem ao `sdd_kit/`.
   materiais recebidos ficam em `docs/produtos/` e `docs/design/`. Fotos da loja foram
   recortadas sem a interface do Instagram, com placas de veículos e logos de
   fornecedores desfocados.
-- Repositório Git público: https://github.com/JoaoVictorArbegaus/mk-autoparts (branch
-  `main`). Material bruto do cliente, referências e `.claude/` ficam fora (`.gitignore`).
+- Repositório público `github.com/JoaoVictorArbegaus/mk-autoparts` (`main`); material bruto do cliente e `.claude/` ficam fora.
 
 ## Trabalho ativo
 
@@ -88,8 +87,9 @@ pertencem ao `sdd_kit/`.
 - Destaques das categorias são desenhados em SVG; se o cliente quiser mais realismo,
   trocar por 6 edições da IA sobre `base.png` (prompts na conversa de ajustes) mantendo
   o mesmo cartão e zoom.
-- JS principal: ~160 KB gzip (React, Motion, Lenis, dados e painel no mesmo bundle);
-  dividir o painel em outro chunk é a primeira otimização se o Lighthouse pedir.
+- JS principal: ~139 KB gzip (React, Motion, Lenis, dados). Catálogo, produto, painel e
+  admin em arquivos separados (lazy; pré-render com `prerender` do React), CSS embutido no
+  HTML e fontes locais. Lighthouse no celular registrado na PROTO-05.
 - Frases das artes ("peças originais", "grande variedade", "atendimento
   especializado") não entram no texto do site até confirmação.
 - Planejamento atual prioriza funil comercial, métricas reais, painel do vendedor,

@@ -57,7 +57,8 @@ export const textos = {
   pularConteudo: 'Pular para o conteúdo',
   abrirMenu: 'Abrir menu',
   fecharMenu: 'Fechar menu',
-  abrirLista: 'Abrir lista de orçamento',
+  /** Nome acessível do botão do topo: começa pelo texto visível ("Orçamento" e o contador). */
+  botaoLista: (n: number) => `Orçamento ${n} ${n === 1 ? 'item' : 'itens'}, abrir a lista`,
   atendimento: 'Atendimento:',
   whatsappFlutuante: 'Falar com a MK Autoparts no WhatsApp',
   flutuante: {

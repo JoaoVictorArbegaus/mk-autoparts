@@ -57,7 +57,7 @@ export function imagemProduto(p: Produto) {
 export function artePromocao(p: Produto) {
   if (!p.artePromocao) return null;
   const nome = p.artePromocao.replace(/^\/img\/promocoes\//, '').replace(/\.(png|jpe?g)$/i, '');
-  return { src: `/img/promocoes/${nome}.webp`, src400: `/img/promocoes/${nome}-400.webp`, largura: 760, altura: 1140 };
+  return { src: `/img/promocoes/${nome}.webp`, src400: `/img/promocoes/${nome}-400.webp`, src560: `/img/promocoes/${nome}-560.webp`, largura: 760, altura: 1140 };
 }
 
 export const temLados = (p: Produto) => !!p.variantes?.length;

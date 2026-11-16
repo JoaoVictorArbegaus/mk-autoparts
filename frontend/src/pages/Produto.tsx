@@ -205,7 +205,7 @@ export function Produto({ slug }: { slug: string }) {
           )}
           {arte && (
             <figure className="produto__arte">
-              <img src={arte.src400} srcSet={`${arte.src400} 400w, ${arte.src} 760w`} sizes="(min-width: 768px) 300px, 80vw" width={400} height={600} alt={`Arte da promoção: ${p.nome} por ${formatarPreco(p.promocao!.preco)}`} loading="lazy" />
+              <img src={arte.src400} srcSet={`${arte.src400} 400w, ${arte.src560} 560w, ${arte.src} 760w`} sizes="(min-width: 768px) 300px, 80vw" width={400} height={600} alt={`Arte da promoção: ${p.nome} por ${formatarPreco(p.promocao!.preco)}`} loading="lazy" />
             </figure>
           )}
         </section>

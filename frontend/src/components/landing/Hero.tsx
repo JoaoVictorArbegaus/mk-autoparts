@@ -23,7 +23,7 @@ export function Hero() {
   return (
     <section className="sec sec--navy hero" aria-labelledby="hero-titulo">
       <picture className="hero__foto" aria-hidden="true">
-        <source media="(max-width: 959px)" srcSet="/img/hero/vitrine-640.jpg 640w, /img/hero/vitrine-960.jpg 960w" sizes="100vw" width={960} height={768} />
+        <source media="(max-width: 959px)" srcSet="/img/hero/vitrine-640.jpg 640w, /img/hero/vitrine-720.jpg 720w, /img/hero/vitrine-960.jpg 960w" sizes="100vw" width={960} height={768} />
         <img
           src="/img/hero/mosaico-1280.jpg"
           srcSet="/img/hero/mosaico-800.jpg 800w, /img/hero/mosaico-1280.jpg 1280w, /img/hero/mosaico-1672.jpg 1672w, /img/hero/mosaico-2400.jpg 2400w"

@@ -69,8 +69,9 @@ laranja existe só nos gráficos do `/painel`.
 - Escala: h1 `clamp(2.25rem, 1.35rem + 3.4vw, 4rem)` (≤ 64 px); h2
   `clamp(1.75rem, 1.2rem + 2vw, 2.75rem)`; h3 `clamp(1.125rem, 1rem + .5vw, 1.375rem)`;
   texto 16–18 px, entrelinha 1.55; legendas 14 px. Campo de busca ≥ 16 px.
-- Carregamento: `preconnect` para `fonts.googleapis.com` e `fonts.gstatic.com`,
-  uma folha com as duas famílias e `display=swap`.
+- Carregamento: fontes hospedadas no próprio site (`public/fonts/`, subconjunto latino,
+  `@font-face` em `base.css`, `display: swap`), com preload da Saira itálica e da IBM Plex
+  Sans; sem o CSS do Google Fonts, que bloqueava a primeira pintura.
 
 ## Estilo
 

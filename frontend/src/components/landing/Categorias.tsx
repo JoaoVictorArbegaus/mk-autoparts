@@ -88,7 +88,7 @@ function Cartao({ c, i }: { c: { slug: string; nome: string }; i: number }) {
     <Link href={`/catalogo?categoria=${c.slug}`} className="cat" style={{ '--i': i } as CSSProperties}>
       <span className="cat__palco" aria-hidden="true">
         <span className="cat__cena" style={{ '--z': cena[c.slug]?.z ?? 1, '--tx': `${cena[c.slug]?.tx ?? 0}%`, '--ty': `${cena[c.slug]?.ty ?? 0}%` } as CSSProperties}>
-          <img src="/img/categorias/caminhao-base-900.jpg" srcSet="/img/categorias/caminhao-base-900.jpg 900w, /img/categorias/caminhao-base-1536.jpg 1536w" sizes="(min-width: 768px) 420px, 80vw" width={900} height={600} alt="" loading="lazy" decoding="async" />
+          <img src="/img/categorias/caminhao-base-900.jpg" srcSet="/img/categorias/caminhao-base-600.jpg 600w, /img/categorias/caminhao-base-900.jpg 900w, /img/categorias/caminhao-base-1536.jpg 1536w" sizes="(min-width: 768px) 420px, 74vw" width={900} height={600} alt="" loading="lazy" decoding="async" />
           <svg viewBox="0 0 1536 1024" preserveAspectRatio="xMidYMid slice" className="cat__destaque">
             {destaques[c.slug]}
           </svg>

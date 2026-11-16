@@ -96,7 +96,7 @@ export function Cabecalho({ rota }: { rota: string }) {
             </p>
           )}
           {/* Sem WhatsApp no cabeçalho: o botão flutuante cobre o contato em todas as rotas públicas. */}
-          <button type="button" className="topo__lista" onClick={abrir} aria-label={`${textos.abrirLista}${carregada && totais.itens ? `, ${totais.itens} ${totais.itens === 1 ? 'item' : 'itens'}` : ''}`}>
+          <button type="button" className="topo__lista" onClick={abrir} aria-label={textos.botaoLista(carregada ? totais.itens : 0)}>
             <Icone nome="lista" tamanho={22} />
             <span className="topo__lista-rotulo">Orçamento</span>
             <span ref={contador} className={`topo__contador${carregada && totais.itens ? ' tem' : ''}`} aria-hidden="true">

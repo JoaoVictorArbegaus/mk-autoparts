@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { Suspense, lazy, useEffect, useRef } from 'react';
 import { LazyMotion, MotionConfig, domAnimation, useReducedMotion } from 'motion/react';
 import { ReactLenis, useLenis } from 'lenis/react';
 import { RouterProvider, resolverRota, useRouter } from './router';
@@ -9,16 +9,22 @@ import { PainelOrcamento } from './components/PainelOrcamento';
 import { WhatsAppFlutuante } from './components/WhatsAppFlutuante';
 import { AvisoAdicionado } from './components/AvisoAdicionado';
 import { Landing } from './pages/Landing';
-import { Catalogo } from './pages/Catalogo';
-import { Produto } from './pages/Produto';
-import { Painel } from './pages/Painel';
-import { Admin } from './admin/Admin';
 import { NaoEncontrado } from './pages/NaoEncontrado';
 import { metaDaRota } from './seo';
 import { textos } from './content/site';
 import { aplicarParametroVendedor } from './rastreio/vendedor';
 import { registrarVisita } from './rastreio/eventos';
 import './styles/index.css';
+
+/*
+ * Rotas fora da landing em arquivos JS separados (Lighthouse, RNF-05): a landing não baixa nem
+ * executa o código do catálogo, do produto, do painel e do admin. O HTML pré-renderizado já traz o
+ * conteúdo de cada rota; a hidratação espera o arquivo da rota dentro do Suspense.
+ */
+const Catalogo = lazy(() => import('./pages/Catalogo').then(m => ({ default: m.Catalogo })));
+const Produto = lazy(() => import('./pages/Produto').then(m => ({ default: m.Produto })));
+const Painel = lazy(() => import('./pages/Painel').then(m => ({ default: m.Painel })));
+const Admin = lazy(() => import('./admin/Admin').then(m => ({ default: m.Admin })));
 
 /** Expõe a instância do Lenis ao roteador (rolar ao topo e restaurar a rolagem). */
 function LenisPonte() {
@@ -68,7 +74,12 @@ function Paginas() {
 
   const painel = rota.nome === 'painel';
   // Admin de demonstração (DEC-015): casca própria, sem cabeçalho, rodapé, Lenis nem lista de orçamento.
-  if (rota.nome === 'admin') return <Admin tela={rota.tela} />;
+  if (rota.nome === 'admin')
+    return (
+      <Suspense fallback={null}>
+        <Admin tela={rota.tela} />
+      </Suspense>
+    );
   return (
     <>
       {!reduzir && <ReactLenis root options={{ lerp: 0.085, anchors: { offset: -88 }, allowNestedScroll: true }} />}
@@ -79,9 +90,11 @@ function Paginas() {
       <Cabecalho rota={rota.nome} />
       <main id="conteudo" tabIndex={-1} data-rota={rota.nome}>
         {rota.nome === 'landing' && <Landing />}
-        {rota.nome === 'catalogo' && <Catalogo />}
-        {rota.nome === 'produto' && <Produto slug={rota.slug} key={rota.slug} />}
-        {rota.nome === 'painel' && <Painel />}
+        <Suspense fallback={null}>
+          {rota.nome === 'catalogo' && <Catalogo />}
+          {rota.nome === 'produto' && <Produto slug={rota.slug} key={rota.slug} />}
+          {rota.nome === 'painel' && <Painel />}
+        </Suspense>
         {rota.nome === 'nao-encontrado' && <NaoEncontrado />}
       </main>
       <Rodape />
