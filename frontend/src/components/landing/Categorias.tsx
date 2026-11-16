@@ -7,7 +7,7 @@
  */
 import type { CSSProperties, ReactNode } from 'react';
 import { Link } from '../../router';
-import { contarPorCategoria, listarCategorias } from '../../content/catalogo';
+import { listarCategorias } from '../../content/catalogo';
 import { textos } from '../../content/site';
 import { DotField } from '../fundos/DotField';
 import { SplitTitle } from '../SplitTitle';
@@ -84,7 +84,6 @@ const cena: Record<string, { z: number; tx: number; ty: number }> = {
 };
 
 function Cartao({ c, i, copia = false }: { c: { slug: string; nome: string }; i: number; copia?: boolean }) {
-  const n = contarPorCategoria(c.slug);
   return (
     <Link href={`/catalogo?categoria=${c.slug}`} className="cat" style={{ '--i': i } as CSSProperties} tabIndex={copia ? -1 : undefined}>
       <span className="cat__palco" aria-hidden="true">
@@ -96,11 +95,6 @@ function Cartao({ c, i, copia = false }: { c: { slug: string; nome: string }; i:
         </span>
       </span>
       <span className="cat__corpo">
-        <span className="cat__meta">
-          <span className="cat__n">
-            {n} {n === 1 ? 'peça' : 'peças'}
-          </span>
-        </span>
         <span className="cat__nome">{c.nome}</span>
         <Icone nome="setaDiag" tamanho={20} className="cat__seta" />
       </span>

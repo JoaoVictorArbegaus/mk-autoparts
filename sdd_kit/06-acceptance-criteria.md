@@ -127,9 +127,9 @@
 
 ## AC-13 — Hero com mosaico (`DEC-024`)
 
-- O hero da landing mostra um mosaico de fotos reais de produtos e não mostra a foto do
-  caminhão; nenhuma peça do mosaico tem preço, quantidade ou arte de promoção.
-- Cada peça do mosaico abre o produto correspondente; todo `slug` do mosaico existe e está
-  ativo (a validação do build falha se não).
+- O hero da landing mostra o mosaico de peças como fundo, em toda a área, e não mostra a
+  foto do caminhão; a imagem não tem texto, preço, quantidade nem logos.
+- O título, o apoio, a busca e os botões ficam legíveis sobre o mosaico no desktop e no
+  celular.
 - Sem rolagem lateral em 390 px e sem erros de console. Lighthouse no celular conferido
   depois da troca (`RNF-05`).

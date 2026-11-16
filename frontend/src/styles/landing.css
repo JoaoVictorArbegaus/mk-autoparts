@@ -26,8 +26,8 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* Celular: caminhão empurrado para a direita (frente na borda), o texto fica sobre o céu. */
-  object-position: 44% 50%;
+  /* Celular: mostra a parte mais clara do mosaico (direita), o texto fica sobre o véu. */
+  object-position: 72% 50%;
   transform-origin: 70% 55%;
   animation: foto-recua 2.2s var(--ease) both;
 }
@@ -40,7 +40,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  /* Celular: véu forte à esquerda (texto) e leve à direita, para a cabine do caminhão aparecer. */
+  /* Celular: véu forte à esquerda (texto) e mais leve à direita, para as peças aparecerem. */
   background:
     linear-gradient(90deg, rgb(11 26 54 / 0.85) 0%, rgb(11 26 54 / 0.68) 55%, rgb(11 26 54 / 0.4) 100%),
     linear-gradient(180deg, rgb(11 26 54 / 0.5) 0%, rgb(11 26 54 / 0.3) 38%, rgb(11 26 54 / 0.7) 72%, rgb(11 26 54 / 0.95) 100%);
@@ -57,20 +57,15 @@
 }
 @media (min-width: 960px) {
   /*
-   * Desktop: a foto começa depois da coluna do texto (o caminhão nunca fica embaixo dele) e a borda
-   * esquerda dela esmaece no marinho. Atrás do texto, uma sombra radial reforça o contraste.
+   * Desktop: o mosaico ocupa o hero inteiro, por trás do texto (DEC-024). Véu marinho à esquerda e
+   * sombra radial atrás do texto garantem o contraste.
    */
-  .hero__foto {
-    left: max(30%, calc(50% - 200px));
-    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 22%);
-    mask-image: linear-gradient(90deg, transparent 0, #000 22%);
-  }
   .hero__foto img {
-    object-position: 70% 50%;
+    object-position: 100% 50%;
   }
   .hero__foto::after {
     background:
-      linear-gradient(90deg, rgb(11 26 54 / 0.55) 0%, rgb(11 26 54 / 0.15) 30%, transparent 55%),
+      linear-gradient(90deg, rgb(11 26 54 / 0.88) 0%, rgb(11 26 54 / 0.74) 36%, rgb(11 26 54 / 0.3) 56%, transparent 72%),
       linear-gradient(180deg, rgb(11 26 54 / 0.35) 0%, transparent 22%, transparent 70%, rgb(11 26 54 / 0.85) 100%);
   }
   .hero::before {
@@ -233,10 +228,6 @@
   font-stretch: 116%;
   font-size: 1.375rem;
 }
-.marcas__n {
-  font-size: 0.875rem;
-  color: var(--muted-dark);
-}
 @media (prefers-reduced-motion: reduce) {
   .marcas__trilho {
     -webkit-mask-image: none;
@@ -371,27 +362,6 @@
   align-content: start;
   gap: 8px;
   padding: 18px 20px 22px;
-}
-.cat__meta {
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
-  font-size: 0.875rem;
-  color: var(--silver);
-}
-.cat__num {
-  font-family: var(--f-tit);
-  font-weight: 800;
-  font-style: italic;
-  font-size: 0.9375rem;
-  letter-spacing: 0.02em;
-  color: var(--vivid);
-}
-.cat__n {
-  font-variant-numeric: tabular-nums;
-}
-.cat__n > span {
-  display: inline;
 }
 .cat__nome {
   position: relative;
@@ -701,7 +671,7 @@
   bottom: auto;
   top: 10px;
 }
-.numeros {
+.fatos {
   grid-column: 1 / -1;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -711,24 +681,23 @@
   background: var(--navy);
   color: var(--white);
 }
-.numeros div {
+.fatos div {
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
   gap: 2px;
 }
-.numeros dt {
+.fatos dt {
   font-size: 0.8125rem;
   color: var(--silver);
   line-height: 1.3;
 }
-.numeros dd {
+.fatos dd {
   font-family: var(--f-tit);
   font-weight: 800;
   font-style: italic;
   font-stretch: 116%;
-  font-size: clamp(2rem, 1.6rem + 1.4vw, 2.75rem);
-  line-height: 1;
-  font-variant-numeric: tabular-nums;
+  font-size: clamp(1.25rem, 1.05rem + 0.9vw, 1.75rem);
+  line-height: 1.1;
 }
 .passos__titulo {
   margin: clamp(32px, 5vw, 56px) 0 16px;
@@ -804,7 +773,7 @@
   .foto--b {
     margin-top: 0;
   }
-  .numeros {
+  .fatos {
     position: relative;
     z-index: 1;
     width: min(100%, 720px);

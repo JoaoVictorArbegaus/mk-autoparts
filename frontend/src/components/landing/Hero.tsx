@@ -1,6 +1,7 @@
 /*
  * Hero da landing (acima da dobra: animações em CSS, para não atrasar o LCP).
- * Foto do caminhão na estrada ao fundo (caminhão à direita), véu marinho à esquerda para o texto,
+ * Mosaico de peças ao fundo, em toda a largura (DEC-024; imagem ilustrativa), véu marinho à esquerda
+ * para o texto,
  * linhas de velocidade a 12° discretas por cima, h1 palavra por palavra com "caminhões" em cromado
  * e busca grande que leva ao catálogo.
  */
@@ -23,8 +24,8 @@ export function Hero() {
     <section className="sec sec--navy hero" aria-labelledby="hero-titulo">
       <div className="hero__foto" aria-hidden="true">
         <img
-          src="/img/hero/caminhao-1280.jpg"
-          srcSet="/img/hero/caminhao-800.jpg 800w, /img/hero/caminhao-1280.jpg 1280w, /img/hero/caminhao-1672.jpg 1672w"
+          src="/img/hero/mosaico-1280.jpg"
+          srcSet="/img/hero/mosaico-800.jpg 800w, /img/hero/mosaico-1280.jpg 1280w, /img/hero/mosaico-1672.jpg 1672w, /img/hero/mosaico-2400.jpg 2400w"
           sizes="100vw"
           width={1672}
           height={941}

@@ -29,12 +29,12 @@ Respostas do responsável aplicadas ao SDD. Decisões: `DEC-017` a `DEC-021`.
 | REU-04 | Painel do vendedor em `/vendedor`: orçamento com preços e desconto | `DEC-018`, `RN-13`, `RF-30`, `RF-31` | Documentado | — |
 | REU-05 | Link do orçamento com itens, preços e desconto, atribuição travada | `DEC-018`, `RN-13`, `RF-33` | Documentado | REU-04 |
 | REU-06 | PDF e Word padronizados com a cara da MK | `DEC-018`, `RN-13`, `RF-32` | Documentado | Bibliotecas novas (`DEC-003`), modelo em `PEND-035` |
-| REU-07 | Remover todas as quantidades públicas, inclusive o contador de resultados | `DEC-019`, `RN-14`, `RF-34` | Documentado | — |
-| REU-08 | Logo principal: selo oficial | `DEC-020` | Documentado | Composição do cabeçalho com um selo circular |
+| REU-07 | Remover todas as quantidades públicas, inclusive o contador de resultados | `DEC-019`, `RN-14`, `RF-34` | Feito (branch `feat/proxima-reuniao`) | — |
+| REU-08 | Logo principal: selo oficial | `DEC-020` | Cabeçalho e admin feitos; falta painel do vendedor e documentos | REU-04, REU-06 |
 | REU-09 | Emendas em corte inclinado (corrigir documentação) | `direcao-visual.md` | Feito | — |
 | REU-10 | Login simulado para `/vendedor` e `/admin`, contas controladas pelo admin principal | `DEC-021`, `RF-35` | Documentado | — |
 | REU-11 | Vendedores reais no protótipo e vínculo das fotos | `DEC-022`, `03-domain-model.md` | Documentado | Fotos (`PEND-034`) |
-| REU-15 | Hero com mosaico de produtos no lugar da foto do caminhão | `DEC-024`, `RF-38`, `AC-13` | Documentado | Lista curada de produtos e composição na implementação |
+| REU-15 | Hero com mosaico de peças no lugar da foto do caminhão | `DEC-024`, `RF-38`, `AC-13` | Feito (falta Lighthouse) | — |
 | REU-13 | Aviso fora do horário comercial (segunda a sexta, 8h às 18h): resposta indeterminada | `DEC-023`, `RN-15`, `RF-36` | Documentado | — |
 | REU-14 | Orçamentos ativos no painel do vendedor com aviso de alteração do cliente | `DEC-018`, `RN-13`, `RF-37` | Documentado | REU-04, REU-05 |
 

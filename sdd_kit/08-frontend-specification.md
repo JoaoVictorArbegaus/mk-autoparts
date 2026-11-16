@@ -48,8 +48,8 @@ Ordem inicial; a ordem final e o tratamento visual ficam em
 
 1. **Hero:** proposta de valor (peças e acessórios para caminhões, envio para todo o
    Brasil), busca rápida que leva a `/catalogo?q=`, CTAs "Ver catálogo" e "Falar no
-   WhatsApp", ao lado de um mosaico de produtos do catálogo (`DEC-024`, sem preço nem
-   quantidade, cada peça leva ao produto).
+   WhatsApp", sobre uma imagem de fundo com mosaico de peças para caminhão (`DEC-024`,
+   ilustrativa, sem preço nem quantidade).
 2. **Montadoras atendidas:** faixa com os nomes das montadoras que existem nos dados,
    cada uma levando ao catálogo filtrado. Sem logos de terceiros (`PEND-007`) e sem
    quantidade de peças (`RN-14`).

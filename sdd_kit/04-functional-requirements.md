@@ -98,5 +98,5 @@
   rodízio e na escolha (`RN-15`).
 - **RF-37** O painel do vendedor lista os orçamentos ativos e avisa quando o cliente alterou
   um deles, com o que mudou; o vendedor marca como visto ou encerra (`RN-13`).
-- **RF-38** O hero da landing mostra um mosaico de fotos reais de produtos do catálogo, no
-  lugar da foto do caminhão (`DEC-024`).
+- **RF-38** O hero da landing usa como fundo uma imagem com mosaico de peças para caminhão,
+  por trás do texto, no lugar da foto do caminhão (`DEC-024`).

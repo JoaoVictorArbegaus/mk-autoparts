@@ -26,8 +26,7 @@ apresentadas.
 
 | ID | Tarefa | Estado | Para desbloquear |
 | --- | --- | --- | --- |
-| REU-07 | Remover todas as quantidades públicas (faixa, categorias, Sobre, contador de resultados) | READY | — |
-| REU-08 | Selo oficial como logo principal (cabeçalho, painel do vendedor, documentos) | READY | — |
+| REU-08 | Selo oficial no painel do vendedor e nos documentos (cabeçalho e admin já feitos) | READY | REU-04, REU-06 |
 | REU-01 | Atendimento travado por link; vale o último link aberto | READY | — |
 | REU-02 | "Solicitar orçamento" com rodízio simulado (fila A B C…, quem atende vai para o fim); fila no admin de demonstração | READY | REU-11 |
 | REU-03 | Seção "Escolher um vendedor" (iniciais no lugar da foto); a escolha move o vendedor para o fim da fila | READY | REU-11 |
@@ -38,7 +37,7 @@ apresentadas.
 | REU-11 | Vendedores reais da MK no protótipo (nomes e WhatsApps de `03-domain-model.md`); base do painel com eles; fotos quando chegarem | READY | Fotos em `PEND-034` |
 | REU-13 | Aviso fora do horário comercial (segunda a sexta, 8h às 18h, Brasília) na lista, na escolha de vendedor e no `/orcamento`; constante de configuração | READY | REU-02 |
 | REU-14 | Painel do vendedor: orçamentos ativos, aviso "Alterado pelo cliente", marcar como visto e encerrar | READY | REU-04, REU-05 |
-| REU-15 | Hero com mosaico de produtos no lugar da foto do caminhão (`DEC-024`); tirar o preload da arte do hero se sair da dobra; conferir Lighthouse | READY | Lista curada de produtos |
+| REU-15 | Hero com mosaico: imagem aplicada (`DEC-024`); falta conferir o Lighthouse no celular | READY | — |
 | REU-12 | Melhorias M1 a M7 do planejamento | READY | Revisão de escopo com o responsável |
 
 ## Depois da apresentação

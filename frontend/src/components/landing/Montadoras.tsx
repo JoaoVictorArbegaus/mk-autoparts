@@ -1,7 +1,7 @@
 /*
  * Faixa das marcas de veículo (nomes em texto, sem logos de terceiros — PEND-007), em marquee lento
  * pausável por botão, hover e foco. A cópia que fecha o laço é decorativa (aria-hidden, fora do Tab).
- * Com movimento reduzido fica parada e quebra em linhas.
+ * Com movimento reduzido fica parada e quebra em linhas. Sem quantidade de peças (RN-14).
  */
 import { useState } from 'react';
 import { Link } from '../../router';
@@ -18,7 +18,6 @@ export function Montadoras() {
     <li key={`${copia ? 'c' : 'o'}-${m.slug}`}>
       <Link href={`/catalogo?montadora=${m.slug}`} tabIndex={copia ? -1 : undefined}>
         <span className="marcas__nome">{m.nome}</span>
-        <span className="marcas__n">{t.pecas(m.n)}</span>
       </Link>
     </li>
   );

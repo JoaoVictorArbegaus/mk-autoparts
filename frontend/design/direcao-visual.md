@@ -87,7 +87,9 @@ laranja existe só nos gráficos do `/painel`.
   cada h2, faixa "Promoção" inclinada, cortes das emendas e linhas de velocidade.
 - **Cromado** só no logo e numa palavra do h1 (reflexo em CSS).
 - **Logo principal = selo oficial circular** (`DEC-020`) no cabeçalho, no painel do vendedor
-  e nos documentos. A composição do cabeçalho com o selo é definida na implementação.
+  e nos documentos. No cabeçalho, o selo circular ocupa 52 px no celular e 60 px a partir
+  de 640 px (`selo-64.webp` e `selo-128.webp`, derivados do PNG oficial), sem wordmark ao
+  lado; o login e a lateral do admin usam o mesmo selo.
 - **Sombras**: só em cards elevados no hover, no painel lateral e no menu;
   cantos de 14 px nos cards, 999 px nos botões (pílula).
 - **Catálogo**: fundo `--paper`, cards brancos, cabeçalho marinho com o mesmo
@@ -97,7 +99,7 @@ laranja existe só nos gráficos do `/painel`.
 
 | Onde | O quê | Como |
 | --- | --- | --- |
-| Hero | mosaico de fotos reais de produtos (`DEC-024`) com entrada em sequência (transform), linhas de velocidade a 12° discretas (canvas 2D, ~24 qps), reflexo cromado no h1, palavras do h1 subindo | CSS e canvas próprio (sem Motion, para o LCP) |
+| Hero | imagem de fundo com mosaico de peças (`DEC-024`) com leve recuo de entrada (transform), linhas de velocidade a 12° discretas (canvas 2D, ~24 qps), reflexo cromado no h1, palavras do h1 subindo | CSS e canvas próprio (sem Motion, para o LCP) |
 | Montadoras | marquee lento dos nomes, pausável (botão, hover e foco) | CSS; parado e quebrado em linhas com movimento reduzido |
 | Categorias | campo de pontos respirando (DotField) | canvas 2D, 12 passos/s |
 | Promoções | aurora azul vinda de baixo (Aurora em WebGL2, sem mouse) | WebGL, meia resolução, fallback CSS |
@@ -143,10 +145,12 @@ em WebP em `public/img/`.
 
 1. **Hero** (marinho): h1 "Peças e acessórios para caminhões" (lema do selo),
    apoio, busca grande (leva a `/catalogo?q=`), "Ver catálogo" e "Falar no
-   WhatsApp", ao lado de um **mosaico de produtos** (`DEC-024`): fotos reais do
-   catálogo em placas, sem preço, sem quantidade e sem as artes de promoção; cada peça
-   leva ao produto. No desktop o mosaico ocupa a coluna à direita do texto; no celular
-   vira uma faixa abaixo do texto, sem rolagem lateral. A foto do caminhão, mais
+   WhatsApp", sobre uma **imagem de fundo com mosaico de peças** (`DEC-024`), em toda
+   a área do hero: ilustrativa, sem texto, preço, quantidade ou logos. No desktop, véu
+   marinho à esquerda (0,88 → transparente em 72%), sombra radial atrás do texto e imagem
+   ancorada à direita (`object-position: 100%`); no
+   celular, a imagem mostra a parte direita (`object-position: 72%`) sob um véu mais
+   forte. A foto do caminhão, mais
    apagada, segue no topo do catálogo.
 2. **Montadoras** (faixa marinho-3): nomes das 8 marcas de veículo, sem
    número de peças (`RN-14`), em marquee pausável; cada uma abre o catálogo filtrado.
@@ -299,7 +303,7 @@ agente não tem autorização para abri-los nesta sessão).
 - **Lista:** prévia da mensagem do WhatsApp (fechada por padrão).
 - **Cabeçalho:** marinho quase sólido ao rolar (o vidro virava cinza sobre seções claras).
 - **Cards de categoria:** sem numeração, sem caixa alta espaçada e sem contagem de peças (`RN-14`).
-- **Hero no celular:** mosaico em faixa abaixo do texto, sem rolagem lateral (`DEC-024`).
+- **Hero no celular:** mosaico ao fundo, parte direita da imagem, sob véu forte (`DEC-024`).
 - **Trilhos no celular:** param de vez no primeiro toque.
 - **Admin:** sem o controle "Destaque", cabeçalho da tabela uniforme, códigos na fonte do site,
   ícones próprios de Produtos e Métricas.

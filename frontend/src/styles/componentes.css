@@ -232,14 +232,11 @@
   flex: none;
   min-height: 44px;
 }
-.topo__logo-h {
-  display: none;
-  height: 40px;
-  width: auto;
-}
-.topo__logo-m {
-  height: 32px;
-  width: auto;
+.topo__selo {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  box-shadow: 0 4px 14px -6px rgb(0 0 0 / 0.55);
 }
 .topo__nav {
   display: none;
@@ -467,11 +464,9 @@
   }
 }
 @media (min-width: 640px) {
-  .topo__logo-h {
-    display: block;
-  }
-  .topo__logo-m {
-    display: none;
+  .topo__selo {
+    width: 60px;
+    height: 60px;
   }
 }
 @media (min-width: 960px) {

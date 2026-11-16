@@ -74,7 +74,7 @@ function Login() {
   return (
     <div className="adm-login">
       <div className="adm-login__cartao">
-        <img src="/img/marca/horizontal-claro.svg" alt="MK Autoparts" width={194} height={40} className="adm-login__logo" />
+        <img src="/img/marca/selo-160.webp" srcSet="/img/marca/selo-160.webp 1x, /img/marca/selo-320.webp 2x" alt="MK Autoparts" width={80} height={80} className="adm-login__logo" />
         <h1>{t.titulo}</h1>
         <p className="adm-login__apoio">{t.apoio}</p>
         <Selo />
@@ -107,7 +107,7 @@ function Layout({ tela }: { tela: TelaAdmin }) {
     <div className={`adm-app${menu ? ' adm-app--menu' : ''}`}>
       <aside className="adm-lateral" aria-label="Menu do admin">
         <Link href="/admin/produtos" className="adm-lateral__logo" aria-label="MK Autoparts, admin">
-          <img src="/img/marca/horizontal-escuro.svg" alt="" width={160} height={33} />
+          <img src="/img/marca/selo-64.webp" srcSet="/img/marca/selo-64.webp 1x, /img/marca/selo-128.webp 2x" alt="" width={56} height={56} />
         </Link>
         <nav>
           <ul>

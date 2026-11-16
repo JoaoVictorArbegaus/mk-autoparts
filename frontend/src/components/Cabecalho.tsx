@@ -75,8 +75,8 @@ export function Cabecalho({ rota }: { rota: string }) {
     <header ref={raiz} className={`topo${rota === 'landing' ? ' topo--landing' : ''}${rolou ? ' topo--rolou' : ''}${menu || visivel ? ' topo--menu' : ''}`} data-menu={menu ? 'aberto' : undefined}>
       <div className="topo__barra contido">
         <Link href="/" className="topo__logo" aria-label="MK Autoparts, página inicial">
-          <img className="topo__logo-h" src="/img/marca/horizontal-escuro.svg" alt="" width={194} height={40} />
-          <img className="topo__logo-m" src="/img/marca/monograma-escuro.svg" alt="" width={76} height={32} />
+          {/* Logo principal: selo oficial pedido pela MK (DEC-020). */}
+          <img className="topo__selo" src="/img/marca/selo-64.webp" srcSet="/img/marca/selo-64.webp 1x, /img/marca/selo-128.webp 2x" alt="" width={64} height={64} fetchPriority="high" />
         </Link>
         <nav className="topo__nav" aria-label="Principal">
           <ul>

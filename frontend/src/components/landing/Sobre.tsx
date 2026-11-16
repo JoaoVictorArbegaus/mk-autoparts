@@ -3,7 +3,6 @@
  * (claro, aurora suave, mapa do Google embutido). Só fatos confirmados no briefing; o resto é [PLACEHOLDER].
  */
 import type { ReactNode } from 'react';
-import { listarCategorias, listarMontadoras, listarProdutos } from '../../content/catalogo';
 import { empresa, mensagens, textos, whatsapp } from '../../content/site';
 import { destinoWhatsApp, useOrcamento } from '../../orcamento/OrcamentoContext';
 import { registrar } from '../../rastreio/eventos';
@@ -12,18 +11,12 @@ import { Aurora } from '../fundos/Aurora';
 import { LinhasVelocidade } from '../fundos/LinhasVelocidade';
 import { SplitTitle } from '../SplitTitle';
 import { Reveal } from '../Motion';
-import { CountUp } from '../CountUp';
 import { Emenda } from '../Emenda';
 import { Icone, type NomeIcone } from '../Icons';
 import { Button } from '../Button';
 
 export function Sobre() {
   const t = textos.sobre;
-  const numeros: Record<string, number> = {
-    produtos: listarProdutos().length,
-    montadoras: listarMontadoras().length,
-    categorias: listarCategorias().length,
-  };
   return (
     <section id="sobre" className="sec sec--paper sobre" aria-labelledby="sobre-titulo">
       <Topo className="sobre__topo" speed={0.8} />
@@ -58,13 +51,12 @@ export function Sobre() {
               <figcaption>{f.legenda}</figcaption>
             </Reveal>
           ))}
-          <Reveal as="dl" i={3} className="numeros">
-            {t.numeros.map(n => (
-              <div key={n.chave}>
-                <dt>{n.rotulo}</dt>
-                <dd>
-                  <CountUp to={numeros[n.chave]} />
-                </dd>
+          {/* Fatos no lugar de números: nenhuma quantidade em área pública (RN-14). */}
+          <Reveal as="dl" i={3} className="fatos">
+            {t.fatos.map(f => (
+              <div key={f.destaque}>
+                <dt>{f.rotulo}</dt>
+                <dd>{f.destaque}</dd>
               </div>
             ))}
           </Reveal>

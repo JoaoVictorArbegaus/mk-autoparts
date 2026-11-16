@@ -77,7 +77,7 @@ compartilhada usa artefato estático, rede Docker interna e Nginx central confor
 
 ## Origem dos componentes reaproveitados
 
-- `components/fundos/Aurora.tsx`, `DotField.tsx`, `Topo.tsx`, `components/CountUp.tsx`,
+- `components/fundos/Aurora.tsx`, `DotField.tsx`, `Topo.tsx`,
   `SplitTitle.tsx`, `Motion.tsx`: copiados de `landing-pages/clientes/prime-padel-platform`
   (adaptações de React Bits e kokonutui, licença MIT, créditos no topo de cada arquivo).
 - Emenda em corte inclinado a 12° (`components/Emenda.tsx` + `.emenda` em `base.css`): substituiu

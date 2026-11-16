@@ -201,7 +201,7 @@ export function Catalogo() {
         <div className="cat-resultados">
           <div className="cat-barra">
             <p className="cat-barra__n" aria-live="polite">
-              {t.resultados(resultados.length)}
+              {t.resultados(c.q)}
             </p>
             <button ref={botaoFiltrar} type="button" className="btn-filtrar" onClick={() => setPainel(true)} aria-expanded={painel} aria-controls="painel-filtros">
               <Icone nome="filtro" tamanho={20} />
@@ -287,7 +287,7 @@ export function Catalogo() {
             <Button variante="contorno" onClick={() => aplicar({ ...consultaVazia, q: c.q, ordem: c.ordem })} disabled={!nFiltros}>
               {t.limparFiltros}
             </Button>
-            <Button onClick={fecharPainel}>{t.verResultados(resultados.length)}</Button>
+            <Button onClick={fecharPainel}>{t.verResultados}</Button>
           </div>
         </div>
       </div>

@@ -374,15 +374,20 @@ autorização humana, atualização dos documentos afetados e novo registro aqui
 
 - **Status:** ACEITA (responsável humano). Altera a direção visual aprovada
   (`frontend/design/direcao-visual.md`) no hero.
-- **Decisão:** a landing deixa de usar a foto do caminhão no hero. No lugar entra um
-  **mosaico de produtos**: fotos reais do catálogo, em placas, para mostrar de cara o que a
-  MK vende.
-- **Regras do mosaico:** só produtos do catálogo, sem preço, sem quantidade (`RN-14`) e sem
-  as artes de promoção. Os produtos são uma lista curada de `slug` (peças de categorias
-  variadas, com as melhores fotos), validada no build. Cada peça leva ao produto.
+- **Decisão:** a landing deixa de usar a foto do caminhão no hero. No lugar entra uma
+  **imagem de fundo com um mosaico de peças para caminhão**, em toda a área do hero, por
+  trás do texto, da busca e dos botões (referência: `docs/design/MosaicoSubstituicao.jpg`).
+- **Imagem:** ilustrativa, gerada por IA a pedido do responsável
+  (`docs/design/MosaicoProdutos.png`, 1672 × 941), reduzida a 68 % e ancorada à direita numa
+  tela 2400 × 1350 com fundo desfocado e escurecido (`MosaicoProdutos-hero-2400.png`), para
+  as peças não ficarem grandes demais. Mostra peças do mesmo contexto e das mesmas
+  categorias do catálogo, não os produtos do estoque; por isso não é usada como foto de
+  produto em nenhum outro lugar. Sem texto, preço, quantidade (`RN-14`) ou logos. A imagem
+  não é clicável.
+- **Composição:** véu marinho à esquerda e sombra radial atrás do texto garantem o
+  contraste; no celular, a imagem mostra a parte mais clara (direita) sob um véu mais forte.
+  Versões em `frontend/public/img/hero/mosaico-{800,1280,1672,2400}.jpg`, com preload no
+  `index.html`.
 - **Alcance:** vale só para o hero (confirmado pelo responsável). O topo do catálogo e os
   cartões de categoria seguem com a foto do caminhão.
-- **Consequência:** a composição (grade, quantidade de peças, movimento) é definida na
-  implementação, pelo agente `gerador-landing`, mantendo o contrato visual. O preload da
-  arte do hero em `index.html` sai se a imagem deixar de aparecer acima da dobra, e o
-  Lighthouse no celular (`RNF-05`) é conferido depois da troca.
+- **Consequência:** Lighthouse no celular (`RNF-05`) conferido depois da troca.

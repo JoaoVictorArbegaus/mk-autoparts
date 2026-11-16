@@ -103,7 +103,6 @@ export const textos = {
     titulo: 'Marcas de veículo atendidas',
     pausar: 'Pausar a faixa de marcas',
     continuar: 'Continuar a faixa de marcas',
-    pecas: (n: number) => `${n} ${n === 1 ? 'peça' : 'peças'}`,
   },
 
   categorias: {
@@ -123,10 +122,11 @@ export const textos = {
     // PLACEHOLDER: texto "Sobre nós" definitivo depende do cliente.
     texto: 'A MK Autoparts importa, exporta e distribui peças e acessórios para caminhões desde 2021. A loja fica no bairro Ponte Grande, em Lages – SC, e os pedidos seguem para todo o Brasil.',
     textoPendente: '[PLACEHOLDER: texto "Sobre nós" definitivo, a ser enviado pela MK Autoparts]',
-    numeros: [
-      { chave: 'produtos', rotulo: 'peças no catálogo online' },
-      { chave: 'montadoras', rotulo: 'marcas de veículo' },
-      { chave: 'categorias', rotulo: 'categorias de peças' },
+    // Sem quantidades (RN-14): fatos confirmados no lugar dos números.
+    fatos: [
+      { rotulo: 'Desde', destaque: '2021' },
+      { rotulo: 'Envio para', destaque: 'todo o Brasil' },
+      { rotulo: 'Loja em', destaque: 'Lages – SC' },
     ],
     vantagens: [
       { icone: 'caminhao', titulo: 'Envio para todo o Brasil', texto: 'Os pedidos saem de Lages para qualquer estado.' },
@@ -180,12 +180,13 @@ export const textos = {
     buscaPlaceholder: 'Ex.: farol Scania, S07-096, 1756751',
     buscaPlaceholderCurto: 'Ex.: farol Scania, S07-096',
     limparBusca: 'Limpar busca',
-    resultados: (n: number) => `${n} ${n === 1 ? 'peça encontrada' : 'peças encontradas'}`,
+    // Sem contador de resultados (RN-14).
+    resultados: (q: string) => (q ? `Resultados para “${q}”` : 'Peças do catálogo'),
     carregando: 'Aplicando filtros…',
     filtrar: 'Filtrar',
     filtros: 'Filtros',
     fecharFiltros: 'Fechar filtros',
-    verResultados: (n: number) => `Ver ${n} ${n === 1 ? 'peça' : 'peças'}`,
+    verResultados: 'Ver resultados',
     limparFiltros: 'Limpar filtros',
     categoria: 'Categoria',
     marcaVeiculo: 'Marca do veículo',

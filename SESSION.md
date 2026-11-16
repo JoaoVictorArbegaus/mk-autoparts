@@ -14,8 +14,8 @@ pertencem ao `sdd_kit/`.
 - Na última validação completa, `npm run build` passou (typecheck, build, SSR,
   pré-renderização de 86 rotas + 404 e validação dos dados) e `npm test` passou
   (30 testes das regras puras).
-- Rodada de ajustes da landing aplicada: hero com a foto do caminhão
-  (`public/img/hero/`), emendas em corte inclinado com filete azul (no lugar da onda, definitivo),
+- Rodada de ajustes da landing aplicada: hero com mosaico de peças ao fundo
+  (`public/img/hero/mosaico-*.jpg`, `DEC-024`), emendas em corte inclinado com filete azul (no lugar da onda, definitivo),
   categorias em cartões marinho com a foto base do caminhão e peças destacadas em SVG
   com zoom por categoria (`public/img/categorias/`), Promoções só com as artes,
   fotos do estoque em largura total, promoções primeiro no catálogo e chips de
@@ -47,7 +47,13 @@ pertencem ao `sdd_kit/`.
   rodízio, escolha de vendedor, painel `/vendedor` com preço, desconto, link, PDF e Word,
   sem quantidades públicas, selo como logo principal, melhorias M1 a M7). Regras em
   `DEC-017` a `DEC-021`; plano em `docs/planejamento-proxima-reuniao.md`; tarefas `REU-*`
-  em `TASKS.md`. Documentação pronta; código ainda não alterado.
+  em `TASKS.md`.
+- Implementação na branch **`feat/proxima-reuniao`** (ainda não mesclada em `main`; a
+  publicação na VPS segue com `main`). Feito: REU-07 (sem quantidades públicas; `CountUp`
+  removido), REU-08 no cabeçalho e no admin (`selo-64/128.webp`), REU-15 (mosaico no hero,
+  ancorado à direita). Para retomar: `git checkout feat/proxima-reuniao`, em `frontend/`
+  `npm ci` e `npm run dev` (http://127.0.0.1:5173/). Próximo sugerido: REU-11 (vendedores
+  reais) e REU-01 a REU-03.
 - Vendedores reais (`DEC-022`): oito, com nomes e WhatsApps em `sdd_kit/03-domain-model.md`
   (autorizados pela contratante; nono dígito já incluído). Fotos em
   `frontend/public/img/vendedores/<codigo>.webp`. Disponibilidade: todos, de segunda a domingo; aviso
@@ -62,6 +68,9 @@ pertencem ao `sdd_kit/`.
 
 ## Continuidade
 
+- Fontes do mosaico (`docs/design/MosaicoProdutos.png`, composição
+  `MosaicoProdutos-hero-2400.png` com escala 68 % e folha `docs/design/referencias-mosaico/`)
+  ficam só na máquina do responsável (`docs/design/` é ignorado); o site usa os JPGs.
 - Hoje o código ainda tem os fictícios `?v=joao`, `?v=maria`, `?v=carlos` (WhatsApp da empresa); a troca é a REU-11.
 - Paleta dos gráficos do painel: `#1C4FD0` e `#EB6834` (validada pela skill `dataviz`).
 - Ignore do detector do impeccable: `gradient-text` só em `landing.css` (cromado
