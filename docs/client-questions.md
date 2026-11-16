@@ -92,8 +92,8 @@ demonstração**, que não é a decisão final. Fontes recebidas ficam em `docs/
   Falta definir o cliente recorrente que volta sem link (manter o último vendedor
   dele ou voltar ao rodízio) e a prioridade entre vendedor do link, vendedor escolhido
   e último vendedor.
-- **PEND-033 — Rodízio:** ordem inicial da fila (hoje, a ordem em que os nomes foram
-  enviados); o que fazer com vendedor que não responde; há um rodízio só ou por equipe
+- **PEND-033 — Rodízio:** ordem inicial da fila (hoje, Daniel primeiro e os demais na
+  ordem em que os nomes foram enviados); o que fazer com vendedor que não responde; há um rodízio só ou por equipe
   ou categoria? O horário de atendimento está em `PEND-038`.
 - **PEND-019 — Atribuição:** prazo de validade do link do vendedor (sugestão:
   30 dias). A regra de conflito está decidida: vale o último link aberto (`DEC-017`).

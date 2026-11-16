@@ -68,13 +68,14 @@ imagem nunca são salvos; vêm dos dados atuais.
 | `ativo` | boolean | inativo não atribui (`RN-07`) e sai da fila (`RN-11`) |
 | `horario` | lista opcional | faixas `{ dia, inicio, fim }` por dia da semana, no horário de Brasília. Sem horário cadastrado, o vendedor está sempre disponível (`RN-15`, `PEND-038`) |
 
-Vendedores recebidos da MK, na ordem inicial da fila (Daniel, recebido depois, entra no
-fim). Sete números foram enviados com 8 dígitos depois do DDD 49; o responsável mandou
+Vendedores recebidos da MK, na ordem inicial da fila (Daniel é o primeiro, a pedido do
+responsável). Sete números foram enviados com 8 dígitos depois do DDD 49; o responsável mandou
 acrescentar o `9` logo depois do `49`. O número de Daniel já veio completo e é o mesmo
 WhatsApp da empresa.
 
 | `codigo` | `nome` | `whatsapp` |
 | --- | --- | --- |
+| `daniel` | Daniel Avila | `5549991100096` |
 | `luiz` | Luiz Guide | `5549999234046` |
 | `marcelo` | Marcelo | `5549985040318` |
 | `marcelos` | Marcelos | `5549999468221` |
@@ -82,7 +83,6 @@ WhatsApp da empresa.
 | `silvio` | Silvio | `5549999019555` |
 | `taine` | Taine Ribeiro | `5549991063669` |
 | `vitor` | Vitor Mota | `5549999065664` |
-| `daniel` | Daniel Avila | `5549991100096` |
 
 `Marcelo` e `Marcelos` são duas pessoas. O nome de Luiz fica só "Luiz Guide", a pedido do responsável. Não se cria foto: o vínculo é pelo `codigo`.
 

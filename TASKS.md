@@ -38,6 +38,7 @@ apresentadas.
 | REU-11 | Vendedores reais da MK no protótipo (nomes e WhatsApps de `03-domain-model.md`); base do painel com eles; fotos quando chegarem | READY | Fotos em `PEND-034` |
 | REU-13 | Horário por vendedor (admin de demonstração); fora do horário sai do rodízio e da escolha | READY | REU-02; horários reais em `PEND-038` |
 | REU-14 | Painel do vendedor: orçamentos ativos, aviso "Alterado pelo cliente", marcar como visto e encerrar | READY | REU-04, REU-05 |
+| REU-15 | Hero com mosaico de produtos no lugar da foto do caminhão (`DEC-024`); tirar o preload da arte do hero se sair da dobra; conferir Lighthouse | READY | Lista curada de produtos |
 | REU-12 | Melhorias M1 a M7 do planejamento | READY | Revisão de escopo com o responsável |
 
 ## Depois da apresentação

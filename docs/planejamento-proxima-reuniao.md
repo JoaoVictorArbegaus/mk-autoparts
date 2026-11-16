@@ -34,6 +34,7 @@ Respostas do responsável aplicadas ao SDD. Decisões: `DEC-017` a `DEC-021`.
 | REU-09 | Emendas em corte inclinado (corrigir documentação) | `direcao-visual.md` | Feito | — |
 | REU-10 | Login simulado para `/vendedor` e `/admin`, contas controladas pelo admin principal | `DEC-021`, `RF-35` | Documentado | — |
 | REU-11 | Vendedores reais no protótipo e vínculo das fotos | `DEC-022`, `03-domain-model.md` | Documentado | Fotos (`PEND-034`) |
+| REU-15 | Hero com mosaico de produtos no lugar da foto do caminhão | `DEC-024`, `RF-38`, `AC-13` | Documentado | Lista curada de produtos e composição na implementação |
 | REU-13 | Horário dos vendedores: fora do horário sai do rodízio e da escolha | `DEC-023`, `RN-15`, `RF-36` | Documentado | Horários reais (`PEND-038`) |
 | REU-14 | Orçamentos ativos no painel do vendedor com aviso de alteração do cliente | `DEC-018`, `RN-13`, `RF-37` | Documentado | REU-04, REU-05 |
 

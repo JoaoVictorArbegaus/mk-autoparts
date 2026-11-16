@@ -122,3 +122,12 @@
   2021", "Envio para todo o Brasil" e "Loja em Lages – SC".
 - O HTML pré-renderizado também não traz esses números em texto visível nem em dados
   estruturados.
+
+## AC-13 — Hero com mosaico (`DEC-024`)
+
+- O hero da landing mostra um mosaico de fotos reais de produtos e não mostra a foto do
+  caminhão; nenhuma peça do mosaico tem preço, quantidade ou arte de promoção.
+- Cada peça do mosaico abre o produto correspondente; todo `slug` do mosaico existe e está
+  ativo (a validação do build falha se não).
+- Sem rolagem lateral em 390 px e sem erros de console. Lighthouse no celular conferido
+  depois da troca (`RNF-05`).

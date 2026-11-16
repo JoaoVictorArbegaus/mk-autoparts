@@ -90,21 +90,21 @@ a partir de `docs/client-questions.md`. A KiProdutos é a referência de process
 arquitetura (backend, painel, mídia, segurança, infraestrutura), sem herdar
 automaticamente suas regras.
 
-Direção já conhecida e consolidada em `DEC-009` e `DEC-011`; os detalhes ainda
+Direção já conhecida e consolidada em `DEC-009`, `DEC-011` e `DEC-017`; os detalhes ainda
 dependem das respostas de `docs/client-questions.md`:
 
 - **Atores:** visitante/cliente, vendedor (com link próprio, recebe os carrinhos) e
   administrador (catálogo, promoções, vendedores, métricas).
-- **Fluxo de atendimento (`DEC-011`):** quem fala primeiro com a loja pelo WhatsApp
-  é atendido por um vendedor, que manda o próprio link do catálogo; a lista vai
-  para esse vendedor. Quem entra no catálogo sem link envia a lista para um contato
-  central, que encaminha ao grupo de WhatsApp dos vendedores, onde um vendedor
-  assume e fecha a venda pelo WhatsApp. Se o cliente precisar voltar ao catálogo,
-  o vendedor manda o próprio link e passa a ser o dono dos carrinhos seguintes. O
-  contato central poderá ser uma IA no futuro; ela ainda não existe.
+- **Fluxo de atendimento (`DEC-011`, `DEC-017`):** quem fala primeiro com a loja pelo
+  WhatsApp é atendido por um vendedor, que manda o próprio link do catálogo; a lista
+  vai para esse vendedor. Quem entra pelo link de um vendedor fica com ele e não
+  escolhe outro. Quem entra sem link envia a lista pelo rodízio de vendedores ou
+  escolhe o vendedor na seção "Escolher um vendedor"; os dois consomem a vez do
+  vendedor na fila (`RN-11`, `RN-12`).
 - **Link de vendedor:** atribui a navegação do visitante ao vendedor, com
-  persistência no navegador, validade e regra de conflito a definir
-  (`PEND-019`); sem link ou com código inválido, origem "direta".
+  persistência no navegador; vale o último link aberto (`DEC-017`); o prazo de
+  validade segue em aberto (`PEND-019`); sem link ou com código inválido, origem
+  "direta".
 - **Funil por produto:** visualizado, adicionado, removido e enviado, sempre
   associado ao vendedor da sessão.
 - **Carrinho no servidor:** estados ativo, abandonado e finalizado, para mostrar

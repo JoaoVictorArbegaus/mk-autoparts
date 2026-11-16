@@ -13,7 +13,7 @@ clara e organizada das referências, costurada à landing pelo mesmo cabeçalho
 marinho, pela mesma tipografia e pelo filete a 12°.
 
 Duas velocidades de interface: a **landing é viva** (fundo animado em toda seção,
-emendas em corte inclinado, entradas, contadores, carrosséis); **catálogo, detalhe, lista e
+emendas em corte inclinado, entradas, carrosséis); **catálogo, detalhe, lista e
 painel são telas de trabalho**: sem fundo animado atrás de grade, tabela ou
 formulário; o movimento responde à ação (adicionar, filtrar, abrir painel).
 
@@ -97,7 +97,7 @@ laranja existe só nos gráficos do `/painel`.
 
 | Onde | O quê | Como |
 | --- | --- | --- |
-| Hero | foto do caminhão ao fundo com leve recuo de entrada (transform), linhas de velocidade a 12° discretas (canvas 2D, ~24 qps), reflexo cromado no h1, palavras do h1 subindo | CSS e canvas próprio (sem Motion, para o LCP) |
+| Hero | mosaico de fotos reais de produtos (`DEC-024`) com entrada em sequência (transform), linhas de velocidade a 12° discretas (canvas 2D, ~24 qps), reflexo cromado no h1, palavras do h1 subindo | CSS e canvas próprio (sem Motion, para o LCP) |
 | Montadoras | marquee lento dos nomes, pausável (botão, hover e foco) | CSS; parado e quebrado em linhas com movimento reduzido |
 | Categorias | campo de pontos respirando (DotField) | canvas 2D, 12 passos/s |
 | Promoções | aurora azul vinda de baixo (Aurora em WebGL2, sem mouse) | WebGL, meia resolução, fallback CSS |
@@ -105,7 +105,7 @@ laranja existe só nos gráficos do `/painel`.
 | Clientes | linhas de velocidade em baixa opacidade | canvas 2D |
 | Loja | aurora suave de cima | WebGL |
 | Emendas | corte inclinado subindo para a direita (eco do itálico de 12°), pintado com a cor da seção seguinte, filete azul vivo de 3 px na borda e um brilho que percorre o filete a cada 7 s (sem brilho com movimento reduzido). A onda foi descartada: remetia a limpeza, não à marca | CSS (`clip-path` e `background-position`) |
-| Entradas | títulos palavra por palavra (`SplitTitle`), blocos em sequência (`Reveal`, 70 ms), contadores reais (`CountUp`) | Motion `m.*` |
+| Entradas | títulos palavra por palavra (`SplitTitle`), blocos em sequência (`Reveal`, 70 ms) | Motion `m.*` |
 | Cards | tilt leve nos cartões de categoria (só ponteiro fino); elevação no hover dos cards de produto | CSS |
 | Lista | contador do cabeçalho pulsa ao adicionar; painel desliza da direita | CSS + Motion |
 | Botões | reflexo varrendo no hover; troca de texto só em "Adicionado" | CSS |
@@ -125,7 +125,7 @@ folga.
 | --- | --- | --- |
 | Fotos de produto (recortes do PDF, ~405×268) | cards e detalhe, sempre sobre placa branca | `object-fit: scale-down` (nunca ampliam); 360 px no detalhe; sem zoom |
 | Recortes das promoções (fundo escuro) | cards e detalhe, sobre placa marinho | idem |
-| Foto do caminhão recebida do cliente (`docs/produtos/`) | fundo do hero, véu marinho à esquerda (desktop) e por cima (celular) | JPEG 800/1280/1672 em `public/img/hero/` |
+| Foto do caminhão recebida do cliente (`docs/produtos/`) | deixa de ser o fundo do hero (`DEC-024`); segue no topo do catálogo e nos cartões de categoria | JPEG 800/1280/1672 em `public/img/hero/` |
 | Artes de promoção (1024×1536) | seção Promoções (grade de 3 no desktop, trilho no celular) | ~300 px de largura |
 | Fachada (878×877, recortada) | "Loja e contato" | 440 px |
 | Estoque (807×880 e 840×866, recortadas) | "Sobre", lado a lado em retrato 4:5, escalonadas, com legenda | ~400 px |
@@ -143,18 +143,19 @@ em WebP em `public/img/`.
 
 1. **Hero** (marinho): h1 "Peças e acessórios para caminhões" (lema do selo),
    apoio, busca grande (leva a `/catalogo?q=`), "Ver catálogo" e "Falar no
-   WhatsApp", sobre a foto do caminhão na estrada (sem as artes de promoção). No
-   desktop a foto começa depois da coluna do texto (borda esmaecida no marinho e
-   sombra radial atrás do texto); no celular o caminhão fica à direita, sob um véu
-   mais forte. A mesma foto, mais apagada, fica no topo do catálogo.
-2. **Montadoras** (faixa marinho-3): nomes das 8 marcas de veículo com o número
-   real de peças, em marquee pausável; cada uma abre o catálogo filtrado.
+   WhatsApp", ao lado de um **mosaico de produtos** (`DEC-024`): fotos reais do
+   catálogo em placas, sem preço, sem quantidade e sem as artes de promoção; cada peça
+   leva ao produto. No desktop o mosaico ocupa a coluna à direita do texto; no celular
+   vira uma faixa abaixo do texto, sem rolagem lateral. A foto do caminhão, mais
+   apagada, segue no topo do catálogo.
+2. **Montadoras** (faixa marinho-3): nomes das 8 marcas de veículo, sem
+   número de peças (`RN-14`), em marquee pausável; cada uma abre o catálogo filtrado.
 3. **Categorias** (claro): 6 cartões marinho em 3 colunas (referência: cartões
    de "peça em destaque"). Todos usam a mesma foto de estúdio de um caminhão sem
    marca (`public/img/categorias/caminhao-base-1536.jpg`); cada cartão aproxima a região da sua
    categoria e acende as peças em azul vivo com brilho (SVG sobre a foto; motor em
-   efeito raio-X). Abaixo: número, contagem real de peças e nome em itálico
-   maiúsculo com filete a 12°. Em teste: os destaques desenhados podem ser
+   efeito raio-X). Abaixo: o nome em itálico
+   maiúsculo com filete a 12°, sem contagem de peças (`RN-14`). Em teste: os destaques desenhados podem ser
    trocados por imagens editadas pela IA. "Implementos e
    acessórios" fica fora da vitrine (só tem foto de arte, destoava) e segue no
    catálogo. "Ver todo o catálogo" é um link discreto com seta ao lado do título.
@@ -165,10 +166,10 @@ em WebP em `public/img/`.
    descartado: feixes curvos destoavam do resto). Grade
    centralizada no desktop, trilho no celular; link "Ver promoções no catálogo".
 5. **Sobre e envio** (claro): texto curto (placeholder do "Sobre nós" definitivo),
-   números reais (peças, marcas de veículo, categorias), fatos confirmados (envio
-   para todo o Brasil, loja física em Lages – SC desde 2021, atendimento pelo
-   WhatsApp), "Como comprar" em 4 passos (`<ol>`), 2 fotos do estoque grandes,
-   lado a lado em largura total (3:2) no desktop, com a faixa de números sobre elas.
+   faixa de fatos no lugar dos números (`RN-14`): "Desde 2021", "Envio para todo o
+   Brasil" e "Loja em Lages – SC"; "Como comprar" em 4 passos (`<ol>`), 2 fotos do
+   estoque grandes, lado a lado em largura total (3:2) no desktop, com a faixa de
+   fatos sobre elas.
 6. **Clientes** (marinho): faixa curta com `[PLACEHOLDER]` (`PEND-008`).
 7. **Loja e contato** (claro): endereço, horário, "Como chegar", WhatsApp,
    "Ligar", Instagram, foto da fachada e mapa do Google embutido em largura total
@@ -297,8 +298,8 @@ agente não tem autorização para abri-los nesta sessão).
   compactos; respiro no fim da grade no celular.
 - **Lista:** prévia da mensagem do WhatsApp (fechada por padrão).
 - **Cabeçalho:** marinho quase sólido ao rolar (o vidro virava cinza sobre seções claras).
-- **Cards de categoria:** sem numeração e sem caixa alta espaçada; contagem fixa ("28 peças").
-- **Hero no celular:** véu mais leve à direita, cabine do caminhão visível.
+- **Cards de categoria:** sem numeração, sem caixa alta espaçada e sem contagem de peças (`RN-14`).
+- **Hero no celular:** mosaico em faixa abaixo do texto, sem rolagem lateral (`DEC-024`).
 - **Trilhos no celular:** param de vez no primeiro toque.
 - **Admin:** sem o controle "Destaque", cabeçalho da tabela uniforme, códigos na fonte do site,
   ícones próprios de Produtos e Métricas.

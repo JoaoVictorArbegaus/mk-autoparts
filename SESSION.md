@@ -42,7 +42,8 @@ pertencem ao `sdd_kit/`.
 
 ## Trabalho ativo
 
-- Próxima reunião: aplicar as mudanças pedidas pela MK (atendimento travado por link,
+- Próxima reunião: aplicar as mudanças pedidas pela MK (hero com mosaico de produtos no
+  lugar do caminhão, atendimento travado por link,
   rodízio, escolha de vendedor, painel `/vendedor` com preço, desconto, link, PDF e Word,
   sem quantidades públicas, selo como logo principal, melhorias M1 a M7). Regras em
   `DEC-017` a `DEC-021`; plano em `docs/planejamento-proxima-reuniao.md`; tarefas `REU-*`
@@ -50,7 +51,7 @@ pertencem ao `sdd_kit/`.
 - Vendedores reais (`DEC-022`): oito, com nomes e WhatsApps em `sdd_kit/03-domain-model.md`
   (autorizados pela contratante; nono dígito já incluído). Fotos em
   `frontend/public/img/vendedores/<codigo>.webp`. Horários por vendedor: `DEC-023`; perguntas
-  `PEND-038` (horário) e `PEND-039` (nomes) aguardam envio à contratante.
+  `PEND-038` (horário) e `PEND-039` (nomes) foram enviadas à contratante; aguardando resposta.
 - PROTO-05: Lighthouse no celular (`RNF-05`) e roteiro de apresentação.
 - PROTO-06: placeholders e frases das artes aguardando o cliente.
 - DOC-01: fontes Markdown, PDFs e roteiro TXT para o Notas do iPhone em

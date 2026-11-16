@@ -351,3 +351,20 @@ autorização humana, atualização dos documentos afetados e novo registro aqui
   dependem da resposta da MK.
 - **Em aberto:** o que fazer se todos estiverem fora do horário e como tratar o cliente
   que chegou pelo link de um vendedor fora do horário (`PEND-038`).
+
+### DEC-024 — Hero com mosaico de produtos
+
+- **Status:** ACEITA (responsável humano). Altera a direção visual aprovada
+  (`frontend/design/direcao-visual.md`) no hero.
+- **Decisão:** a landing deixa de usar a foto do caminhão no hero. No lugar entra um
+  **mosaico de produtos**: fotos reais do catálogo, em placas, para mostrar de cara o que a
+  MK vende.
+- **Regras do mosaico:** só produtos do catálogo, sem preço, sem quantidade (`RN-14`) e sem
+  as artes de promoção. Os produtos são uma lista curada de `slug` (peças de categorias
+  variadas, com as melhores fotos), validada no build. Cada peça leva ao produto.
+- **Alcance:** vale só para o hero (confirmado pelo responsável). O topo do catálogo e os
+  cartões de categoria seguem com a foto do caminhão.
+- **Consequência:** a composição (grade, quantidade de peças, movimento) é definida na
+  implementação, pelo agente `gerador-landing`, mantendo o contrato visual. O preload da
+  arte do hero em `index.html` sai se a imagem deixar de aparecer acima da dobra, e o
+  Lighthouse no celular (`RNF-05`) é conferido depois da troca.
