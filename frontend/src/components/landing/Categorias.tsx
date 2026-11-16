@@ -83,9 +83,9 @@ const cena: Record<string, { z: number; tx: number; ty: number }> = {
   motor: { z: 1.9, tx: 17, ty: -10 },
 };
 
-function Cartao({ c, i, copia = false }: { c: { slug: string; nome: string }; i: number; copia?: boolean }) {
+function Cartao({ c, i }: { c: { slug: string; nome: string }; i: number }) {
   return (
-    <Link href={`/catalogo?categoria=${c.slug}`} className="cat" style={{ '--i': i } as CSSProperties} tabIndex={copia ? -1 : undefined}>
+    <Link href={`/catalogo?categoria=${c.slug}`} className="cat" style={{ '--i': i } as CSSProperties}>
       <span className="cat__palco" aria-hidden="true">
         <span className="cat__cena" style={{ '--z': cena[c.slug]?.z ?? 1, '--tx': `${cena[c.slug]?.tx ?? 0}%`, '--ty': `${cena[c.slug]?.ty ?? 0}%` } as CSSProperties}>
           <img src="/img/categorias/caminhao-base-900.jpg" srcSet="/img/categorias/caminhao-base-900.jpg 900w, /img/categorias/caminhao-base-1536.jpg 1536w" sizes="(min-width: 768px) 420px, 80vw" width={900} height={600} alt="" loading="lazy" decoding="async" />
@@ -129,12 +129,6 @@ export function Categorias() {
             <Reveal as="li" i={i} amount={0} key={c.slug} className="categorias__item">
               <Cartao c={c} i={i} />
             </Reveal>
-          ))}
-          {/* Cópias só para a volta sem emenda do trilho no celular (decorativas). */}
-          {cats.map((c, i) => (
-            <li key={`copia-${c.slug}`} className="categorias__item trilho-copia" aria-hidden="true" inert>
-              <Cartao c={c} i={i} copia />
-            </li>
           ))}
         </ul>
       </div>

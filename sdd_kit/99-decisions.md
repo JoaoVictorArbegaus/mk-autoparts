@@ -384,10 +384,13 @@ autorização humana, atualização dos documentos afetados e novo registro aqui
   categorias do catálogo, não os produtos do estoque; por isso não é usada como foto de
   produto em nenhum outro lugar. Sem texto, preço, quantidade (`RN-14`) ou logos. A imagem
   não é clicável.
-- **Composição:** véu marinho à esquerda e sombra radial atrás do texto garantem o
-  contraste; no celular, a imagem mostra a parte mais clara (direita) sob um véu mais forte.
-  Versões em `frontend/public/img/hero/mosaico-{800,1280,1672,2400}.jpg`, com preload no
-  `index.html`.
+- **Composição:** no desktop, o mosaico fica ao fundo de todo o hero, com véu marinho à
+  esquerda e sombra radial atrás do texto para o contraste. No celular, um recorte próprio do
+  mosaico (peças inteiras) vira uma **vitrine nítida no topo** do hero, que desvanece para o
+  marinho onde começa o título; o texto fica sobre fundo limpo e o hero tem a altura do
+  conteúdo (revisão impeccable: em tela cheia o mosaico ficava ampliado e borrado atrás do
+  texto). Versões em `frontend/public/img/hero/mosaico-{800,1280,1672,2400}.jpg` (desktop) e
+  `vitrine-{640,960}.jpg` (celular), com preload por `media` no `index.html`.
 - **Alcance:** vale só para o hero (confirmado pelo responsável). O topo do catálogo e os
   cartões de categoria seguem com a foto do caminhão.
 - **Consequência:** Lighthouse no celular (`RNF-05`) conferido depois da troca.

@@ -93,7 +93,7 @@ export const textos = {
     apoio: 'Encontre a peça pelo nome ou pelo código, monte sua lista de orçamento e envie pelo WhatsApp. Enviamos para todo o Brasil.',
     buscaRotulo: 'Buscar no catálogo',
     buscaPlaceholder: 'Nome ou código da peça',
-    buscaPlaceholderCurto: 'Nome ou código',
+    buscaPlaceholderCurto: 'Nome ou código da peça',
     buscar: 'Buscar',
     verCatalogo: 'Ver catálogo',
     falarWhatsapp: 'Falar no WhatsApp',
@@ -101,8 +101,6 @@ export const textos = {
 
   montadoras: {
     titulo: 'Marcas de veículo atendidas',
-    pausar: 'Pausar a faixa de marcas',
-    continuar: 'Continuar a faixa de marcas',
   },
 
   categorias: {

@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "gradient-text",
+        "value": "*",
+        "files": [
+          "src/styles/landing.css"
+        ],
+        "createdAt": "2026-11-16T23:01:12.034Z",
+        "reason": "responsável humano: cromado da marca só na palavra 'caminhões' do h1, aprovado na direção A (design/direcao-visual.md); espelha a exceção da raiz para o hook que roda a partir de frontend/"
+      }
+    ]
+  }
+}

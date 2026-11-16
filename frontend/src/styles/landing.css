@@ -14,11 +14,12 @@
 .hero__linhas.is-ready {
   opacity: 0.55;
 }
-/* Foto do caminhão: entra com um leve recuo (só transform), véu marinho garante o contraste do texto. */
+/* Mosaico de peças (DEC-024): entra com um leve recuo (só transform). */
 .hero__foto {
   position: absolute;
   inset: 0;
   z-index: -2;
+  display: block;
   overflow: hidden;
   pointer-events: none;
 }
@@ -26,24 +27,68 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* Celular: mostra a parte mais clara do mosaico (direita), o texto fica sobre o véu. */
-  object-position: 72% 50%;
   transform-origin: 70% 55%;
   animation: foto-recua 2.2s var(--ease) both;
 }
 @keyframes foto-recua {
   from {
-    transform: scale(1.08);
+    transform: scale(var(--recuo, 1.08));
   }
 }
 .hero__foto::after {
   content: '';
   position: absolute;
   inset: 0;
-  /* Celular: véu forte à esquerda (texto) e mais leve à direita, para as peças aparecerem. */
-  background:
-    linear-gradient(90deg, rgb(11 26 54 / 0.85) 0%, rgb(11 26 54 / 0.68) 55%, rgb(11 26 54 / 0.4) 100%),
-    linear-gradient(180deg, rgb(11 26 54 / 0.5) 0%, rgb(11 26 54 / 0.3) 38%, rgb(11 26 54 / 0.7) 72%, rgb(11 26 54 / 0.95) 100%);
+}
+@media (max-width: 959px) {
+  /*
+   * Celular: vitrine nítida no topo (recorte próprio do mosaico, peças inteiras), desvanecendo para o
+   * marinho onde começa o título; o texto fica sobre fundo limpo. Altura pelo conteúdo, para a faixa
+   * de marcas aparecer logo abaixo.
+   */
+  /*
+   * A vitrine encolhe com a altura útil da tela (100svh, com as barras do navegador) para o hero
+   * inteiro, até os botões, caber na primeira tela; 490px é o que o texto ocupa. Em telas altas ela
+   * para em 66vw e a faixa de marcas aparece embaixo.
+   */
+  .hero {
+    --vitrine-h: clamp(110px, calc(100svh - 490px), min(66vw, 330px));
+    align-items: flex-start;
+    min-height: 0;
+    padding-top: calc(var(--topo-h) + var(--vitrine-h) - 40px);
+    padding-bottom: calc(var(--emenda-h) + 20px);
+  }
+  .hero .hero__texto {
+    gap: 16px;
+  }
+  .hero__foto {
+    bottom: auto;
+    height: calc(var(--topo-h) + var(--vitrine-h) + 24px);
+    /* Some por transparência (não para uma cor fixa): o fundo da seção é gradiente, sem emenda. */
+    -webkit-mask-image: linear-gradient(180deg, #000 55%, transparent 100%);
+    mask-image: linear-gradient(180deg, #000 55%, transparent 100%);
+  }
+  .hero__foto img {
+    --recuo: 1.03;
+    object-position: 50% 40%;
+    transform-origin: 50% 40%;
+  }
+  .hero__foto::after {
+    /* Topo escurecido para o cabeçalho; a base escurece antes de sumir, sob o título. */
+    background: linear-gradient(180deg, rgb(11 26 54 / 0.7) 0%, rgb(11 26 54 / 0.12) 24%, rgb(11 26 54 / 0.05) 50%, rgb(11 26 54 / 0.6) 80%, rgb(11 26 54 / 0.8) 100%);
+  }
+  .hero__linhas.is-ready {
+    opacity: 0.3;
+  }
+  .hero .btn--vidro {
+    border-color: rgb(217 222 229 / 0.45);
+  }
+}
+@media (max-width: 380px) {
+  /* Telas estreitas: o título quebra em 3 linhas e o apoio em 4, então sobra menos para a vitrine. */
+  .hero {
+    --vitrine-h: clamp(100px, calc(100svh - 560px), min(66vw, 330px));
+  }
 }
 .hero__grade {
   display: grid;
@@ -174,15 +219,6 @@
   font-stretch: 108%;
   color: var(--silver);
 }
-.marcas__pausa {
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: rgb(255 255 255 / 0.08);
-  color: var(--white);
-}
 .marcas__trilho {
   display: flex;
   overflow: hidden;
@@ -196,7 +232,6 @@
   padding-right: 12px;
   animation: marquee 42s linear infinite;
 }
-.marcas--pausado .marcas__lista,
 .marcas__trilho:hover .marcas__lista,
 .marcas__trilho:focus-within .marcas__lista {
   animation-play-state: paused;
@@ -239,8 +274,7 @@
     flex: 1;
     padding-inline: clamp(16px, 4vw, 40px);
   }
-  .marcas__copia,
-  .marcas__pausa {
+  .marcas__copia {
     display: none;
   }
 }
@@ -945,11 +979,4 @@
   font-size: clamp(1.75rem, 1.3rem + 1.6vw, 2.5rem);
   font-style: italic;
   font-weight: 800;
-}
-
-/* Cópias dos cartões dos trilhos: só existem para a volta contínua no celular. */
-@media (min-width: 768px), (prefers-reduced-motion: reduce) {
-  .trilho-copia {
-    display: none;
-  }
 }

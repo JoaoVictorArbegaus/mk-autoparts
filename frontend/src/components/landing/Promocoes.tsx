@@ -17,12 +17,12 @@ import { Emenda } from '../Emenda';
 import { Icone } from '../Icons';
 import { useAutoRolagem } from '../../hooks/useAutoRolagem';
 
-function Arte({ p, copia = false }: { p: Produto; copia?: boolean }) {
+function Arte({ p }: { p: Produto }) {
   const a = artePromocao(p);
   if (!a) return null;
   return (
-    <Link href={`/produto/${p.slug}`} className="arte" tabIndex={copia ? -1 : undefined}>
-      <img src={a.src400} srcSet={`${a.src400} 400w, ${a.src} 760w`} sizes="(min-width: 768px) 380px, 80vw" width={400} height={600} alt={copia ? '' : `Arte da promoção: ${p.nome} por ${formatarPreco(p.promocao!.preco)}`} loading="lazy" decoding="async" />
+    <Link href={`/produto/${p.slug}`} className="arte">
+      <img src={a.src400} srcSet={`${a.src400} 400w, ${a.src} 760w`} sizes="(min-width: 768px) 380px, 80vw" width={400} height={600} alt={`Arte da promoção: ${p.nome} por ${formatarPreco(p.promocao!.preco)}`} loading="lazy" decoding="async" />
       <span className="arte__legenda">
         <span>{p.nome}</span>
         <strong>{formatarPreco(p.promocao!.preco)}</strong>
@@ -63,12 +63,6 @@ export function Promocoes() {
           <Reveal as="li" i={i} amount={0} key={p.slug} className="promos__item">
             <Arte p={p} />
           </Reveal>
-        ))}
-        {/* Cópias só para a volta sem emenda do trilho no celular (decorativas). */}
-        {promos.map(p => (
-          <li key={`copia-${p.slug}`} className="promos__item trilho-copia" aria-hidden="true" inert>
-            <Arte p={p} copia />
-          </li>
         ))}
       </ul>
       <Emenda para="paper" />

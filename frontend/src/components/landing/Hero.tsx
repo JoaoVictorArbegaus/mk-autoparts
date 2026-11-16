@@ -1,8 +1,8 @@
 /*
  * Hero da landing (acima da dobra: animações em CSS, para não atrasar o LCP).
- * Mosaico de peças ao fundo, em toda a largura (DEC-024; imagem ilustrativa), véu marinho à esquerda
- * para o texto,
- * linhas de velocidade a 12° discretas por cima, h1 palavra por palavra com "caminhões" em cromado
+ * Mosaico de peças (DEC-024; imagem ilustrativa): no desktop ao fundo, em toda a largura, com véu
+ * marinho à esquerda para o texto; no celular, vitrine nítida no topo (recorte próprio), que desvanece
+ * para o marinho onde começa o texto. Linhas de velocidade a 12° discretas por cima, h1 palavra por palavra com "caminhões" em cromado
  * e busca grande que leva ao catálogo.
  */
 import type { CSSProperties } from 'react';
@@ -22,7 +22,8 @@ export function Hero() {
 
   return (
     <section className="sec sec--navy hero" aria-labelledby="hero-titulo">
-      <div className="hero__foto" aria-hidden="true">
+      <picture className="hero__foto" aria-hidden="true">
+        <source media="(max-width: 959px)" srcSet="/img/hero/vitrine-640.jpg 640w, /img/hero/vitrine-960.jpg 960w" sizes="100vw" width={960} height={768} />
         <img
           src="/img/hero/mosaico-1280.jpg"
           srcSet="/img/hero/mosaico-800.jpg 800w, /img/hero/mosaico-1280.jpg 1280w, /img/hero/mosaico-1672.jpg 1672w, /img/hero/mosaico-2400.jpg 2400w"
@@ -34,7 +35,7 @@ export function Hero() {
           loading="eager"
           decoding="async"
         />
-      </div>
+      </picture>
       <LinhasVelocidade className="hero__linhas" densidade={0.7} />
       <div className="contido hero__grade">
         <div className="hero__texto">

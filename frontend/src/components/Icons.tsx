@@ -22,8 +22,6 @@ const caminhos = {
   filtro: <><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0" /><circle cx="16" cy="6" r="2" /><circle cx="10" cy="12" r="2" /><circle cx="18" cy="18" r="2" /></>,
   check: <path d="m5 12.5 4.2 4.2L19 7" />,
   chevron: <path d="m7 10 5 5 5-5" />,
-  pausa: <path d="M9 6v12M15 6v12" />,
-  play: <path d="M8 5.5v13l10-6.5Z" />,
   copiar: <><rect x="8.5" y="8.5" width="11" height="11" rx="2" /><path d="M15.5 8.5V6a1.5 1.5 0 0 0-1.5-1.5H6A1.5 1.5 0 0 0 4.5 6v8A1.5 1.5 0 0 0 6 15.5h2.5" /></>,
   alerta: <><path d="M12 4 21 19.5H3Z" /><path d="M12 10v4.5M12 17.2v.1" /></>,
   mapa: <><path d="M9 4.5 3.5 6.5v13L9 17.5l6 2 5.5-2v-13L15 6.5Z" /><path d="M9 4.5v13M15 6.5v13" /></>,

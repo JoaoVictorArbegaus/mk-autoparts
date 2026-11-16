@@ -153,7 +153,7 @@ em WebP em `public/img/`.
    forte. A foto do caminhão, mais
    apagada, segue no topo do catálogo.
 2. **Montadoras** (faixa marinho-3): nomes das 8 marcas de veículo, sem
-   número de peças (`RN-14`), em marquee pausável; cada uma abre o catálogo filtrado.
+   número de peças (`RN-14`), em marquee que pausa no hover e no foco (sem botão de pausa); cada uma abre o catálogo filtrado.
 3. **Categorias** (claro): 6 cartões marinho em 3 colunas (referência: cartões
    de "peça em destaque"). Todos usam a mesma foto de estúdio de um caminhão sem
    marca (`public/img/categorias/caminhao-base-1536.jpg`); cada cartão aproxima a região da sua
@@ -282,10 +282,9 @@ agente não tem autorização para abri-los nesta sessão).
   reduzido abre e fecha direto.
 - Trilhos do celular (categorias e promoções) com o cartão centralizado (`scroll-snap-align: center`),
   74% da largura para a ponta do vizinho aparecer dos dois lados (indica que dá para deslizar), e
-  movimento contínuo como a faixa de marcas (~28 px/s, volta sem emenda com cópias decorativas
-  `trilho-copia`, `src/hooks/useAutoRolagem.ts`). O toque devolve o controle (o encaixe volta) e o
-  movimento retoma após 5 s sem interação; só no celular, com o trilho na tela e sem movimento
-  reduzido.
+  movimento automático lento (~28 px/s, `src/hooks/useAutoRolagem.ts`), sem cartões repetidos:
+  anda até o fim, pausa, volta deslizando ao início e recomeça. O toque devolve o controle de vez
+  (o encaixe volta); só no celular, com o trilho na tela e sem movimento reduzido.
 - Placeholders da busca têm versão curta em telas de até 420 px (`useTextoCurto`), para não cortar.
 - Seções marinho começam em marinho puro (brilho deslocado para baixo), sem linha entre a emenda e a
   seção seguinte.
@@ -303,7 +302,7 @@ agente não tem autorização para abri-los nesta sessão).
 - **Lista:** prévia da mensagem do WhatsApp (fechada por padrão).
 - **Cabeçalho:** marinho quase sólido ao rolar (o vidro virava cinza sobre seções claras).
 - **Cards de categoria:** sem numeração, sem caixa alta espaçada e sem contagem de peças (`RN-14`).
-- **Hero no celular:** mosaico ao fundo, parte direita da imagem, sob véu forte (`DEC-024`).
+- **Hero no celular:** vitrine nítida do mosaico no topo (recorte próprio, `vitrine-*.jpg`), desvanecendo para o marinho antes do título; texto sobre fundo limpo; linhas de velocidade a 0,3; botão flutuante do WhatsApp escondido enquanto o hero está na tela (`DEC-024`).
 - **Trilhos no celular:** param de vez no primeiro toque.
 - **Admin:** sem o controle "Destaque", cabeçalho da tabela uniforme, códigos na fonte do site,
   ícones próprios de Produtos e Métricas.

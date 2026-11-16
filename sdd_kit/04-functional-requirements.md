@@ -53,7 +53,8 @@
 
 - **RF-19** Botão flutuante em todas as páginas públicas: WhatsApp quando a lista está
   vazia; "Lista (n) · Enviar" (abre a lista) quando tem itens. A lista mostra a prévia da
-  mensagem antes do envio.
+  mensagem antes do envio. Com a lista vazia, o botão fica escondido enquanto o hero da
+  landing está na tela, porque o hero já tem o botão "Falar no WhatsApp".
 - **RF-20** Link para o Instagram `@mk.autoparts__`.
 - **RF-21** Seção da loja física com endereço, horário e link "Como chegar" para o
   Google Maps.
