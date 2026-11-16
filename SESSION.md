@@ -48,12 +48,22 @@ pertencem ao `sdd_kit/`.
   sem quantidades públicas, selo como logo principal, melhorias M1 a M7). Regras em
   `DEC-017` a `DEC-021`; plano em `docs/planejamento-proxima-reuniao.md`; tarefas `REU-*`
   em `TASKS.md`.
-- Implementação na branch **`feat/proxima-reuniao`** (ainda não mesclada em `main`; a
-  publicação na VPS segue com `main`). Feito: REU-07 (sem quantidades públicas; `CountUp`
-  removido), REU-08 no cabeçalho e no admin (`selo-64/128.webp`), REU-15 (mosaico no hero,
-  ancorado à direita). Para retomar: `git checkout feat/proxima-reuniao`, em `frontend/`
-  `npm ci` e `npm run dev` (http://127.0.0.1:5173/). Próximo sugerido: REU-11 (vendedores
-  reais) e REU-01 a REU-03.
+- **Aviso ao sócio: a `feat/proxima-reuniao` foi mesclada em `main`** (a pedido do
+  responsável) e o trabalho segue direto em `main`. A **próxima publicação na VPS a partir
+  de `main` já leva as mudanças da próxima reunião**; se a VPS precisar ficar na versão
+  anterior até a reunião, publique a partir do commit `977be13` ou combine antes. A branch
+  `feat/proxima-reuniao` ficou no GitHub, apontando para um commit já contido em `main`, e
+  pode ser apagada.
+- Feito: REU-07 (sem quantidades públicas; `CountUp` removido), REU-08 no cabeçalho e no
+  admin (`selo-64/128.webp`), REU-15 (mosaico no hero; no celular, vitrine nítida no topo
+  com recorte próprio `vitrine-{640,960}.jpg`, que encolhe com a altura da tela para o
+  hero caber inteiro). Também em `main`: faixa de marcas sem botão de pausa, trilhos de
+  categorias e promoções sem cartões repetidos (vão até o fim e voltam), botão flutuante
+  do WhatsApp escondido enquanto o hero está na tela. Para retomar: em `frontend/`,
+  `npm ci` e `npm run dev` (http://127.0.0.1:5173/) ou `docker compose up -d --build`
+  (http://127.0.0.1:8084/). Próximo sugerido: REU-11 (vendedores reais) e REU-01 a REU-03.
+- No Windows, rode os testes com o caminho em `D:\` maiúsculo: com `d:\` o Vitest falha
+  com "Cannot read properties of undefined (reading 'config')" sem relação com o código.
 - Vendedores reais (`DEC-022`): oito, com nomes e WhatsApps em `sdd_kit/03-domain-model.md`
   (autorizados pela contratante; nono dígito já incluído). Fotos em
   `frontend/public/img/vendedores/<codigo>.webp`. Disponibilidade: todos, de segunda a domingo; aviso
