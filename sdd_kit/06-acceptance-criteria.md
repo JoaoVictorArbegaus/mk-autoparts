@@ -87,9 +87,11 @@
 - Sem vendedor, "Escolher um vendedor" mostra foto (ou iniciais) e nome de cada
   vendedor ativo.
 - Cada vendedor abre o WhatsApp do próprio número (`03-domain-model.md`).
-- Um vendedor fora do horário é pulado no rodízio sem perder a posição e não aparece em
-  "Escolher um vendedor"; ao voltar ao horário, reaparece e volta a receber pedidos.
-- Com todos fora do horário, "Solicitar orçamento" abre o WhatsApp da empresa.
+- Fora do horário comercial (fora de segunda a sexta, 8h às 18h, em Brasília), a lista, a
+  seção "Escolher um vendedor" e o `/orcamento` mostram o aviso de resposta indeterminada;
+  dentro do horário, o aviso não aparece.
+- Em qualquer horário, todos os vendedores ativos recebem pedidos no rodízio e aparecem
+  na escolha; o cliente de link segue com o vendedor dele.
 
 ## AC-11 — Painel do vendedor (simulado, `DEC-018`)
 

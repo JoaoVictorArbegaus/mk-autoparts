@@ -110,8 +110,8 @@ Tudo nesta seção é **demonstração**: roda só no navegador, com dados fict�
   WhatsApps recebidos da MK. Nenhum telefone é inventado.
 - Entrar por qualquer rota com `?v=<código>` de um vendedor ativo grava o vendedor
   no navegador; as visitas seguintes, mesmo sem o parâmetro, continuam atribuídas.
-- Vale o último link aberto (`DEC-017`). **Demonstração:** a atribuição não expira; o
-  prazo de validade segue em `PEND-019`.
+- Vale o último link aberto (`DEC-017`). A atribuição não tem prazo de validade
+  (`DEC-017`). **Demonstração:** fica no `localStorage` do navegador.
 - Código inexistente ou vendedor inativo: o site abre normalmente, sem vendedor
   (origem "direta"), e não apaga uma atribuição válida anterior.
 - Com vendedor, o site mostra um aviso discreto e permanente "Atendimento: `<nome>`",
@@ -178,8 +178,8 @@ Decisões: `DEC-017`, `DEC-018`, `DEC-019`.
   na ordem de chegada.
 - O visitante é redirecionado ao WhatsApp desse vendedor, com a mensagem de `RN-05`
   iniciada por "Olá, `<nome>`!".
-- Vendedor desativado sai da fila; vendedor novo entra no fim. Vendedor fora do horário
-  é pulado (`RN-15`). Vendedor sem resposta depende de `PEND-033`.
+- Vendedor desativado sai da fila; vendedor novo entra no fim. Todo vendedor ativo recebe
+  pedidos a qualquer hora (`RN-15`). Vendedor que não responde não é responsabilidade do sistema por ora (`DEC-017`).
 - **Demonstração:** a fila fica no `localStorage` do navegador e só demonstra a
   sequência. O rodízio real é do servidor e vale para todos os visitantes. A fila e o
   próximo da vez aparecem no admin de demonstração.
@@ -194,7 +194,7 @@ Decisões: `DEC-017`, `DEC-018`, `DEC-019`.
   seguida leva a A B C E D F.
 - **Não aparece** quando há vendedor atribuído por link (`RN-07`).
 - Sem foto do vendedor, a interface usa avatar com as iniciais; nunca se inventa foto.
-- Vendedor fora do horário não aparece na escolha (`RN-15`).
+- Todo vendedor ativo aparece na escolha, a qualquer hora (`RN-15`).
 
 ## RN-13 — Painel do vendedor e orçamento do vendedor (`DEC-018`, `DEC-021`)
 
@@ -214,6 +214,11 @@ Decisões: `DEC-017`, `DEC-018`, `DEC-019`.
   com a porcentagem ao lado.
 - **Formas de envio:** o vendedor escolhe uma ou mais: **link**, **PDF** ou **documento
   editável** (Word). Todas trazem os mesmos dados.
+- **Validade e exclusão do link:** o vendedor define a validade de cada orçamento (data
+  limite, opcional) e pode excluir o link a qualquer momento. Link expirado ou excluído
+  não mostra o orçamento: avisa o cliente e oferece "Falar com `<nome>`" (o vendedor
+  dono). Na demonstração, a exclusão vale no navegador do vendedor (`localStorage`); entre
+  aparelhos, só com servidor.
 - **Link:** abre a página do orçamento (`/orcamento`) com itens, preços e desconto,
   atribui a sessão ao vendedor que o gerou (`RN-07`) e trava a escolha de outro
   vendedor. O item que deixou de existir é removido com aviso, como em `RN-04`. Na
@@ -225,7 +230,8 @@ Decisões: `DEC-017`, `DEC-018`, `DEC-019`.
   com `<nome>`" (abre a conversa, sem a lista).
 - **Documento (PDF e Word):** padronizado, com o logo principal (`DEC-020`), nome e
   contato do vendedor, cliente, itens com código, lado, quantidade, preço, desconto e
-  total, observação e data. Validade e textos fixos: `PEND-035`.
+  total, observação, data e validade (se o vendedor definiu). Textos fixos e campos editáveis
+  além dos definidos: `PEND-035`.
 - **Orçamentos ativos:** o painel lista os orçamentos ativos do vendedor (cliente, data,
   itens, total). Quando o cliente altera um pelo link, o orçamento ganha o aviso "Alterado
   pelo cliente" com o que mudou (item, ação, data), até o vendedor marcar como visto. O
@@ -248,13 +254,13 @@ Decisões: `DEC-017`, `DEC-018`, `DEC-019`.
 - A quantidade que o cliente coloca na própria lista (`RN-04`) não é afetada. Áreas
   internas (`/admin`, `/painel`, painel do vendedor) podem mostrar contagens.
 
-## RN-15 — Horário dos vendedores (`DEC-023`)
+## RN-15 — Disponibilidade e horário comercial (`DEC-023`)
 
-- Cada vendedor pode ter faixas de atendimento por dia da semana, no horário de
-  Brasília. Sem faixas cadastradas, o vendedor está sempre disponível.
-- Fora do horário, o vendedor não recebe pedido do rodízio (é **pulado**, sem perder a
-  posição na fila) e não aparece em "Escolher um vendedor".
-- **Demonstração:** o horário é editado no admin de demonstração. Se todos estiverem fora
-  do horário, o pedido vai para o WhatsApp da empresa, e o cliente que chegou pelo link
-  de um vendedor fora do horário segue com ele e vê o aviso de que a resposta virá no
-  horário dele. Ambos são comportamentos de demonstração até `PEND-038`.
+- Os vendedores ativos ficam disponíveis de segunda a domingo. Não há horário por
+  vendedor: nenhum é pulado no rodízio e nenhum some de "Escolher um vendedor".
+- O horário comercial é único: segunda a sexta, das 8h às 18h, no horário de Brasília.
+  Feriados não são tratados.
+- Fora do horário comercial, o site mostra o aviso: "Fora do horário comercial (segunda a sexta, das 8h às 18h), o tempo de resposta dos vendedores é indeterminado." O pedido segue o
+  fluxo normal (vendedor do link, rodízio ou escolha manual).
+- O aviso aparece onde o cliente decide pedir: fim da lista de orçamento, seção
+  "Escolher um vendedor" e página do orçamento (`/orcamento`).

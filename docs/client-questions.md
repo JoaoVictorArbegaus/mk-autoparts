@@ -29,6 +29,8 @@ demonstração**, que não é a decisão final. Fontes recebidas ficam em `docs/
   (`DEC-021`).
 - Nenhuma quantidade de peças em área pública, inclusive o contador de resultados
   (`DEC-019`).
+- Vendedores disponíveis de segunda a domingo; horário comercial de segunda a sexta, das 8h
+  às 18h; fora dele, aviso de que o tempo de resposta é indeterminado (`DEC-023`).
 - O produto definitivo é um catálogo para os vendedores, com link por vendedor e
   métricas (`DEC-009`); o protótipo simula isso com vendedores fictícios, registro
   no navegador e painel `/painel` com números fictícios (`DEC-010`).
@@ -92,12 +94,6 @@ demonstração**, que não é a decisão final. Fontes recebidas ficam em `docs/
   Falta definir o cliente recorrente que volta sem link (manter o último vendedor
   dele ou voltar ao rodízio) e a prioridade entre vendedor do link, vendedor escolhido
   e último vendedor.
-- **PEND-033 — Rodízio:** ordem inicial da fila (hoje, Daniel primeiro e os demais na
-  ordem em que os nomes foram enviados); o que fazer com vendedor que não responde; há um rodízio só ou por equipe
-  ou categoria? O horário de atendimento está em `PEND-038`.
-- **PEND-019 — Atribuição:** prazo de validade do link do vendedor (sugestão:
-  30 dias). A regra de conflito está decidida: vale o último link aberto (`DEC-017`).
-  *Demonstração:* sem prazo.
 - **PEND-020 — Finalizar o carrinho:** confirmar que é o envio pelo WhatsApp para
   o vendedor da sessão. Sem vendedor, vai para o contato central, que encaminha ao
   grupo dos vendedores (`DEC-011`). *Demonstração:* envio pelo WhatsApp; sem vendedor, número da
@@ -131,26 +127,12 @@ demonstração**, que não é a decisão final. Fontes recebidas ficam em `docs/
 - **PEND-034 — Fotos dos vendedores:** nomes e WhatsApps dos oito vendedores já recebidos
   (`DEC-022`). Falta a foto de cada um e a autorização de uso. *Demonstração:* iniciais no
   lugar da foto.
-- **PEND-035 — Documento do orçamento:** modelo (layout) do PDF e do Word; validade do
-  orçamento; textos fixos (condições de pagamento, prazo, frete, garantia); quem fornece
-  esses textos. Avisar o vendedor de mudanças no orçamento só dentro do painel basta, ou
-  também por WhatsApp, e-mail ou som? (decidido por enquanto: só no painel).
-- **PEND-038 — Horário dos vendedores (pergunta à contratante):** em que dias e horários
-  cada vendedor atende, incluindo almoço, sábado e feriados? Fora do horário o vendedor
-  deixa de ser opção no rodízio e na escolha (`DEC-023`); a MK confirma como quer isso:
-  - se todos estiverem fora do horário, o pedido vai para o WhatsApp da empresa, fica
-    registrado para o primeiro que voltar ou o site avisa que o atendimento retoma no
-    próximo horário?
-  - o cliente que chegou pelo link de um vendedor fora do horário continua com ele e vê um
-    aviso, ou é atendido por outro?
-  - como o vendedor registra folga, férias ou ausência num dia comum?
-  - quem altera os horários: o vendedor ou só o administrador?
-  *Demonstração:* sem horário cadastrado o vendedor está sempre disponível; pedido sem
-  ninguém no horário vai para a empresa; cliente de link segue com o vendedor e vê aviso.
-- **PEND-039 — Nomes dos vendedores (pergunta à contratante):** confirmar como cada nome
-  deve aparecer no site, nome completo ou só o primeiro, e a grafia: Luiz Guide,
-  Marcelo, Marcelos (é outra pessoa, ou um nome com "s"?), Mauricio, Silvio, Taine
-  Ribeiro, Vitor Mota e Daniel Avila. *Demonstração:* os nomes como foram enviados.
+- **PEND-035 — Documento do orçamento:** o modelo (layout) do PDF e do Word será
+  produzido pelo responsável e colocado no repositório (aguardando). Com um padrão pronto,
+  mostrar à contratante e perguntar o que ela quer que o vendedor possa editar, além do
+  que já está definido (cliente, itens, preços, desconto, observação e validade). Entram
+  nessa pergunta os textos fixos (condições de pagamento, prazo, frete, garantia) e quem
+  os fornece. Avisos de mudança no orçamento: só no painel, por enquanto.
 
 ### Catálogo e venda
 

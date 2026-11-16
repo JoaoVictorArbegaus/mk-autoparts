@@ -50,8 +50,10 @@ pertencem ao `sdd_kit/`.
   em `TASKS.md`. Documentação pronta; código ainda não alterado.
 - Vendedores reais (`DEC-022`): oito, com nomes e WhatsApps em `sdd_kit/03-domain-model.md`
   (autorizados pela contratante; nono dígito já incluído). Fotos em
-  `frontend/public/img/vendedores/<codigo>.webp`. Horários por vendedor: `DEC-023`; perguntas
-  `PEND-038` (horário) e `PEND-039` (nomes) foram enviadas à contratante; aguardando resposta.
+  `frontend/public/img/vendedores/<codigo>.webp`. Disponibilidade: todos, de segunda a domingo; aviso
+  fora do horário comercial (`DEC-023`). Nomes confirmados (nome e sobrenome quando houver).
+  Documento do orçamento: o responsável produz o modelo e o coloca no repositório
+  (`PEND-035`); validade definida pelo vendedor, que também exclui o link.
 - PROTO-05: Lighthouse no celular (`RNF-05`) e roteiro de apresentação.
 - PROTO-06: placeholders e frases das artes aguardando o cliente.
 - DOC-01: fontes Markdown, PDFs e roteiro TXT para o Notas do iPhone em

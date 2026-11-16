@@ -10,7 +10,7 @@ Só visual: os produtos do site continuam no arquivo de dados (`frontend/src/con
 | `/admin/produtos` | Lista com busca, filtro por categoria e situação, ativar/desativar, "Novo produto" |
 | `/admin/produtos/novo`, `/admin/produtos/editar?slug=` | Formulário: nome, categoria, marca, lados LD/LE com códigos MK e originais, aplicações (marca do veículo, modelo, anos), descrição, foto (prévia local) e situação ativo/inativo |
 | `/admin/promocoes` | Produtos em promoção, preço e preço "de"; adicionar e remover |
-| `/admin/vendedores` | Lista, novo vendedor, link `?v=` com copiar, ativar/desativar; WhatsApp do vendedor real (`DEC-022`); horário de atendimento por dia (`RN-15`); fila do rodízio |
+| `/admin/vendedores` | Lista, novo vendedor, link `?v=` com copiar, ativar/desativar; WhatsApp do vendedor real (`DEC-022`); fila do rodízio |
 | `/admin/metricas` | Painel de métricas (`RN-10`) |
 
 Regras: selo "Demonstração: nada é salvo no site" em todas as telas; edições ficam na memória da

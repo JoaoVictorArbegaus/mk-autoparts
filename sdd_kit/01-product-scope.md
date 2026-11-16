@@ -102,8 +102,8 @@ dependem das respostas de `docs/client-questions.md`:
   escolhe o vendedor na seção "Escolher um vendedor"; os dois consomem a vez do
   vendedor na fila (`RN-11`, `RN-12`).
 - **Link de vendedor:** atribui a navegação do visitante ao vendedor, com
-  persistência no navegador; vale o último link aberto (`DEC-017`); o prazo de
-  validade segue em aberto (`PEND-019`); sem link ou com código inválido, origem
+  persistência no navegador; vale o último link aberto (`DEC-017`); a atribuição não tem
+  prazo de validade; sem link ou com código inválido, origem
   "direta".
 - **Funil por produto:** visualizado, adicionado, removido e enviado, sempre
   associado ao vendedor da sessão.

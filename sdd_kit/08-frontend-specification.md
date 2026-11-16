@@ -111,6 +111,9 @@ Fim da lista, perto do botão de orçar (`RN-11`, `RN-12`, `DEC-017`):
   o aviso "Atendimento: `<nome>`". Nenhuma escolha de outro vendedor.
 - **Sem vendedor:** botão principal "Solicitar orçamento" (rodízio) e, abaixo, a seção
   "Escolher um vendedor" com cartões de foto e nome. Sem foto real, avatar com iniciais.
+  Fora do horário comercial, um aviso discreto perto do botão diz que o tempo de resposta
+  dos vendedores é indeterminado (`RN-15`, vale também com vendedor atribuído e no
+  `/orcamento`).
   A seção é compacta para não afastar o botão principal, e o painel lateral continua
   utilizável no celular em tela cheia.
 

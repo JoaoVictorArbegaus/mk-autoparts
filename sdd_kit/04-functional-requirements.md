@@ -93,8 +93,9 @@
 - **RF-35** Acesso ao painel do vendedor e à administração por conta controlada pelo
   administrador principal; o cliente final não tem conta (`DEC-021`). Na demonstração,
   o login é simulado.
-- **RF-36** Horário de atendimento por vendedor, editável no admin de demonstração; fora
-  do horário o vendedor sai do rodízio e da escolha (`RN-15`).
+- **RF-36** Fora do horário comercial (segunda a sexta, 8h às 18h), o site avisa que o
+  tempo de resposta dos vendedores é indeterminado; os vendedores seguem disponíveis no
+  rodízio e na escolha (`RN-15`).
 - **RF-37** O painel do vendedor lista os orçamentos ativos e avisa quando o cliente alterou
   um deles, com o que mudou; o vendedor marca como visto ou encerra (`RN-13`).
 - **RF-38** O hero da landing mostra um mosaico de fotos reais de produtos do catálogo, no

@@ -66,7 +66,6 @@ imagem nunca são salvos; vêm dos dados atuais.
 | `whatsapp` | string | número com DDI e DDD, só dígitos |
 | `foto` | string opcional | `/img/vendedores/<codigo>.webp`; sem ela, a interface usa as iniciais |
 | `ativo` | boolean | inativo não atribui (`RN-07`) e sai da fila (`RN-11`) |
-| `horario` | lista opcional | faixas `{ dia, inicio, fim }` por dia da semana, no horário de Brasília. Sem horário cadastrado, o vendedor está sempre disponível (`RN-15`, `PEND-038`) |
 
 Vendedores recebidos da MK, na ordem inicial da fila (Daniel é o primeiro, a pedido do
 responsável). Sete números foram enviados com 8 dígitos depois do DDD 49; o responsável mandou
@@ -84,7 +83,7 @@ WhatsApp da empresa.
 | `taine` | Taine Ribeiro | `5549991063669` |
 | `vitor` | Vitor Mota | `5549999065664` |
 
-`Marcelo` e `Marcelos` são duas pessoas. O nome de Luiz fica só "Luiz Guide", a pedido do responsável. Não se cria foto: o vínculo é pelo `codigo`.
+`Marcelo` e `Marcelos` são duas pessoas. Regra dos nomes: nome e sobrenome quando houver, só o nome quando for um só (confirmado pela contratante). O nome de Luiz fica só "Luiz Guide", a pedido do responsável. Não se cria foto: o vínculo é pelo `codigo`.
 
 ### Orçamento do vendedor (`RN-13`)
 
@@ -96,7 +95,8 @@ WhatsApp da empresa.
 | `descontoTotal` | `{ tipo, valor }` opcional | Aplicado ao subtotal dos itens com preço |
 | `observacao` | texto até 500 | Igual à lista (`RN-04`) |
 | `id` | string | Identifica o orçamento no link e no painel |
-| `estado` | `ativo` \| `encerrado` | Só orçamentos ativos aparecem na lista de trabalho do vendedor |
+| `validade` | data opcional | Prazo definido pelo vendedor em cada orçamento; passado o prazo, o link mostra que o orçamento expirou |
+| `estado` | `ativo` \| `encerrado` \| `excluido` | Só orçamentos ativos aparecem na lista de trabalho do vendedor. Link de orçamento `excluido` (o vendedor pode excluir a qualquer momento) deixa de abrir o orçamento |
 | `alteracoes` | lista | O que o cliente mudou pelo link: item, ação e data; some do aviso quando o vendedor marca como visto |
 
 Preço, desconto, porcentagem exibida e total são calculados e validados por funções

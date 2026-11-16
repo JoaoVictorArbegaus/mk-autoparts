@@ -125,8 +125,8 @@ autorização humana, atualização dos documentos afetados e novo registro aqui
   empresa, (49) 99110-0096, para não expor telefones inventados.
 - **Painel:** rota sem link na navegação, sem login, `noindex`, com selo de
   demonstração e botão para zerar os dados locais.
-- **Fora:** prazo e conflito de atribuição definitivos, carrinho no servidor,
-  abandono por tempo, login, LGPD e integrações (`PEND-019` a `PEND-026`).
+- **Fora:** atribuição no servidor, carrinho no servidor,
+  abandono por tempo, login, LGPD e integrações (`PEND-020` a `PEND-026`).
 - **Substitui:** o item "Protótipo" de `DEC-009`. Os vendedores fictícios e o número
   único da empresa foram substituídos pelos vendedores reais de `DEC-022`.
 
@@ -229,7 +229,7 @@ autorização humana, atualização dos documentos afetados e novo registro aqui
 
 - **Status:** ACEITA (responsável humano). Regra do produto definitivo; a versão
   seguinte do protótipo a demonstra de forma simulada (`DEC-010`). Os detalhes que
-  restam do rodízio estão em `PEND-033`.
+  restam do rodízio estão no fim desta decisão.
 - **Contexto:** na MK, cada vendedor tem clientes próprios que só ele atende. Neste
   momento o cliente não tem conta: quem define o vendedor é o link que ele abriu.
 - **Decisão:**
@@ -252,6 +252,10 @@ autorização humana, atualização dos documentos afetados e novo registro aqui
 - **Protótipo:** a fila fica no `localStorage` do navegador, portanto só demonstra a
   sequência; o rodízio real exige servidor para ser compartilhado entre todos os
   visitantes.
+- **Fila única, sem prazo e sem cobrança de resposta:** há um só rodízio, com todos os
+  vendedores ativos. A atribuição pelo link `?v=` não tem prazo de validade. Vendedor que
+  não responde não é responsabilidade do sistema por ora; depois que a equipe se adaptar,
+  entra a confirmação de atendimento no painel (`DEC-018`).
 
 ### DEC-018 — Painel do vendedor: orçamento, preços, link e documento
 
@@ -283,8 +287,18 @@ autorização humana, atualização dos documentos afetados e novo registro aqui
   vendedor marcar como visto. Por enquanto o aviso é só dentro do painel; WhatsApp, e-mail
   ou som ficam para depois. A demonstração funciona no mesmo navegador (duas abas); entre
   aparelhos o aviso exige servidor.
-- **Formatos:** o modelo do PDF e do Word e a forma de avisar mudanças são detalhados
-  na implementação.
+- **Validade e exclusão do link:** o vendedor define a validade de cada orçamento e pode
+  excluir o link a qualquer momento (contratante). Link expirado ou excluído não mostra o
+  orçamento.
+- **Formatos:** o responsável produz o modelo do PDF e do Word e o coloca no repositório.
+  Com um padrão pronto, mostra-se à contratante e pergunta-se o que ela quer que seja
+  editável, além do já definido (`PEND-035`). A forma de avisar mudanças é só no painel,
+  por enquanto.
+- **Depois do uso:** com o sistema adotado pela equipe, um mecanismo de confirmação de
+  atendimento no painel do vendedor e o retorno do vendedor sobre a venda (o que foi
+  vendido, ou por que não foi concluída). Não faz parte do protótipo nem do primeiro
+  produto; também é o caminho para tratar vendedor que não responde, que por ora não é
+  responsabilidade do sistema.
 - **Fora:** login real, histórico completo, status comerciais e métricas do vendedor
   (produto definitivo, `PEND-023`).
 
@@ -338,19 +352,23 @@ autorização humana, atualização dos documentos afetados e novo registro aqui
 - **Consequência:** a base fictícia do painel de métricas (`demo-metricas.ts`) passa a
   usar esses vendedores. O repositório e o site são públicos, mas a contratante
   autorizou o uso dos nomes e números.
-- **Nomes:** valem exatamente como foram enviados; ajustes ficam para depois.
+- **Nomes:** nome e sobrenome quando houver, só o nome quando for um só; Marcelo e
+  Marcelos são pessoas diferentes (contratante).
 
-### DEC-023 — Horário dos vendedores
+### DEC-023 — Disponibilidade dos vendedores e horário comercial
 
-- **Status:** ACEITA (responsável humano). As regras finais dependem de `PEND-038`.
-- **Decisão:** cada vendedor tem horário de atendimento. Fora do horário, o vendedor deixa
-  de ser opção: não recebe pedido do rodízio e não aparece na escolha manual
-  (`DEC-017`).
-- **Protótipo:** o horário é editável no admin de demonstração. Vendedor sem horário
-  cadastrado fica sempre disponível; nenhum horário é inventado. Os horários reais
-  dependem da resposta da MK.
-- **Em aberto:** o que fazer se todos estiverem fora do horário e como tratar o cliente
-  que chegou pelo link de um vendedor fora do horário (`PEND-038`).
+- **Status:** ACEITA (contratante, resposta a `PEND-038`). **Substitui** a versão anterior,
+  em que o vendedor fora do horário saía do rodízio e da escolha.
+- **Decisão:** os vendedores ficam disponíveis de segunda a domingo, a qualquer hora. Não
+  há horário por vendedor, ninguém é pulado no rodízio e ninguém some da escolha manual
+  (`DEC-017`). O **horário comercial** é único, de segunda a sexta, das 8h às 18h
+  (Brasília). Fora dele, o site mostra um aviso de que o tempo de resposta dos vendedores
+  é indeterminado.
+- **Consequências:** não existe caso de "todos indisponíveis"; o cliente que chegou pelo
+  link de um vendedor segue com ele, com o mesmo aviso; folga e férias não são
+  controladas pelo site.
+- **Protótipo:** o horário comercial é uma constante de configuração, sem edição no admin.
+  Feriados não foram citados e não são tratados.
 
 ### DEC-024 — Hero com mosaico de produtos
 
