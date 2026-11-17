@@ -21,7 +21,7 @@ export async function render(caminho: string) {
   return html;
 }
 
-export const rotas = () => ['/', '/catalogo', '/painel', ...caminhosAdmin, ...listarProdutos().map(p => `/produto/${p.slug}`)];
+export const rotas = () => ['/', '/catalogo', ...caminhosAdmin, ...listarProdutos().map(p => `/produto/${p.slug}`)];
 
 /** Chave da rota no atributo data-rota (a mesma conta do entry-client, para decidir hidratar). */
 export function chaveRota(caminho: string) {

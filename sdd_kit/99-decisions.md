@@ -118,8 +118,10 @@ autorização humana, atualização dos documentos afetados e novo registro aqui
   `docs/fontes/regras-prototipo-v0.2.md`.
 - **Decisão:** O protótipo demonstra, sem backend, o link de vendedor com aviso
   "Atendimento: `<nome>`", o registro das ações do visitante e dos carrinhos
-  (finalizados e não finalizados) no `localStorage` e um painel `/painel` com
-  números fictícios fixos somados às ações da demonstração.
+  (finalizados e não finalizados) no `localStorage` e um painel de métricas com
+  números fictícios fixos somados às ações da demonstração. O painel fica só na tela
+  Métricas do admin (`/admin/metricas`); a rota pública `/painel` foi retirada e
+  redireciona para lá (pedido do responsável: o painel já aparece no admin).
 - **WhatsApp:** "Enviar pelo WhatsApp" abre o WhatsApp real com a mensagem pronta,
   para o número do vendedor da sessão; os vendedores fictícios usam o número da
   empresa, (49) 99110-0096, para não expor telefones inventados.

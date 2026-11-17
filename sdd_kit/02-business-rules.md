@@ -148,8 +148,9 @@ Tudo nesta seção é **demonstração**: roda só no navegador, com dados fict�
 
 ## RN-10 — Painel de métricas
 
-- Rota `/painel`, sem link na navegação, sem login, com selo "Demonstração —
-  números fictícios" e `noindex`.
+- Fica na tela Métricas do admin de demonstração (`/admin/metricas`, atrás do login
+  simulado de `DEC-015`), com selo "Demonstração — números fictícios" e `noindex`. Não
+  há rota pública própria: `/painel` redireciona para `/admin/metricas`.
 - Os números somam uma **base fictícia fixa** (`src/content/demo-metricas.ts`,
   coerente com os produtos e os vendedores de `DEC-022`) aos eventos registrados no
   navegador, para o painel reagir ao vivo durante a apresentação.

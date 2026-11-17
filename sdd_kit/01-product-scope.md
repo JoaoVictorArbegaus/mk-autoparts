@@ -43,7 +43,8 @@ produto real para o visitante, mas não tem backend.
   segue para o WhatsApp. Pode chegar por link de vendedor ou direto.
 - **Vendedor (`DEC-022`):** os oito vendedores da MK, cada um com link próprio; recebe
   a lista no próprio WhatsApp.
-- **Cliente MK na apresentação:** abre `/painel` para ver as métricas simuladas.
+- **Cliente MK na apresentação:** vê as métricas simuladas em Métricas, no admin
+  (`/admin/metricas`).
 - **Apresentador (equipe de desenvolvimento):** demonstra o site, o painel e o
   admin visual ao cliente.
 
@@ -59,8 +60,8 @@ produto real para o visitante, mas não tem backend.
 - Produtos pré-cadastrados em arquivo estático (`03-domain-model.md`).
 - Simulação (`DEC-010`): vendedores da MK com link `?v=<código>` e aviso
   "Atendimento: <nome>"; registro das ações do visitante e dos carrinhos no
-  `localStorage`; painel `/painel` com números fictícios fixos somados às ações da
-  demonstração.
+  `localStorage`; painel de métricas na tela Métricas do admin (`/admin/metricas`), com
+  números fictícios fixos somados às ações da demonstração.
 - Admin de demonstração em `/admin`: login simulado e telas de produtos,
   promoções, vendedores e métricas. As alterações ficam só na memória da página,
   não alteram o site público e somem ao recarregar (`DEC-015`).

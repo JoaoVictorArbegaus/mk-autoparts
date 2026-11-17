@@ -40,7 +40,7 @@ para promoções; nunca são cor de botão, link ou navegação.
 
 Gráficos do painel (skill `dataviz`, validado com `validate_palette.js` em modo
 claro): série 1 `#1C4FD0`, série 2 `#EB6834` (CVD ΔE 29,6; contraste ≥ 3:1). O
-laranja existe só nos gráficos do `/painel`.
+laranja existe só nos gráficos do painel de métricas (admin).
 
 ### Pares de contraste verificados (WCAG AA)
 
@@ -198,7 +198,7 @@ em WebP em `public/img/`.
 - **Lista de orçamento**: painel lateral (tela cheia no celular), cabeçalho marinho,
   corpo branco, itens com miniatura, lado, código, quantidade, preço unitário só em
   promoção, observação (500), aviso fixo, "Limpar lista" e "Enviar pelo WhatsApp".
-- **Painel** (`/painel`): tela clara de trabalho, faixa marinho fina com o selo
+- **Painel de métricas** (tela Métricas do admin, `/admin/metricas`): tela clara de trabalho, faixa marinho fina com o selo
   "Demonstração — números fictícios", filtro por vendedor, indicadores, gráficos
   SVG próprios (skill `dataviz`), tabela por vendedor, funil, links de teste e
   "Zerar dados da demonstração".

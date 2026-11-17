@@ -14,8 +14,9 @@ Sem backend, sem login e sem dados pessoais coletados. Regras que valem:
   dado pessoal. Dado salvo é validado ao ler e descartado se inválido.
 - O código `?v=` só é aceito se existir na lista de vendedores; nunca é exibido
   sem ser o nome cadastrado.
-- `/painel` não tem login porque só mostra dados fictícios e do próprio navegador;
-  no produto definitivo, painel exige autenticação.
+- O painel de métricas fica no admin, atrás do login simulado; ele só mostra dados
+  fictícios e do próprio navegador. No produto definitivo, o painel exige
+  autenticação real.
 - Se o protótipo for publicado num endereço temporário, marcar `noindex` para não
   ser indexado antes do produto definitivo (`13-infrastructure.md`).
 - A publicação em `mkautoparts.jksoftware.com.br` é pública e não usa Cloudflare

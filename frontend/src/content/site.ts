@@ -323,7 +323,6 @@ export const seo = {
     titulo: 'Catálogo de peças para caminhões | MK Autoparts',
     descricao: 'Busque peças para caminhão por nome, código ou marca do veículo e envie a lista de orçamento pelo WhatsApp da MK Autoparts, em Lages – SC.',
   },
-  painel: { titulo: 'Painel de métricas (demonstração) | MK Autoparts', descricao: 'Painel de demonstração com números fictícios.' },
   admin: { titulo: 'Admin (demonstração) | MK Autoparts', descricao: 'Painel administrativo de demonstração da MK Autoparts.' },
   naoEncontrado: { titulo: 'Página não encontrada | MK Autoparts', descricao: 'A página procurada não existe no site da MK Autoparts.' },
 };

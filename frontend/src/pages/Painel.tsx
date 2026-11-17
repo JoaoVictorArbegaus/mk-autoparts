@@ -1,5 +1,6 @@
 /*
- * Painel de métricas da DEMONSTRAÇÃO (RN-10, DEC-010): tela de trabalho clara, noindex, fora do menu.
+ * Painel de métricas da DEMONSTRAÇÃO (RN-10, DEC-010): tela de trabalho clara, mostrada só dentro do
+ * admin (/admin/metricas); a rota pública /painel foi removida e redireciona para lá.
  * Pré-renderizado só como estrutura: os números são calculados depois da montagem (RNF-15),
  * somando a base fictícia fixa aos eventos e carrinhos deste navegador.
  */

@@ -43,7 +43,6 @@ export function metaDaRota(caminho: string): Meta {
   const rota = resolverRota(caminho);
   if (rota.nome === 'landing') return { ...seo.landing, titulo: seo.landing.titulo, descricao: seo.landing.descricao, caminho: '/', imagem: OG_PADRAO, tipo: 'website', jsonLd: jsonLdLoja() };
   if (rota.nome === 'catalogo') return { titulo: seo.catalogo.titulo, descricao: seo.catalogo.descricao, caminho: '/catalogo', imagem: OG_PADRAO, tipo: 'website' };
-  if (rota.nome === 'painel') return { titulo: seo.painel.titulo, descricao: seo.painel.descricao, caminho: '/painel', imagem: OG_PADRAO, tipo: 'website', noindex: true };
   if (rota.nome === 'admin') return { titulo: seo.admin.titulo, descricao: seo.admin.descricao, caminho: limparCaminho(caminho), imagem: OG_PADRAO, tipo: 'website', noindex: true };
   if (rota.nome === 'produto') {
     const p = obterProduto(rota.slug);

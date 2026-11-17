@@ -33,7 +33,7 @@ demonstração**, que não é a decisão final. Fontes recebidas ficam em `docs/
   às 18h; fora dele, aviso de que o tempo de resposta é indeterminado (`DEC-023`).
 - O produto definitivo é um catálogo para os vendedores, com link por vendedor e
   métricas (`DEC-009`); o protótipo simula isso com vendedores fictícios, registro
-  no navegador e painel `/painel` com números fictícios (`DEC-010`).
+  no navegador e painel de métricas no admin (`/admin/metricas`) com números fictícios (`DEC-010`).
 
 ## Dados já levantados (a confirmar com o cliente)
 

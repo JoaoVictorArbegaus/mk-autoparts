@@ -18,12 +18,11 @@ import './styles/index.css';
 
 /*
  * Rotas fora da landing em arquivos JS separados (Lighthouse, RNF-05): a landing não baixa nem
- * executa o código do catálogo, do produto, do painel e do admin. O HTML pré-renderizado já traz o
+ * executa o código do catálogo, do produto e do admin (as métricas ficam no admin). O HTML pré-renderizado já traz o
  * conteúdo de cada rota; a hidratação espera o arquivo da rota dentro do Suspense.
  */
 const Catalogo = lazy(() => import('./pages/Catalogo').then(m => ({ default: m.Catalogo })));
 const Produto = lazy(() => import('./pages/Produto').then(m => ({ default: m.Produto })));
-const Painel = lazy(() => import('./pages/Painel').then(m => ({ default: m.Painel })));
 const Admin = lazy(() => import('./admin/Admin').then(m => ({ default: m.Admin })));
 
 /** Expõe a instância do Lenis ao roteador (rolar ao topo e restaurar a rolagem). */
@@ -45,11 +44,11 @@ function Paginas() {
   const primeira = useRef(true);
   const reduzir = useReducedMotion();
 
-  // Vendedor da sessão (?v=) em qualquer rota e a visita da sessão (RN-07, RN-08). O painel não gera eventos.
+  // Vendedor da sessão (?v=) em qualquer rota e a visita da sessão (RN-07, RN-08). O admin não gera eventos.
   useEffect(() => {
     if (!montado) return;
     definirVendedor(aplicarParametroVendedor(busca));
-    if (rota.nome !== 'painel' && rota.nome !== 'admin') registrarVisita();
+    if (rota.nome !== 'admin') registrarVisita();
   }, [montado, busca, rota.nome, definirVendedor]);
 
   // Título e descrição ao navegar; foco no conteúdo para leitores de tela (exceto no primeiro carregamento).
@@ -72,7 +71,6 @@ function Paginas() {
     document.documentElement.classList.toggle('sem-rolagem', aberta);
   }, [aberta, lenis]);
 
-  const painel = rota.nome === 'painel';
   // Admin de demonstração (DEC-015): casca própria, sem cabeçalho, rodapé, Lenis nem lista de orçamento.
   if (rota.nome === 'admin')
     return (
@@ -93,13 +91,12 @@ function Paginas() {
         <Suspense fallback={null}>
           {rota.nome === 'catalogo' && <Catalogo />}
           {rota.nome === 'produto' && <Produto slug={rota.slug} key={rota.slug} />}
-          {rota.nome === 'painel' && <Painel />}
         </Suspense>
         {rota.nome === 'nao-encontrado' && <NaoEncontrado />}
       </main>
       <Rodape />
       <PainelOrcamento />
-      {!painel && <WhatsAppFlutuante />}
+      <WhatsAppFlutuante />
       <AvisoAdicionado />
     </>
   );

@@ -12,7 +12,7 @@
   - **várias rotas pré-renderizadas**: `scripts/prerender.mjs` gera
     `dist/index.html`, `dist/catalogo/index.html` e
     `dist/produto/<slug>/index.html` para cada produto ativo,
-    `dist/painel/index.html`, as rotas de `/admin/*` e `dist/404.html`;
+    as rotas de `/admin/*` e `dist/404.html`;
   - **roteamento próprio** com a History API (componente `Link` e hook de rota em
     `src/router/`), sem biblioteca de rotas; a navegação interna não recarrega a
     página e respeita o Lenis;
@@ -26,7 +26,7 @@
 | `/` | Landing |
 | `/catalogo` | Catálogo com busca e filtros na query string |
 | `/produto/<slug>` | Detalhe do produto |
-| `/painel` | Painel de métricas simulado (`RN-10`), `noindex`, fora da navegação |
+| `/painel` | Redireciona (301) para `/admin/metricas`, onde fica o painel de métricas (`RN-10`) |
 | `/admin` | Login simulado do admin (`DEC-015`), `noindex`, fora da navegação pública |
 | `/admin/produtos` | Lista e edição visual de produtos |
 | `/admin/produtos/novo` | Cadastro visual de produto |
@@ -146,7 +146,7 @@ decidida. Não reutilizar a identidade da KiProdutos.
 - **Registro:** um módulo `src/rastreio/` expõe `registrar(evento)`; páginas e o
   contexto da lista chamam essa função. Componentes não acessam o `localStorage`
   diretamente.
-- **Painel `/painel`:** tela de trabalho, não de marketing: superfícies claras e
+- **Painel de métricas (tela Métricas do admin):** tela de trabalho, não de marketing: superfícies claras e
   legíveis, sem fundos animados pesados; segue a paleta e a tipografia da direção
   visual. Cartões de indicadores, ranking de mais e menos clicados, gráfico de
   cliques × adicionados, carrinhos finalizados × não finalizados, tabela por

@@ -66,8 +66,9 @@
 - **RF-23** Registro dos eventos de `RN-08` em todas as rotas públicas (o painel não
   gera eventos).
 - **RF-24** Registro dos carrinhos finalizados e não finalizados (`RN-09`).
-- **RF-25** Painel `/painel` com os indicadores, filtro por vendedor, links de teste
-  e "Zerar dados da demonstração" (`RN-10`).
+- **RF-25** Painel de métricas na tela Métricas do admin (`/admin/metricas`) com os
+  indicadores, filtro por vendedor, links de teste e "Zerar dados da demonstração"
+  (`RN-10`); `/painel` redireciona para lá.
 
 ## Atendimento por vendedor, painel do vendedor e privacidade (`DEC-017` a `DEC-019`)
 

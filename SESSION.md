@@ -10,9 +10,9 @@ pertencem ao `sdd_kit/`.
   contrato completo, com a seção Acabamento preenchida).
 - Protótipo construído em `frontend/` (Vite + React + TS, CSS próprio, Motion, Lenis,
   roteador próprio, pré-renderização): landing, `/catalogo`, `/produto/<slug>` (76),
-  lista de orçamento, `/painel`, sete rotas de `/admin/*` e 404. Ver `frontend/README.md`.
+  lista de orçamento, sete rotas de `/admin/*` (métricas em `/admin/metricas`; `/painel` redireciona) e 404. Ver `frontend/README.md`.
 - Na última validação completa, `npm run build` passou (typecheck, build, SSR,
-  pré-renderização de 86 rotas + 404 e validação dos dados) e `npm test` passou
+  pré-renderização de 85 rotas + 404 e validação dos dados) e `npm test` passou
   (30 testes das regras puras).
 - Rodada de ajustes da landing aplicada: hero com mosaico de peças ao fundo
   (`public/img/hero/mosaico-*.jpg`, `DEC-024`), emendas em corte inclinado com filete azul (no lugar da onda, definitivo),
@@ -60,7 +60,7 @@ pertencem ao `sdd_kit/`.
   categorias e promoções sem cartões repetidos (vão até o fim e voltam), botão flutuante
   do WhatsApp escondido enquanto o hero está na tela. Para retomar: em `frontend/`,
   `npm ci` e `npm run dev` (http://127.0.0.1:5173/) ou `docker compose up -d --build`
-  (http://127.0.0.1:8084/). Próximo sugerido: REU-11 (vendedores reais) e REU-01 a REU-03.
+  (http://127.0.0.1:8084/). Próximo sugerido: REU-01 a REU-03 (REU-11 feita, menos as fotos).
 - No Windows, rode os testes com o caminho em `D:\` maiúsculo: com `d:\` o Vitest falha
   com "Cannot read properties of undefined (reading 'config')" sem relação com o código.
 - Vendedores reais (`DEC-022`): oito, com nomes e WhatsApps em `sdd_kit/03-domain-model.md`
@@ -80,7 +80,7 @@ pertencem ao `sdd_kit/`.
 - Fontes do mosaico (`docs/design/MosaicoProdutos.png`, composição
   `MosaicoProdutos-hero-2400.png` com escala 68 % e folha `docs/design/referencias-mosaico/`)
   ficam só na máquina do responsável (`docs/design/` é ignorado); o site usa os JPGs.
-- Hoje o código ainda tem os fictícios `?v=joao`, `?v=maria`, `?v=carlos` (WhatsApp da empresa); a troca é a REU-11.
+- Vendedores reais no código (REU-11): `?v=daniel`, `luiz`, `marcelo`, `marcelos`, `mauricio`, `silvio`, `taine`, `vitor`; base do painel regerada para eles; fotos ainda não chegaram (iniciais).
 - Paleta dos gráficos do painel: `#1C4FD0` e `#EB6834` (validada pela skill `dataviz`).
 - Ignore do detector do impeccable: `gradient-text` só em `landing.css` (cromado
   aprovado), em `.impeccable/config.json` (glob `**/styles/landing.css`).

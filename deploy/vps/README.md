@@ -81,8 +81,8 @@ No recebimento da release:
 
 1. conferir o SHA-256 antes de extrair;
 2. extrair num diretório novo com o identificador da release;
-3. conferir `index.html`, `catalogo/index.html`, `painel/index.html`,
-   `admin/index.html` e `404.html`;
+3. conferir `index.html`, `catalogo/index.html`, `admin/index.html`,
+   `admin/metricas/index.html` e `404.html`;
 4. trocar `current` somente depois das conferências.
 
 Não apagar a release anterior: ela é o rollback imediato.
@@ -168,7 +168,7 @@ Com a origem restrita, uma chamada direta ao IP com o `Host` do site deve recebe
 
 Validar pelo hostname público:
 
-- `/`, `/catalogo`, um `/produto/<slug>`, `/painel`, `/admin` e uma rota inexistente;
+- `/`, `/catalogo`, um `/produto/<slug>`, `/painel` (301 para `/admin/metricas`), `/admin` e uma rota inexistente;
 - status 200 nas rotas válidas e 404 na inexistente;
 - `X-Robots-Tag: noindex, nofollow`;
 - canonical e Open Graph com `https://mkautoparts.jksoftware.com.br`;

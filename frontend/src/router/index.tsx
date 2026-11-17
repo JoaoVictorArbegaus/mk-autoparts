@@ -11,7 +11,6 @@ export type Rota =
   | { nome: 'landing' }
   | { nome: 'catalogo' }
   | { nome: 'produto'; slug: string }
-  | { nome: 'painel' }
   | { nome: 'admin'; tela: TelaAdmin }
   | { nome: 'nao-encontrado' };
 
@@ -38,7 +37,6 @@ export function resolverRota(caminho: string): Rota {
   const c = limparCaminho(caminho);
   if (c === '/') return { nome: 'landing' };
   if (c === '/catalogo') return { nome: 'catalogo' };
-  if (c === '/painel') return { nome: 'painel' };
   if (TELAS_ADMIN[c]) return { nome: 'admin', tela: TELAS_ADMIN[c] };
   const m = c.match(/^\/produto\/([a-z0-9-]+)$/);
   if (m) return { nome: 'produto', slug: m[1] };

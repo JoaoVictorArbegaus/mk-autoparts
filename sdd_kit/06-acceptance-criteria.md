@@ -68,8 +68,9 @@
 
 ## AC-09 — Painel (simulado)
 
-- `/painel` mostra o selo de demonstração, os indicadores de `RN-10` e não aparece
-  na navegação nem na indexação.
+- A tela Métricas do admin (`/admin/metricas`) mostra o selo de demonstração e os
+  indicadores de `RN-10`; não aparece na navegação pública nem na indexação. Abrir
+  `/painel` leva a `/admin/metricas`.
 - Depois de clicar num produto no site, o painel mostra um clique a mais nele.
 - Filtrar por um vendedor mostra só os números dele.
 - "Zerar dados da demonstração" volta os números à base fictícia.

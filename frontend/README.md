@@ -11,8 +11,8 @@ Protótipo de apresentação, somente frontend (`DEC-001`). Direção visual: op
 - Roteamento próprio com a History API (`src/router/`), sem biblioteca.
 - Pré-renderização no build sem biblioteca extra: `src/entry-server.tsx` + `scripts/prerender.mjs`
   geram `dist/index.html`, `dist/catalogo/`, `dist/produto/<slug>/` (cada produto ativo),
-  `dist/painel/`, as sete rotas de `/admin/*` e `dist/404.html`. Com os 76 produtos
-  atuais, são 86 rotas mais a página 404. A validação dos dados roda no prerender e
+  as sete rotas de `/admin/*` e `dist/404.html`. Com os 76 produtos atuais, são 85
+  rotas mais a página 404. A validação dos dados roda no prerender e
   falha o build.
 - Vitest só para as regras puras (busca, filtros, lista, mensagem do WhatsApp, carrinhos, métricas).
 - Versões exatas no `package.json`.
@@ -70,8 +70,9 @@ compartilhada usa artefato estático, rede Docker interna e Nginx central confor
 
 ## Simulação (demonstração)
 
-- Link de vendedor: `/?v=joao`, `/?v=maria`, `/?v=carlos` (todos com o WhatsApp da empresa).
-- Painel: `/painel` (fora do menu, `noindex`), com "Zerar dados da demonstração".
+- Link de vendedor: `/?v=<código>` com os oito vendedores reais da MK (`daniel`, `luiz`, `marcelo`, `marcelos`, `mauricio`, `silvio`, `taine`, `vitor`; `DEC-022`). Pelo link, a lista vai para o WhatsApp do próprio vendedor.
+- Métricas: tela Métricas do admin (`/admin/metricas`), com "Zerar dados da demonstração";
+  `/painel` redireciona para lá.
 - Admin: `/admin` (fora do menu, `noindex`); aceita qualquer usuário e senha. As
   edições existem só na memória da página e desaparecem ao recarregar.
 
