@@ -2,12 +2,15 @@
  * Admin (demonstração): vendedores com link próprio do catálogo (?v=), copiar link, ativar/desativar
  * e cadastro. Vendedores reais da MK (DEC-022), cada um com o próprio WhatsApp; no cadastro o número é
  * digitado por quem administra (nenhum telefone inventado). Sem foto, o avatar mostra as iniciais.
+ * Fila do rodízio (RN-11, RF-29): a gravada neste navegador pelos pedidos feitos no site, sem os
+ * vendedores desativados aqui; o primeiro é o próximo da vez.
  */
-import { useEffect, useState, type FormEvent } from 'react';
+import { useEffect, useMemo, useState, type FormEvent } from 'react';
 import { admin } from '../content/admin';
 import { Icone } from '../components/Icons';
 import { gerarSlug, useAdmin } from './AdminDemo';
 import { formatarWhatsapp, iniciais } from '../content/vendedores';
+import { CHAVE_FILA, lerFila } from '../orcamento/fila';
 
 export function TelaVendedores() {
   const t = admin.vendedores;
@@ -20,6 +23,17 @@ export function TelaVendedores() {
   const [erro, setErro] = useState('');
 
   useEffect(() => setOrigem(window.location.origin), []);
+
+  // Fila do rodízio: lida depois da montagem e atualizada quando outra aba do site faz um pedido.
+  const ativos = useMemo(() => vendedores.filter(v => v.ativo).map(v => v.codigo), [vendedores]);
+  const [fila, setFila] = useState<string[]>([]);
+  useEffect(() => {
+    setFila(lerFila(ativos));
+    const aoMudar = (e: StorageEvent) => e.key === CHAVE_FILA && setFila(lerFila(ativos));
+    window.addEventListener('storage', aoMudar);
+    return () => window.removeEventListener('storage', aoMudar);
+  }, [ativos]);
+  const porCodigo = (c: string) => vendedores.find(v => v.codigo === c);
   useEffect(() => {
     if (!mexeuCodigo) setCodigo(gerarSlug(nome).replace(/-/g, ''));
   }, [nome, mexeuCodigo]);
@@ -97,6 +111,28 @@ export function TelaVendedores() {
           </p>
         )}
       </form>
+
+      {fila.length > 0 && (
+        <section className="adm-bloco adm-fila" aria-labelledby="adm-fila-titulo">
+          <h2 id="adm-fila-titulo">{t.fila}</h2>
+          <p className="adm-fila__apoio">{t.filaApoio}</p>
+          <ol>
+            {fila.map((c, i) => {
+              const v = porCodigo(c);
+              if (!v) return null;
+              return (
+                <li key={c} className={i === 0 ? 'adm-fila__vez' : undefined}>
+                  <span className="adm-vend__avatar adm-fila__avatar" aria-hidden="true">
+                    {v.foto ? <img src={v.foto} alt="" width={32} height={32} /> : iniciais(v.nome)}
+                  </span>
+                  <span>{v.nome}</span>
+                  {i === 0 && <span className="adm-tag adm-tag--ok">{t.daVez}</span>}
+                </li>
+              );
+            })}
+          </ol>
+        </section>
+      )}
 
       <ul className="adm-vendedores">
         {vendedores.map(v => (

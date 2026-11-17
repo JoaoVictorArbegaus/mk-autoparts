@@ -908,3 +908,48 @@
     animation: none;
   }
 }
+
+/* Fila do rodízio (RN-11, RF-29) */
+.adm-fila h2 {
+  margin-bottom: 4px;
+}
+.adm-fila__apoio {
+  max-width: 68ch;
+  margin-bottom: 12px;
+  color: var(--ink-2);
+  font-size: 0.875rem;
+}
+.adm-fila ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  counter-reset: fila;
+}
+.adm-fila li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px 4px 4px;
+  border: 1.5px solid var(--tom-2);
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  counter-increment: fila;
+}
+.adm-fila li::before {
+  content: counter(fila) '.';
+  order: -1;
+  min-width: 1.4em;
+  padding-left: 6px;
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+}
+.adm-fila__vez {
+  border-color: var(--royal);
+  background: var(--royal-tinta);
+}
+.adm-fila__avatar {
+  width: 32px;
+  height: 32px;
+  font-size: 0.8125rem;
+}

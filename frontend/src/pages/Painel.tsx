@@ -13,6 +13,8 @@ import { calcularMetricas, maisClicados, menosClicados, type Filtro, type Metric
 import { apagarEventos, descarregar, lerEventos } from '../rastreio/eventos';
 import { apagarCarrinhos, lerCarrinhos } from '../rastreio/carrinhos';
 import { esquecerVendedor } from '../rastreio/vendedor';
+import { CHAVE_FILA } from '../orcamento/fila';
+import { apagar } from '../rastreio/armazenamento';
 import { useOrcamento } from '../orcamento/OrcamentoContext';
 import { BarraParte, BarrasH, Funil, pct } from '../components/Graficos';
 import { Icone } from '../components/Icons';
@@ -56,6 +58,7 @@ export function Painel() {
     apagarEventos();
     apagarCarrinhos();
     esquecerVendedor();
+    apagar(CHAVE_FILA);
     definirVendedor(undefined);
     recalcular();
     setAviso(t.zerado);

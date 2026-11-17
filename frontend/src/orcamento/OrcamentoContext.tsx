@@ -3,12 +3,15 @@
  * ações do visitante (adicionar, remover, enviar), onde entram o vendedor da sessão e o
  * registro de eventos (DEC-009, DEC-010). No primeiro render a lista é vazia (igual ao HTML
  * pré-renderizado); o salvo entra depois da montagem.
+ * Destino do pedido (DEC-017): com vendedor do link, sempre ele (atendimento travado); sem vendedor,
+ * o da vez no rodízio ou o escolhido na lista, e quem atende vai para o fim da fila.
  */
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { CHAVE_ORCAMENTO, adicionar as adicionarItem, alterarQuantidade, codificar, contar, decodificar, definirObservacao, ladosDaEscolha, listaVazia, mensagemLista, remover as removerItem, type Escolha, type Lista } from './lista';
 import { obterProduto, type Lado } from '../content/catalogo';
 import { empresa, whatsapp } from '../content/site';
-import type { Vendedor } from '../content/vendedores';
+import { obterVendedor, vendedores, type Vendedor } from '../content/vendedores';
+import { atender, gravarFila, lerFila } from './fila';
 import { gravar, ler } from '../rastreio/armazenamento';
 import { aoFinalizar, aoMudarLista, carrinhoAtivoId } from '../rastreio/carrinhos';
 import { registrar } from '../rastreio/eventos';
@@ -27,8 +30,15 @@ type Ctx = {
   remover: (slug: string, lado?: Lado) => void;
   limpar: () => void;
   observar: (texto: string) => void;
-  enviar: () => void;
+  /** Registra o pedido; sem vendedor do link, `escolhido` (ou o da vez) atende e vai para o fim da fila. */
+  enviar: (escolhido?: Vendedor) => void;
   urlEnvio: string;
+  /** Link do WhatsApp de um vendedor com a mensagem da lista (escolha manual, RN-12). */
+  urlPara: (v: Vendedor) => string;
+  /** Sem vendedor do link: o primeiro da fila do rodízio (RN-11). */
+  daVez: Vendedor | undefined;
+  /** Vendedores ativos para a escolha manual, na ordem do cadastro. */
+  ativos: Vendedor[];
   /** Texto exato que vai para o WhatsApp (prévia na lista). */
   mensagemEnvio: string;
   aviso: Aviso | null;
@@ -53,6 +63,9 @@ export function OrcamentoProvider({ children }: { children: ReactNode }) {
   const [removidos, setRemovidos] = useState(0);
   const [pulso, setPulso] = useState(0);
   const [vendedor, definirVendedor] = useState<Vendedor | undefined>();
+  const ativos = useMemo(() => vendedores.filter(v => v.ativo), []);
+  const codigosAtivos = useMemo(() => ativos.map(v => v.codigo), [ativos]);
+  const [fila, setFila] = useState<string[]>(codigosAtivos);
   const contadorAviso = useRef(0);
   // A lista atual numa ref: as ações calculam a próxima fora do setState (sem efeitos duplicados no StrictMode).
   const listaRef = useRef(lista);
@@ -64,7 +77,8 @@ export function OrcamentoProvider({ children }: { children: ReactNode }) {
     setRemovidos(r.removidos);
     setCarregada(true);
     if (r.removidos) gravar(CHAVE_ORCAMENTO, codificar(r.lista));
-  }, []);
+    setFila(lerFila(codigosAtivos));
+  }, [codigosAtivos]);
 
   // Grava a lista e mantém o carrinho da demonstração em dia (RN-09).
   const aplicar = useCallback((proxima: Lista, mudouItens = true) => {
@@ -112,14 +126,29 @@ export function OrcamentoProvider({ children }: { children: ReactNode }) {
 
   const observar = useCallback((texto: string) => void aplicar(definirObservacao(listaRef.current, texto), false), [aplicar]);
 
-  const mensagemEnvio = useMemo(() => mensagemLista(lista, vendedor?.nome), [lista, vendedor]);
-  const urlEnvio = useMemo(() => whatsapp(destinoWhatsApp(vendedor), mensagemEnvio), [mensagemEnvio, vendedor]);
+  const daVez = vendedor ? undefined : obterVendedor(fila[0]);
+  const destino = vendedor ?? daVez;
+  const mensagemEnvio = useMemo(() => mensagemLista(lista, destino?.nome), [lista, destino]);
+  const urlEnvio = useMemo(() => whatsapp(destinoWhatsApp(destino), mensagemEnvio), [mensagemEnvio, destino]);
+  const urlPara = useCallback((v: Vendedor) => whatsapp(v.whatsapp, mensagemLista(lista, v.nome)), [lista]);
 
-  const enviar = useCallback(() => {
-    if (!lista.itens.length) return;
-    const carrinho = aoFinalizar(lista.itens);
-    registrar('carrinho_finalizado', { carrinho: carrinho.id, dados: { itens: lista.itens.length } });
-  }, [lista]);
+  const enviar = useCallback<Ctx['enviar']>(
+    escolhido => {
+      if (!lista.itens.length) return;
+      const carrinho = aoFinalizar(lista.itens);
+      // Com vendedor do link, o pedido é dele e a fila não muda (DEC-017).
+      const atendeu = vendedor ?? escolhido ?? daVez;
+      const atendimento = vendedor ? 'link' : escolhido ? 'escolha' : 'rodizio';
+      registrar('carrinho_finalizado', { carrinho: carrinho.id, dados: { itens: lista.itens.length, atendimento, ...(atendeu ? { atendente: atendeu.codigo } : {}) } });
+      if (!vendedor && atendeu) {
+        // Lê a fila gravada na hora (outra aba pode ter avançado) e manda quem atendeu para o fim.
+        const proxima = atender(lerFila(codigosAtivos), atendeu.codigo);
+        gravarFila(proxima);
+        setFila(proxima);
+      }
+    },
+    [lista, vendedor, daVez, codigosAtivos],
+  );
 
   const valor: Ctx = {
     lista,
@@ -135,6 +164,9 @@ export function OrcamentoProvider({ children }: { children: ReactNode }) {
     observar,
     enviar,
     urlEnvio,
+    urlPara,
+    daVez,
+    ativos,
     mensagemEnvio,
     aviso,
     removidos,

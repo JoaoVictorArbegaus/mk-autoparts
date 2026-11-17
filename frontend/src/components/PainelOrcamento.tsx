@@ -2,10 +2,14 @@
  * Lista de orçamento em painel lateral (tela cheia no celular), em todas as rotas (RF-16 a RF-18).
  * Itens com miniatura, lado, código, quantidade e preço unitário só em promoção; sem total (RN-04).
  * Diálogo modal: foco preso no painel, Esc fecha e devolve o foco a quem abriu.
+ * Fim da lista (DEC-017, RN-11, RN-12): "Solicitar orçamento" vai ao vendedor do link (atendimento
+ * travado) ou, sem link, ao vendedor da vez no rodízio; sem link há também a escolha de um vendedor,
+ * numa faixa compacta que não afasta o botão principal.
  */
 import { useEffect, useRef, useState } from 'react';
 import { codigoDoLado, formatarPreco, imagemProduto, obterProduto } from '../content/catalogo';
 import { textos } from '../content/site';
+import { iniciais } from '../content/vendedores';
 import { useOrcamento } from '../orcamento/OrcamentoContext';
 import { OBS_MAX } from '../orcamento/lista';
 import { Link } from '../router';
@@ -121,10 +125,30 @@ export function PainelOrcamento() {
               <Icone nome="whatsapp" tamanho={18} />
               {textos.orcamento.aviso}
             </p>
-            <a className="btn btn--primario btn--lg orc__enviar" href={o.urlEnvio} target="_blank" rel="noopener" onClick={o.enviar}>
+            <a className="btn btn--primario btn--lg orc__enviar" href={o.urlEnvio} target="_blank" rel="noopener" onClick={() => o.enviar()} aria-describedby="orc-destino">
               <Icone nome="whatsapp" tamanho={22} />
               <span className="btn__texto">{textos.orcamento.enviar}</span>
             </a>
+            <p id="orc-destino" className="orc__destino">
+              {o.vendedor ? textos.orcamento.comVendedor(o.vendedor.nome) : o.daVez ? textos.orcamento.daVez(o.daVez.nome) : textos.orcamento.semVendedor}
+            </p>
+            {!o.vendedor && o.ativos.length > 1 && (
+              <section className="orc__escolha" aria-labelledby="orc-escolha">
+                <h3 id="orc-escolha">{textos.orcamento.escolher}</h3>
+                <ul>
+                  {o.ativos.map(v => (
+                    <li key={v.codigo}>
+                      <a href={o.urlPara(v)} target="_blank" rel="noopener" onClick={() => o.enviar(v)} aria-label={textos.orcamento.escolherVendedor(v.nome)}>
+                        <span className="orc__avatar" aria-hidden="true">
+                          {v.foto ? <img src={v.foto} alt="" width={40} height={40} loading="lazy" /> : iniciais(v.nome)}
+                        </span>
+                        <span className="orc__vend-nome">{v.nome}</span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )}
             {confirmando ? (
               <div className="orc__confirmar" role="group" aria-label={textos.orcamento.confirmarLimpar}>
                 <span>{textos.orcamento.confirmarLimpar}</span>
