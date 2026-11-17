@@ -35,6 +35,25 @@
     transform: scale(var(--recuo, 1.08));
   }
 }
+/*
+ * Parallax do fundo (pedido do responsável): ao rolar, o mosaico desce mais devagar que o texto.
+ * Só CSS, com a linha do tempo da rolagem (sem JavaScript, não pesa no celular); usa a propriedade
+ * translate, separada do transform da entrada. Sem suporte ou com movimento reduzido, fica parado.
+ */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .hero__foto {
+      animation: hero-paralaxe linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 100vh;
+    }
+  }
+}
+@keyframes hero-paralaxe {
+  to {
+    translate: 0 32vh;
+  }
+}
 .hero__foto::after {
   content: '';
   position: absolute;

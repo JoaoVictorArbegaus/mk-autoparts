@@ -395,7 +395,7 @@ autorização humana, atualização dos documentos afetados e novo registro aqui
   mosaico (peças inteiras) vira uma **vitrine nítida no topo** do hero, que desvanece para o
   marinho onde começa o título; o texto fica sobre fundo limpo e o hero tem a altura do
   conteúdo (revisão impeccable: em tela cheia o mosaico ficava ampliado e borrado atrás do
-  texto). Versões em `frontend/public/img/hero/mosaico-{800,1280,1672,2400}.jpg` (desktop) e
+  texto). Versões em `frontend/public/img/hero/mosaico-{800,1280,1672,2400}.jpg` (desktop; fonte atual: `Mosaico_Neon_de_Iluminacao_Automotiva-v2.png`, reduzida a 68 % e ancorada à direita, com parallax na rolagem) e
   `vitrine-{640,960}.jpg` (celular), com preload por `media` no `index.html`.
 - **Alcance:** vale só para o hero (confirmado pelo responsável). O topo do catálogo e os
   cartões de categoria seguem com a foto do caminhão.
