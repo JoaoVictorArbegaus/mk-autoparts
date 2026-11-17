@@ -205,7 +205,8 @@ Decisões: `DEC-017`, `DEC-018`, `DEC-019`.
   pública e `noindex`. O acesso é controlado pelo administrador principal (`DEC-021`).
   Na demonstração o login é simulado.
 - O vendedor monta um **orçamento** escolhendo produtos, lado, quantidade e observação,
-  com as mesmas regras de `RN-04`, e informa o cliente (nome, opcional).
+  com as mesmas regras de `RN-04`, e informa o cliente (nome, opcional). Em peça com lado,
+  "Par" divide a linha em duas (LD e LE), cada uma com o próprio código, quantidade e preço.
 - **Preço:** o vendedor digita o preço unitário de cada item, ou deixa sem preço e o item
   aparece como "sob consulta". Item em promoção parte do preço promocional (`RN-02A`),
   que ele pode alterar. Sem preço, o item fica fora do total.
@@ -216,7 +217,8 @@ Decisões: `DEC-017`, `DEC-018`, `DEC-019`.
   só quando não for inteira). No total, o subtotal fica riscado acima do total final,
   com a porcentagem ao lado.
 - **Formas de envio:** o vendedor escolhe uma ou mais: **link**, **PDF** ou **documento
-  editável** (Word). Todas trazem os mesmos dados.
+  editável** (Word). Todas trazem os mesmos dados. O link sai por "Enviar ao cliente", que
+  usa o compartilhamento do celular (WhatsApp e outros apps) ou copia o link no computador.
 - **Validade e exclusão do link:** o vendedor define a validade de cada orçamento (data
   limite, opcional) e pode excluir o link a qualquer momento. Link expirado ou excluído
   não mostra o orçamento: avisa o cliente e oferece "Falar com `<nome>`" (o vendedor
@@ -228,9 +230,13 @@ Decisões: `DEC-017`, `DEC-018`, `DEC-019`.
   demonstração, o orçamento vai codificado na URL.
 - **O cliente no link:** pode alterar quantidades, remover itens e adicionar produtos do
   catálogo. O preço e o desconto do vendedor continuam nos itens dele; o item adicionado
-  pelo cliente entra "sob consulta" e o total é recalculado. Ele tem duas ações, ambas
-  só para o vendedor dono do link: "Solicitar orçamento" (envia a lista atual) e "Falar
-  com `<nome>`" (abre a conversa, sem a lista).
+  pelo cliente entra "sob consulta" e o total é recalculado. Ao adicionar peça com lado, o
+  cliente escolhe LD, LE ou Par (os dois), como no catálogo, e pode trocar o lado das peças
+  sem preço do vendedor. Ele tem duas ações, ambas
+  só para o vendedor dono do link: "Enviar minha lista para `<nome>`" (envia a lista
+  atual; texto escolhido pelo responsável, porque o cliente já está vendo um orçamento) e
+  "Falar com `<nome>`" (abre a conversa, sem a lista). No celular, o total e o envio ficam
+  numa barra fixa embaixo.
 - **Documento (PDF e Word):** padronizado, com o logo principal (`DEC-020`), nome e
   contato do vendedor, cliente, itens com código, lado, quantidade, preço, desconto e
   total, observação, data e validade (se o vendedor definiu). Textos fixos e campos editáveis
@@ -263,7 +269,7 @@ Decisões: `DEC-017`, `DEC-018`, `DEC-019`.
   vendedor: nenhum é pulado no rodízio e nenhum some de "Escolher um vendedor".
 - O horário comercial é único: segunda a sexta, das 8h às 18h, no horário de Brasília.
   Feriados não são tratados.
-- Fora do horário comercial, o site mostra o aviso: "Fora do horário comercial (segunda a sexta, das 8h às 18h), o tempo de resposta dos vendedores é indeterminado." O pedido segue o
+- Fora do horário comercial, o site mostra o aviso: "Fora do horário comercial (segunda a sexta, das 8h às 18h), o tempo de resposta dos vendedores é indeterminado. Você pode enviar agora mesmo." O pedido segue o
   fluxo normal (vendedor do link, rodízio ou escolha manual).
 - O aviso aparece onde o cliente decide pedir: fim da lista de orçamento, seção
   "Escolher um vendedor" e página do orçamento (`/orcamento`).

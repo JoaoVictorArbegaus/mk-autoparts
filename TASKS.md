@@ -26,17 +26,17 @@ apresentadas.
 
 | ID | Tarefa | Estado | Para desbloquear |
 | --- | --- | --- | --- |
-| REU-08 | Selo oficial no painel do vendedor e nos documentos (cabeçalho e admin já feitos) | READY | REU-04, REU-06 |
+| REU-08 | Selo oficial nos documentos (cabeçalho, admin e área do vendedor já feitos) | READY | REU-06 |
 | REU-01 | Atendimento travado por link; vale o último link aberto | DONE | — |
 | REU-02 | "Solicitar orçamento" com rodízio simulado (fila A B C…, quem atende vai para o fim, `src/orcamento/fila.ts`); fila no admin de demonstração | DONE | — |
 | REU-03 | Seção "Escolher um vendedor" na lista (iniciais no lugar da foto); a escolha move o vendedor para o fim da fila. Falta só ligar as fotos | DONE | Fotos em `PEND-034` |
-| REU-10 | Login simulado para `/vendedor` e `/admin` | READY | — |
-| REU-04 | Painel do vendedor: orçamento, preços e desconto | READY | REU-10 |
-| REU-05 | Página `/orcamento` aberta pelo link: preço antigo riscado, novo preço e %, cliente altera e usa "Solicitar orçamento" ou "Falar com <nome>" | READY | REU-04 |
+| REU-10 | Login simulado para `/vendedor` (escolher o vendedor, sem senha) | DONE | — |
+| REU-04 | Painel do vendedor (`/vendedor`, `src/vendedor/`): orçamento com cliente, itens, lado, quantidade, preço (vazio = sob consulta) e desconto em R$ ou % por item e no total | DONE | — |
+| REU-05 | Página `/orcamento` aberta pelo link (orçamento codificado na URL): preço antigo riscado, novo preço e %, total; cliente altera, remove e adiciona; "Solicitar orçamento" e "Falar com <nome>"; link expirado ou excluído avisa | DONE | — |
 | REU-06 | PDF e Word padronizados com a marca MK, com validade definida pelo vendedor; mostrar o padrão à contratante e perguntar o que ela quer editar (`PEND-035`) | READY | REU-04; registrar as bibliotecas em `DEC-003`; modelo que o responsável vai colocar no repositório |
 | REU-11 | Vendedores reais da MK no protótipo (nomes e WhatsApps de `03-domain-model.md`), base do painel regerada com eles e iniciais no lugar da foto: feito. Falta só ligar as fotos quando chegarem | BLOCKED | Fotos em `PEND-034` |
-| REU-13 | Aviso fora do horário comercial (segunda a sexta, 8h às 18h, Brasília) na lista, na escolha de vendedor e no `/orcamento`; constante de configuração | READY | — |
-| REU-14 | Painel do vendedor: orçamentos ativos, aviso "Alterado pelo cliente", marcar como visto e encerrar | READY | REU-04, REU-05 |
+| REU-13 | Aviso fora do horário comercial (segunda a sexta, 8h às 18h, Brasília): feito na lista e na escolha de vendedor (`src/orcamento/horario.ts`, `AvisoHorario`); também no `/orcamento` | DONE | — |
+| REU-14 | Painel do vendedor: orçamentos ativos, aviso "Alterado pelo cliente" (mesmo navegador), marcar como visto, encerrar e excluir link | DONE | — |
 | REU-15 | Hero com mosaico (`DEC-024`): aplicado e medido no Lighthouse (ver PROTO-05) | DONE | — |
 | REU-12 | Melhorias M1 a M7 do planejamento | READY | Revisão de escopo com o responsável |
 

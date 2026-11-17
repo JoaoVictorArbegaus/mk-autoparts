@@ -105,7 +105,7 @@
   descontos.
 - Um orçamento enviado sem preço aparece com "sob consulta" e sem total.
 - No link, o cliente altera a quantidade, adiciona um produto (entra "sob consulta") e usa
-  "Solicitar orçamento" ou "Falar com `<nome>`", sempre para o vendedor dono do link.
+  "Enviar minha lista para `<nome>`" ou "Falar com `<nome>`", sempre para o vendedor dono do link.
 - O PDF e o documento editável trazem o logo principal, o vendedor, o cliente, os itens
   com código, lado, quantidade e preço, o desconto, o total e a observação.
 - Item sem preço informado aparece como "sob consulta" e não entra no total.

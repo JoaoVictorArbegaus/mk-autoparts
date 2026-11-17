@@ -12,7 +12,14 @@ export type Rota =
   | { nome: 'catalogo' }
   | { nome: 'produto'; slug: string }
   | { nome: 'admin'; tela: TelaAdmin }
+  | { nome: 'vendedor'; tela: TelaVendedor }
+  | { nome: 'orcamento' }
   | { nome: 'nao-encontrado' };
+
+/** Área do vendedor de demonstração (DEC-018, DEC-021, RN-13). */
+export type TelaVendedor = 'lista' | 'novo';
+const TELAS_VENDEDOR: Record<string, TelaVendedor> = { '/vendedor': 'lista', '/vendedor/novo': 'novo' };
+export const caminhosVendedor = Object.keys(TELAS_VENDEDOR);
 
 /** Telas do admin de demonstração (DEC-015). */
 export type TelaAdmin = 'login' | 'produtos' | 'produto-novo' | 'produto-editar' | 'promocoes' | 'vendedores' | 'metricas';
@@ -38,6 +45,8 @@ export function resolverRota(caminho: string): Rota {
   if (c === '/') return { nome: 'landing' };
   if (c === '/catalogo') return { nome: 'catalogo' };
   if (TELAS_ADMIN[c]) return { nome: 'admin', tela: TELAS_ADMIN[c] };
+  if (TELAS_VENDEDOR[c]) return { nome: 'vendedor', tela: TELAS_VENDEDOR[c] };
+  if (c === '/orcamento') return { nome: 'orcamento' };
   const m = c.match(/^\/produto\/([a-z0-9-]+)$/);
   if (m) return { nome: 'produto', slug: m[1] };
   return { nome: 'nao-encontrado' };

@@ -60,7 +60,7 @@ pertencem ao `sdd_kit/`.
   categorias e promoções sem cartões repetidos (vão até o fim e voltam), botão flutuante
   do WhatsApp escondido enquanto o hero está na tela. Para retomar: em `frontend/`,
   `npm ci` e `npm run dev` (http://127.0.0.1:5173/) ou `docker compose up -d --build`
-  (http://127.0.0.1:8084/). REU-01 a REU-03 feitas (fila do rodízio em `mk-fila-v1`, escolha de vendedor na lista, fila em `/admin/vendedores`). Próximo sugerido: REU-13 (aviso fora do horário) e REU-10.
+  (http://127.0.0.1:8084/). REU-01 a REU-03 feitas (fila do rodízio em `mk-fila-v1`, escolha de vendedor na lista, fila em `/admin/vendedores`). REU-13, REU-10, REU-04, REU-05 e REU-14 feitas (área do vendedor em `/vendedor`, `src/vendedor/`; orçamento do cliente em `/orcamento`). Próximo: REU-06 (PDF e Word): pedir antes ao responsável o modelo de PDF que ele tem.
 - No Windows, rode os testes com o caminho em `D:\` maiúsculo: com `d:\` o Vitest falha
   com "Cannot read properties of undefined (reading 'config')" sem relação com o código.
 - Vendedores reais (`DEC-022`): oito, com nomes e WhatsApps em `sdd_kit/03-domain-model.md`

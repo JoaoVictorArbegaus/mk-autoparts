@@ -95,7 +95,9 @@ export function Cabecalho({ rota }: { rota: string }) {
               <span>{textos.atendimento}</span> {vendedor.nome}
             </p>
           )}
-          {/* Sem WhatsApp no cabeçalho: o botão flutuante cobre o contato em todas as rotas públicas. */}
+          {/* Sem WhatsApp no cabeçalho: o botão flutuante cobre o contato em todas as rotas públicas.
+              No orçamento do vendedor (/orcamento) o contador da lista some: ali a lista é o próprio orçamento. */}
+          {rota !== 'orcamento' && (
           <button type="button" className="topo__lista" onClick={abrir} aria-label={textos.botaoLista(carregada ? totais.itens : 0)}>
             <Icone nome="lista" tamanho={22} />
             <span className="topo__lista-rotulo">Orçamento</span>
@@ -103,6 +105,7 @@ export function Cabecalho({ rota }: { rota: string }) {
               {carregada ? totais.itens : 0}
             </span>
           </button>
+          )}
           <button ref={botaoMenu} type="button" className="topo__menu-btn" aria-expanded={menu} aria-controls="menu-movel" aria-label={menu ? textos.fecharMenu : textos.abrirMenu} onClick={alternarMenu}>
             <span className="topo__burger" aria-hidden="true">
               <span />

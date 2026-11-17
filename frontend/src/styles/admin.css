@@ -788,28 +788,25 @@
   translate: -50% 0;
   pointer-events: none;
 }
+/* Mesmo estilo do aviso do catálogo (.aviso): um padrão só de aviso no site. */
 .adm-aviso p {
   display: flex;
   align-items: center;
-  gap: 8px;
-  max-width: min(92vw, 520px);
-  padding: 12px 18px;
+  gap: 10px;
+  width: max-content;
+  max-width: min(calc(100vw - 32px), 440px);
+  padding: 10px 16px 10px 14px;
   border-radius: 12px;
   background: var(--navy);
   color: var(--white);
   box-shadow: var(--sombra-alta);
-  font-weight: 600;
-  animation: adm-aviso 0.35s var(--ease) both;
+  font-size: 0.9375rem;
+  line-height: 1.35;
+  animation: aviso-entra 0.4s var(--ease) both;
 }
 .adm-aviso svg {
   flex: none;
-  color: #5fd08f;
-}
-@keyframes adm-aviso {
-  from {
-    transform: translateY(12px);
-    opacity: 0;
-  }
+  color: var(--vivid);
 }
 
 @media (min-width: 720px) {
@@ -952,4 +949,574 @@
   width: 32px;
   height: 32px;
   font-size: 0.8125rem;
+}
+
+/* ---------- Área do vendedor (DEC-018, RN-13): mesmo visual de trabalho do admin ---------- */
+.adm-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.vend-app {
+  min-height: 100svh;
+  background: var(--adm-fundo);
+}
+.vend-topo {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 6px 20px;
+  min-height: 60px;
+  padding: 8px clamp(12px, 3vw, 32px);
+  background: var(--navy);
+  color: var(--white);
+}
+.vend-topo__marca {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--white);
+  font-family: var(--f-tit);
+  font-style: italic;
+  font-weight: 800;
+  font-size: 1.125rem;
+  text-decoration: none;
+}
+.vend-abas {
+  display: flex;
+  gap: 4px;
+}
+.vend-abas__curto {
+  display: none;
+}
+.vend-abas a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0 14px;
+  border-radius: 999px;
+  color: var(--silver);
+  font-weight: 600;
+  text-decoration: none;
+}
+.vend-abas a[aria-current='page'] {
+  background: rgb(255 255 255 / 0.12);
+  color: var(--white);
+}
+.vend-topo__quem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+}
+.vend-topo__avatar {
+  width: 34px;
+  height: 34px;
+  background: var(--royal);
+  font-size: 0.8125rem;
+}
+.vend-topo__nome {
+  font-weight: 600;
+}
+.vend-topo .adm-btn--fantasma {
+  border-color: rgb(255 255 255 / 0.3);
+  background: transparent;
+  color: var(--white);
+}
+/* Celular: uma linha só (selo, abas curtas, avatar, Sair), para sobrar tela com o teclado aberto. */
+@media (max-width: 699px) {
+  .vend-topo {
+    gap: 6px;
+  }
+  .vend-topo__titulo,
+  .vend-topo__nome,
+  .vend-abas__longo {
+    display: none;
+  }
+  .vend-abas__curto {
+    display: inline;
+  }
+  .vend-abas a {
+    padding: 0 10px;
+  }
+  .vend-topo .adm-btn--fantasma {
+    padding: 0 12px;
+  }
+  .vend-topo__quem {
+    gap: 6px;
+  }
+}
+@media (max-width: 359px) {
+  .vend-topo__avatar {
+    display: none;
+  }
+}
+.vend-faixa {
+  max-width: 1080px;
+  margin: 14px auto 0;
+  padding-inline: clamp(16px, 3vw, 32px);
+  box-sizing: content-box;
+}
+.vend-corpo {
+  padding: 8px clamp(16px, 3vw, 32px) 48px;
+}
+.vend-tela {
+  display: grid;
+  gap: 16px;
+  max-width: 1080px;
+  margin-inline: auto;
+}
+.vend-login h1 {
+  font-family: var(--f-tit);
+  font-style: italic;
+  font-weight: 800;
+  font-size: 1.5rem;
+}
+.vend-login__lista {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 8px;
+  width: 100%;
+  margin-top: 6px;
+}
+.vend-login__lista button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 56px;
+  padding: 6px 12px 6px 6px;
+  border: 1px solid var(--adm-linha);
+  border-radius: 999px;
+  background: var(--adm-sup);
+  font-weight: 600;
+  text-align: left;
+}
+.vend-login__lista button:hover {
+  border-color: var(--royal);
+  background: var(--royal-tinta);
+}
+
+/* Lista de orçamentos ativos (RF-37) */
+.vend-orcs {
+  display: grid;
+  gap: 12px;
+}
+.vend-orc--alterado {
+  border-color: #e0a100;
+}
+.vend-orc__cabeca {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px 16px;
+}
+.vend-orc__cabeca h2 {
+  font-family: var(--f-tit);
+  font-weight: 700;
+  font-size: 1.125rem;
+}
+.vend-orc__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  color: var(--ink-2);
+  font-size: 0.875rem;
+}
+.vend-tag--expirado {
+  background: #fde8e9;
+  color: var(--promo-red);
+}
+.vend-orc__total {
+  font-family: var(--f-tit);
+  font-size: 1.25rem;
+  font-variant-numeric: tabular-nums;
+}
+.vend-orc__itens {
+  color: var(--ink-2);
+  font-size: 0.875rem;
+}
+.vend-orc__acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.vend-perigo {
+  color: var(--promo-red);
+}
+.vend-perigo:hover {
+  border-color: var(--promo-red);
+}
+.vend-alterado {
+  display: grid;
+  gap: 8px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: #fff6db;
+  color: #6b4a00;
+  font-size: 0.875rem;
+}
+.vend-alterado > p {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.vend-alterado ul {
+  display: grid;
+  gap: 4px;
+  padding-left: 22px;
+  list-style: disc;
+}
+.vend-alterado li span {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+.vend-alterado .adm-btn {
+  justify-self: start;
+}
+
+/* Editor de orçamento (RF-30, RF-31) */
+.vend-editor__dados {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+.vend-editor__dados > h2 {
+  grid-column: 1 / -1;
+}
+.vend-editor__obs {
+  grid-column: 1 / -1;
+}
+.vend-busca {
+  display: grid;
+  gap: 6px;
+  scroll-margin-top: 72px;
+}
+.vend-busca > label {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.vend-busca input {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 14px 0 38px;
+  border: 1.5px solid var(--linha-form);
+  border-radius: 12px;
+  background: var(--white);
+  font-size: 1rem;
+}
+/* Botões segmentados (lado LD | LE e tipo % | R$): alvos de 44 px, mais fáceis que um select. */
+.vend-segmento {
+  display: inline-flex;
+  padding: 2px;
+  border: 1.5px solid var(--linha-form);
+  border-radius: 10px;
+  background: var(--white);
+}
+.vend-segmento button {
+  min-width: 44px;
+  min-height: 40px;
+  padding: 0 10px;
+  border-radius: 8px;
+  color: var(--ink-2);
+  font-weight: 700;
+  font-size: 0.9375rem;
+}
+.vend-segmento button[aria-pressed="true"] {
+  background: var(--navy);
+  color: var(--white);
+}
+.vend-resultados {
+  display: grid;
+  border: 1px solid var(--adm-linha);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.vend-resultados li > button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 48px;
+  padding: 8px 14px;
+  text-align: left;
+}
+.vend-resultados li + li {
+  border-top: 1px solid var(--adm-linha);
+}
+.vend-resultados li > button:hover {
+  background: var(--royal-tinta);
+}
+.vend-resultados li > button span {
+  flex: 1;
+  font-weight: 600;
+}
+.vend-resultados small,
+.vend-resultados__vazio {
+  color: var(--ink-2);
+}
+.vend-resultados__vazio {
+  padding: 12px 14px;
+}
+.vend-itens {
+  display: grid;
+  gap: 10px;
+}
+.vend-item {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr) auto;
+  grid-template-areas: 'foto nome remover' 'campos campos campos' 'valor valor valor';
+  gap: 10px 12px;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid var(--adm-linha);
+  border-radius: 14px;
+}
+/* Linhas criadas pelo "Par": um realce breve para mostrar onde ficaram. */
+.vend-item--novo {
+  animation: vend-novo 2.4s var(--ease) both;
+}
+@keyframes vend-novo {
+  0%,
+  35% {
+    border-color: var(--royal);
+    background: var(--royal-tinta);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vend-item--novo {
+    animation: none;
+    border-color: var(--royal);
+  }
+}
+.vend-item__foto {
+  grid-area: foto;
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 10px;
+  background: var(--white);
+}
+.vend-item__foto img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+.vend-item__nome {
+  grid-area: nome;
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+.vend-item__nome small {
+  color: var(--ink-2);
+}
+.vend-item__campos {
+  grid-area: campos;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 10px 14px;
+}
+.vend-item__valor {
+  grid-area: valor;
+  display: grid;
+  justify-items: end;
+  gap: 2px;
+}
+.vend-item__valor small {
+  color: var(--ink-2);
+  font-size: 0.8125rem;
+}
+.vend-item__remover {
+  grid-area: remover;
+}
+@media (min-width: 1100px) {
+  .vend-item {
+    grid-template-columns: 56px minmax(150px, 1fr) auto minmax(150px, auto) 44px;
+    grid-template-areas: 'foto nome campos valor remover';
+  }
+}
+.vend-mini {
+  display: grid;
+  gap: 4px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+.vend-valor {
+  min-height: 44px;
+  padding: 0 10px;
+  border: 1.5px solid var(--linha-form);
+  border-radius: 10px;
+  background: var(--white);
+  color: var(--ink);
+  font-size: 1rem;
+  font-variant-numeric: tabular-nums;
+}
+.vend-valor {
+  width: 9.5em;
+}
+.vend-valor::placeholder {
+  color: var(--ink-2);
+  opacity: 0.75;
+}
+.vend-valor--erro {
+  border-color: var(--promo-red);
+}
+.vend-desconto {
+  display: flex;
+  gap: 4px;
+}
+.vend-desconto .vend-valor {
+  width: 5.5em;
+}
+.vend-preco {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 2px 8px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.vend-preco s {
+  color: var(--ink-2);
+  font-weight: 400;
+}
+.vend-pct {
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: #e7f6ec;
+  color: #1d6b38;
+  font-size: 0.8125rem;
+}
+.vend-consulta {
+  color: var(--ink-2);
+  font-weight: 600;
+}
+/* Barra fixa do editor: total e salvar sempre à vista (celular primeiro). */
+.vend-barra {
+  position: sticky;
+  bottom: 0;
+  z-index: 5;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  margin-inline: calc(-1 * clamp(16px, 3vw, 32px));
+  padding: 10px clamp(16px, 3vw, 32px) max(10px, env(safe-area-inset-bottom));
+  border-top: 1px solid var(--adm-linha);
+  background: var(--adm-sup);
+  box-shadow: 0 -8px 24px -16px rgb(8 19 41 / 0.35);
+}
+.vend-barra .adm-erro {
+  flex-basis: 100%;
+  order: -1;
+}
+.vend-totais__valor {
+  display: grid;
+  justify-items: start;
+  gap: 0;
+}
+.vend-totais__valor .vend-preco {
+  justify-content: flex-start;
+}
+.vend-totais__valor > span:first-child {
+  color: var(--ink-2);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.vend-totais__valor .vend-preco > span:not(.vend-pct) {
+  font-family: var(--f-tit);
+  font-size: 1.375rem;
+}
+.vend-totais__valor small {
+  color: var(--ink-2);
+  font-size: 0.8125rem;
+}
+.vend-salvar {
+  min-height: 48px;
+}
+@media (max-width: 559px) {
+  .vend-salvar {
+    flex: 1;
+  }
+}
+.vend-resultado {
+  border-color: var(--royal);
+  scroll-margin: 80px;
+}
+.vend-resultado__link summary {
+  color: var(--royal);
+  font-weight: 600;
+  cursor: pointer;
+}
+.vend-resultado__link code {
+  display: block;
+  margin-top: 6px;
+  word-break: break-all;
+  font-size: 0.8125rem;
+}
+.vend-outro {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  color: var(--royal);
+  font-weight: 700;
+  text-decoration: none;
+}
+@media (max-width: 559px) {
+  .vend-resultado .vend-orc__acoes > * {
+    flex: 1 1 100%;
+  }
+}
+/* "Mais" da lista: ações menos usadas e destrutivas, recolhidas. */
+.vend-mais {
+  position: relative;
+}
+.vend-mais > summary {
+  list-style: none;
+}
+.vend-mais > summary::-webkit-details-marker {
+  display: none;
+}
+.vend-mais[open] > summary svg {
+  rotate: 180deg;
+}
+.vend-mais__lista {
+  position: absolute;
+  z-index: 6;
+  top: calc(100% + 6px);
+  left: 0;
+  display: grid;
+  min-width: 200px;
+  padding: 6px;
+  border: 1px solid var(--adm-linha);
+  border-radius: 14px;
+  background: var(--adm-sup);
+  box-shadow: 0 16px 32px -16px rgb(8 19 41 / 0.4);
+}
+.vend-mais__lista > * {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 12px;
+  border-radius: 10px;
+  color: var(--ink);
+  font-weight: 600;
+  text-align: left;
+  text-decoration: none;
+}
+.vend-mais__lista > *:hover {
+  background: var(--royal-tinta);
+}
+.vend-mais__lista .vend-perigo {
+  color: var(--promo-red);
 }

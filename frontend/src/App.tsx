@@ -24,6 +24,8 @@ import './styles/index.css';
 const Catalogo = lazy(() => import('./pages/Catalogo').then(m => ({ default: m.Catalogo })));
 const Produto = lazy(() => import('./pages/Produto').then(m => ({ default: m.Produto })));
 const Admin = lazy(() => import('./admin/Admin').then(m => ({ default: m.Admin })));
+const VendedorArea = lazy(() => import('./vendedor/VendedorArea').then(m => ({ default: m.VendedorArea })));
+const OrcamentoCliente = lazy(() => import('./pages/OrcamentoCliente').then(m => ({ default: m.OrcamentoCliente })));
 
 /** Expõe a instância do Lenis ao roteador (rolar ao topo e restaurar a rolagem). */
 function LenisPonte() {
@@ -48,7 +50,7 @@ function Paginas() {
   useEffect(() => {
     if (!montado) return;
     definirVendedor(aplicarParametroVendedor(busca));
-    if (rota.nome !== 'admin') registrarVisita();
+    if (rota.nome !== 'admin' && rota.nome !== 'vendedor') registrarVisita();
   }, [montado, busca, rota.nome, definirVendedor]);
 
   // Título e descrição ao navegar; foco no conteúdo para leitores de tela (exceto no primeiro carregamento).
@@ -78,6 +80,13 @@ function Paginas() {
         <Admin tela={rota.tela} />
       </Suspense>
     );
+  // Área do vendedor de demonstração (DEC-018): casca própria, como o admin.
+  if (rota.nome === 'vendedor')
+    return (
+      <Suspense fallback={null}>
+        <VendedorArea tela={rota.tela} />
+      </Suspense>
+    );
   return (
     <>
       {!reduzir && <ReactLenis root options={{ lerp: 0.085, anchors: { offset: -88 }, allowNestedScroll: true }} />}
@@ -91,12 +100,14 @@ function Paginas() {
         <Suspense fallback={null}>
           {rota.nome === 'catalogo' && <Catalogo />}
           {rota.nome === 'produto' && <Produto slug={rota.slug} key={rota.slug} />}
+          {rota.nome === 'orcamento' && <OrcamentoCliente />}
         </Suspense>
         {rota.nome === 'nao-encontrado' && <NaoEncontrado />}
       </main>
       <Rodape />
       <PainelOrcamento />
-      <WhatsAppFlutuante />
+      {/* No orçamento do cliente, as ações da própria página já levam ao vendedor dono. */}
+      {rota.nome !== 'orcamento' && <WhatsAppFlutuante />}
       <AvisoAdicionado />
     </>
   );

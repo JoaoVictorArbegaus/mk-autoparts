@@ -18,6 +18,7 @@ import { Link } from '../router';
 import { Icone } from './Icons';
 import { Quantidade } from './Quantidade';
 import { Button } from './Button';
+import { AvisoHorario } from './AvisoHorario';
 
 export function PainelOrcamento() {
   const o = useOrcamento();
@@ -174,6 +175,7 @@ export function PainelOrcamento() {
               </div>
             </div>
             <footer className="orc__rodape">
+              <AvisoHorario />
               {!o.vendedor && o.ativos.length > 1 && (
                 <section className="orc__escolha" aria-labelledby="orc-escolha">
                   <h3 id="orc-escolha">{textos.orcamento.escolher}</h3>

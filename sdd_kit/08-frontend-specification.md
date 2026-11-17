@@ -35,7 +35,7 @@
 | `/admin/vendedores` | Gestão visual de vendedores e links |
 | `/admin/metricas` | Painel simulado dentro do admin |
 | `/vendedor` | Painel do vendedor simulado (`RN-13`, `DEC-018`, `DEC-021`): login simulado, orçamentos ativos com aviso de alteração, montar orçamento, preços e desconto, gerar link, PDF e Word. `noindex`, fora da navegação pública |
-| `/orcamento` | Orçamento aberto pelo link do vendedor (`RN-13`): itens, preço antigo riscado, novo preço e porcentagem, total; o cliente altera, adiciona produtos e usa "Solicitar orçamento" ou "Falar com `<nome>`" (rota provisória) |
+| `/orcamento` | Orçamento aberto pelo link do vendedor (`RN-13`): itens, preço antigo riscado, novo preço e porcentagem, total; o cliente altera, adiciona produtos e usa "Enviar minha lista para `<nome>`" (barra fixa com o total no celular) ou "Falar com `<nome>`" (rota provisória) |
 | qualquer outra | 404 com link para landing e catálogo |
 
 A lista de orçamento é um painel lateral (tela cheia no celular) acessível pelo

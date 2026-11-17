@@ -16,7 +16,7 @@ const app = (
 // de outra rota: nesses casos o React monta do zero, sem erro de hidratação.
 const chave = (c: string) => {
   const r = resolverRota(c);
-  return r.nome === 'produto' ? `produto:${r.slug}` : r.nome === 'admin' ? `admin:${r.tela}` : r.nome;
+  return r.nome === 'produto' ? `produto:${r.slug}` : r.nome === 'admin' ? `admin:${r.tela}` : r.nome === 'vendedor' ? `vendedor:${r.tela}` : r.nome;
 };
 if (root.firstElementChild && root.dataset.rota === chave(caminho)) hydrateRoot(root, app);
 else {
