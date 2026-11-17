@@ -62,8 +62,8 @@ describe('mensagem do WhatsApp', () => {
     expect(mensagemLista(definirObservacao(l, 'Scania R440 2015'))).toContain('\n\nObservação: Scania R440 2015');
   });
   it('produto fora de promoção nunca leva preço; vendedor muda a saudação', () => {
-    const msg = mensagemLista(adicionar(listaVazia(), TENSOR), 'João');
-    expect(msg.startsWith('Olá, João!')).toBe(true);
+    const msg = mensagemLista(adicionar(listaVazia(), TENSOR), 'Daniel Avila');
+    expect(msg.startsWith('Olá, Daniel Avila!')).toBe(true);
     expect(msg).not.toContain('R$');
   });
   it('link codifica acentos e quebras de linha', () => {

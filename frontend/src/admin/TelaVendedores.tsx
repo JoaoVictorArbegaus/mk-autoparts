@@ -1,13 +1,13 @@
 /*
  * Admin (demonstração): vendedores com link próprio do catálogo (?v=), copiar link, ativar/desativar
- * e cadastro. Na demonstração todos usam o WhatsApp da empresa (nenhum telefone inventado).
+ * e cadastro. Vendedores reais da MK (DEC-022), cada um com o próprio WhatsApp; no cadastro o número é
+ * digitado por quem administra (nenhum telefone inventado). Sem foto, o avatar mostra as iniciais.
  */
 import { useEffect, useState, type FormEvent } from 'react';
 import { admin } from '../content/admin';
-import { empresa } from '../content/site';
 import { Icone } from '../components/Icons';
 import { gerarSlug, useAdmin } from './AdminDemo';
-import { WHATSAPP_EMPRESA } from '../content/vendedores';
+import { formatarWhatsapp, iniciais } from '../content/vendedores';
 
 export function TelaVendedores() {
   const t = admin.vendedores;
@@ -15,6 +15,7 @@ export function TelaVendedores() {
   const [origem, setOrigem] = useState('');
   const [nome, setNome] = useState('');
   const [codigo, setCodigo] = useState('');
+  const [whats, setWhats] = useState('');
   const [mexeuCodigo, setMexeuCodigo] = useState(false);
   const [erro, setErro] = useState('');
 
@@ -39,10 +40,14 @@ export function TelaVendedores() {
     const c = gerarSlug(codigo).replace(/-/g, '');
     if (!nome.trim()) return setErro(t.vazioNome);
     if (!c || vendedores.some(v => v.codigo === c)) return setErro(t.duplicado);
+    // DDD + número (10 ou 11 dígitos); o DDI 55 é acrescentado.
+    const digitos = whats.replace(/\D/g, '').replace(/^55(?=\d{10,11}$)/, '');
+    if (digitos.length < 10 || digitos.length > 11) return setErro(t.whatsappInvalido);
     setErro('');
-    salvarVendedor({ codigo: c, nome: nome.trim(), whatsapp: WHATSAPP_EMPRESA, ativo: true });
+    salvarVendedor({ codigo: c, nome: nome.trim(), whatsapp: `55${digitos}`, ativo: true });
     setNome('');
     setCodigo('');
+    setWhats('');
     setMexeuCodigo(false);
     avisar(t.salvo);
   };
@@ -78,8 +83,8 @@ export function TelaVendedores() {
           </label>
           <label className="adm-campo">
             <span>{t.whatsapp}</span>
-            <input value={empresa.whatsappRotulo} disabled aria-describedby="ajuda-whats" />
-            <small id="ajuda-whats">{t.whatsappDemo}</small>
+            <input value={whats} onChange={e => setWhats(e.target.value)} inputMode="tel" autoComplete="off" placeholder="(49) 99999-9999" aria-describedby="ajuda-whats" />
+            <small id="ajuda-whats">{t.whatsappAjuda}</small>
           </label>
           <button type="submit" className="adm-btn adm-btn--primario">
             <Icone nome="mais" tamanho={18} />
@@ -97,10 +102,11 @@ export function TelaVendedores() {
         {vendedores.map(v => (
           <li key={v.codigo} className={`adm-vend${v.ativo ? '' : ' adm-vend--inativo'}`}>
             <span className="adm-vend__avatar" aria-hidden="true">
-              {v.nome.slice(0, 1).toUpperCase()}
+              {v.foto ? <img src={v.foto} alt="" width={44} height={44} /> : iniciais(v.nome)}
             </span>
             <div className="adm-vend__info">
               <strong>{v.nome}</strong>
+              <span className="adm-vend__whats">{formatarWhatsapp(v.whatsapp)}</span>
               <span className={`adm-tag${v.ativo ? ' adm-tag--ok' : ''}`}>{v.ativo ? t.ativo : t.inativo}</span>
             </div>
             <div className="adm-vend__link">

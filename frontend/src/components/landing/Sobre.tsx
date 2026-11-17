@@ -5,6 +5,7 @@
 import type { ReactNode } from 'react';
 import { empresa, mensagens, textos, whatsapp } from '../../content/site';
 import { destinoWhatsApp, useOrcamento } from '../../orcamento/OrcamentoContext';
+import { formatarWhatsapp } from '../../content/vendedores';
 import { registrar } from '../../rastreio/eventos';
 import { Topo } from '../fundos/Topo';
 import { Aurora } from '../fundos/Aurora';
@@ -149,7 +150,7 @@ export function Loja() {
           </Reveal>
           <Reveal i={3} className="loja__botoes">
             <Button href={whatsapp(destinoWhatsApp(vendedor), msg)} externo icone="whatsapp" onClick={() => registrar('whatsapp_clicado', { dados: { origem: 'loja' } })}>
-              {`${t.whatsapp} ${empresa.whatsappRotulo}`}
+              {`${t.whatsapp} ${formatarWhatsapp(destinoWhatsApp(vendedor))}`}
             </Button>
             <Button href={`tel:${empresa.telefone}`} variante="contorno" icone="telefone">
               {`${t.ligar} ${empresa.telefoneRotulo}`}

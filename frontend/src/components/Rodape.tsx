@@ -1,3 +1,4 @@
+import { formatarWhatsapp } from '../content/vendedores';
 import { Link } from '../router';
 import { empresa, mensagens, nav, textos, whatsapp } from '../content/site';
 import { destinoWhatsApp, useOrcamento } from '../orcamento/OrcamentoContext';
@@ -29,7 +30,7 @@ export function Rodape() {
           <ul className="rodape__contatos">
             <li>
               <Icone nome="whatsapp" tamanho={18} />
-              <a href={whatsapp(destinoWhatsApp(vendedor), msg)} target="_blank" rel="noopener">{empresa.whatsappRotulo}</a>
+              <a href={whatsapp(destinoWhatsApp(vendedor), msg)} target="_blank" rel="noopener">{formatarWhatsapp(destinoWhatsApp(vendedor))}</a>
             </li>
             <li>
               <Icone nome="telefone" tamanho={18} />

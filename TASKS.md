@@ -34,7 +34,7 @@ apresentadas.
 | REU-04 | Painel do vendedor: orçamento, preços e desconto | READY | REU-10 |
 | REU-05 | Página `/orcamento` aberta pelo link: preço antigo riscado, novo preço e %, cliente altera e usa "Solicitar orçamento" ou "Falar com <nome>" | READY | REU-04 |
 | REU-06 | PDF e Word padronizados com a marca MK, com validade definida pelo vendedor; mostrar o padrão à contratante e perguntar o que ela quer editar (`PEND-035`) | READY | REU-04; registrar as bibliotecas em `DEC-003`; modelo que o responsável vai colocar no repositório |
-| REU-11 | Vendedores reais da MK no protótipo (nomes e WhatsApps de `03-domain-model.md`); base do painel com eles; fotos quando chegarem | READY | Fotos em `PEND-034` |
+| REU-11 | Vendedores reais da MK no protótipo (nomes e WhatsApps de `03-domain-model.md`), base do painel regerada com eles e iniciais no lugar da foto: feito. Falta só ligar as fotos quando chegarem | BLOCKED | Fotos em `PEND-034` |
 | REU-13 | Aviso fora do horário comercial (segunda a sexta, 8h às 18h, Brasília) na lista, na escolha de vendedor e no `/orcamento`; constante de configuração | READY | REU-02 |
 | REU-14 | Painel do vendedor: orçamentos ativos, aviso "Alterado pelo cliente", marcar como visto e encerrar | READY | REU-04, REU-05 |
 | REU-15 | Hero com mosaico (`DEC-024`): aplicado e medido no Lighthouse (ver PROTO-05) | DONE | — |

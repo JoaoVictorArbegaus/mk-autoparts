@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { calcularMetricas, maisClicados } from './metricas';
 import { atualizarCarrinhos, finalizarCarrinhos } from './carrinhos';
-import { baseMetricas } from '../content/demo-metricas';
+import { baseMetricas, ORIGENS } from '../content/demo-metricas';
 import type { Evento } from './tipos';
 import { listarProdutos } from '../content/catalogo';
 
@@ -36,16 +36,16 @@ describe('métricas', () => {
   it('sem eventos devolve a base fictícia', () => {
     const m = calcularMetricas([], [], 'todos', slugs);
     expect(m.visitas).toBe(Object.values(baseMetricas.visitas).reduce((a, b) => a + b, 0));
-    expect(m.vendedores).toHaveLength(4);
+    expect(m.vendedores).toHaveLength(ORIGENS.length);
   });
   it('um clique local soma um clique ao produto e ao vendedor', () => {
     const slug = slugs[0];
-    const antes = calcularMetricas([], [], 'joao', slugs);
-    const depois = calcularMetricas([ev('produto_clicado', 'joao', slug)], [], 'joao', slugs);
+    const antes = calcularMetricas([], [], 'daniel', slugs);
+    const depois = calcularMetricas([ev('produto_clicado', 'daniel', slug)], [], 'daniel', slugs);
     expect(depois.produtos.find(p => p.slug === slug)!.cliques).toBe(antes.produtos.find(p => p.slug === slug)!.cliques + 1);
     expect(depois.cliques).toBe(antes.cliques + 1);
-    const maria = calcularMetricas([ev('produto_clicado', 'joao', slug)], [], 'maria', slugs);
-    expect(maria.cliques).toBe(calcularMetricas([], [], 'maria', slugs).cliques);
+    const luiz = calcularMetricas([ev('produto_clicado', 'daniel', slug)], [], 'luiz', slugs);
+    expect(luiz.cliques).toBe(calcularMetricas([], [], 'luiz', slugs).cliques);
   });
   it('carrinho ativo com itens conta como não finalizado; vazio não conta', () => {
     const base = calcularMetricas([], [], 'direto', slugs);

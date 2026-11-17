@@ -731,7 +731,18 @@
   font-family: var(--f-tit);
   font-style: italic;
   font-weight: 800;
-  font-size: 1.125rem;
+  font-size: 1rem;
+  overflow: hidden;
+}
+.adm-vend__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.adm-vend__whats {
+  color: var(--ink-2);
+  font-size: 0.875rem;
+  font-variant-numeric: tabular-nums;
 }
 .adm-vend__info {
   display: flex;
