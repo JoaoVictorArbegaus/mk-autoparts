@@ -109,8 +109,13 @@ Fim da lista, perto do botão de orçar (`RN-11`, `RN-12`, `DEC-017`):
 
 - **Com vendedor atribuído:** só o botão "Solicitar orçamento", ligado ao vendedor, com
   o aviso "Atendimento: `<nome>`". Nenhuma escolha de outro vendedor.
-- **Sem vendedor:** botão principal "Solicitar orçamento" (rodízio) e, abaixo, a seção
-  "Escolher um vendedor" com cartões de foto e nome. Sem foto real, avatar com iniciais.
+- **Sem vendedor:** acima do botão principal, a seção "Escolha um vendedor (opcional)"
+  numa faixa de cartões de foto e nome (rolagem lateral; setas no desktop). Marcar um
+  vendedor destaca o cartão e muda a linha sob o botão para "Vai para `<nome>`", com
+  "Usar o vendedor da vez" para desmarcar. Sem marcar, o botão "Solicitar orçamento" vai
+  ao vendedor da vez (rodízio). Sem foto real, avatar com iniciais.
+- O painel rola por inteiro (itens, observação, prévia, aviso, limpar); só a escolha, o
+  botão e a linha de destino ficam fixos embaixo.
   Fora do horário comercial, um aviso discreto perto do botão diz que o tempo de resposta
   dos vendedores é indeterminado (`RN-15`, vale também com vendedor atribuído e no
   `/orcamento`).

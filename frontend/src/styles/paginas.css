@@ -763,14 +763,23 @@ select:disabled {
   background: rgb(255 255 255 / 0.1);
   color: var(--white);
 }
-.orc__itens {
+/* O painel rola por inteiro (itens e extras); só a ação fica presa embaixo (.orc__rodape). */
+.orc__corpo {
   flex: 1;
+  min-height: 0;
   overflow-y: auto;
   overscroll-behavior: contain;
+}
+.orc__itens {
   display: grid;
   align-content: start;
   gap: 8px;
   padding: 14px 16px;
+}
+.orc__extras {
+  display: grid;
+  gap: 14px;
+  padding: 6px 16px 20px;
 }
 .orc__item {
   display: grid;
@@ -861,10 +870,10 @@ select:disabled {
 }
 .orc__rodape {
   display: grid;
-  gap: 10px;
-  padding: 14px 16px max(16px, env(safe-area-inset-bottom));
+  gap: 6px;
+  padding: 12px 16px max(14px, env(safe-area-inset-bottom));
   background: var(--white);
-  box-shadow: 0 -1px 0 var(--tom-2);
+  box-shadow: 0 -1px 0 var(--tom-2), 0 -10px 24px -18px rgb(8 19 41 / 0.35);
 }
 .orc__obs {
   display: grid;
@@ -880,7 +889,7 @@ select:disabled {
   border: 1.5px solid var(--linha-form);
   font-size: 1rem;
   font-weight: 400;
-  resize: vertical;
+  resize: none;
 }
 .orc__obs small {
   justify-self: end;
@@ -889,31 +898,22 @@ select:disabled {
   font-size: 0.75rem;
 }
 .orc__aviso {
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
   font-size: 0.875rem;
   color: var(--ink-2);
-}
-.orc__aviso svg {
-  color: var(--royal);
-  flex: none;
-  margin-top: 2px;
 }
 .orc__enviar {
   width: 100%;
 }
 .orc__destino {
-  margin-top: -2px;
   font-size: 0.8125rem;
   color: var(--ink-2);
-  text-align: center;
 }
 /* Escolha de vendedor (RN-12): uma faixa só, rolagem lateral, para não afastar o botão principal. */
 .orc__escolha {
   display: grid;
   gap: 6px;
   min-width: 0;
+  margin-bottom: 6px;
 }
 .orc__escolha h3 {
   font-family: var(--f-txt);
@@ -925,22 +925,78 @@ select:disabled {
   display: flex;
   gap: 8px;
   margin: 0 -16px;
-  padding: 2px 16px 6px;
+  padding: 2px 40px 2px 16px;
   overflow-x: auto;
   overscroll-behavior-x: contain;
   scroll-snap-type: x proximity;
-  scrollbar-width: thin;
+  scroll-padding-inline: 16px;
+  /* Sem barra aparente; o degradê na ponta indica que há mais vendedores. */
+  scrollbar-width: none;
+  -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 48px), transparent);
+  mask-image: linear-gradient(90deg, #000 calc(100% - 48px), transparent);
+}
+.orc__escolha ul::-webkit-scrollbar {
+  display: none;
+}
+/* No fim da faixa não há mais o que mostrar: sem esmaecer a ponta direita. */
+.orc__faixa:not(.orc__faixa--dir) ul {
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+/* Setas ‹ › da faixa: só com mouse (no toque, arrastar já é natural) e só quando há para onde rolar. */
+.orc__faixa {
+  position: relative;
+  min-width: 0;
+}
+.orc__seta {
+  display: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .orc__seta:not([hidden]) {
+    position: absolute;
+    top: 50%;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--white);
+    color: var(--navy);
+    box-shadow: 0 2px 10px -2px rgb(8 19 41 / 0.35), 0 0 0 1px var(--tom-2);
+    transform: translateY(-50%);
+    transition: background-color 0.2s, color 0.2s;
+  }
+  .orc__seta:hover {
+    background: var(--royal);
+    color: var(--white);
+  }
+  .orc__seta--esq {
+    left: -6px;
+  }
+  .orc__seta--dir {
+    right: -6px;
+  }
+  /* Com a seta da esquerda, a faixa também esmaece desse lado. */
+  .orc__faixa--esq ul {
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 48px, #000 calc(100% - 48px), transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 48px, #000 calc(100% - 48px), transparent);
+  }
+  .orc__faixa--esq:not(.orc__faixa--dir) ul {
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 48px);
+    mask-image: linear-gradient(90deg, transparent, #000 48px);
+  }
 }
 .orc__escolha li {
   flex: none;
   scroll-snap-align: start;
 }
-.orc__escolha a {
+.orc__escolha li > button {
   display: flex;
   align-items: center;
   gap: 8px;
-  min-height: 48px;
-  padding: 4px 14px 4px 4px;
+  min-height: 44px;
+  padding: 3px 14px 3px 3px;
   border: 1.5px solid var(--tom-2);
   border-radius: 999px;
   color: var(--ink);
@@ -950,15 +1006,31 @@ select:disabled {
   white-space: nowrap;
   transition: border-color 0.2s, background-color 0.2s;
 }
-.orc__escolha a:hover {
+.orc__escolha li > button:hover {
   border-color: var(--royal);
   background: var(--royal-tinta);
+}
+/* Vendedor marcado: borda e fundo royal, avatar com ✓. */
+.orc__escolha li > button[aria-pressed='true'] {
+  border-color: var(--royal);
+  background: var(--royal-tinta);
+  color: var(--royal-escuro);
+}
+.orc__escolha li > button[aria-pressed='true'] .orc__avatar {
+  background: var(--royal);
+}
+.orc__desmarcar {
+  margin-left: 6px;
+  color: var(--royal);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 .orc__avatar {
   display: grid;
   place-items: center;
-  width: 38px;
-  height: 38px;
+  width: 36px;
+  height: 36px;
   overflow: hidden;
   border-radius: 50%;
   background: var(--navy);
@@ -976,9 +1048,11 @@ select:disabled {
 .orc__limpar {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
+  justify-self: start;
   gap: 6px;
-  min-height: 40px;
+  min-height: 44px;
+  margin-left: -4px;
+  padding: 0 4px;
   color: var(--ink-2);
   font-size: 0.875rem;
   font-weight: 600;
@@ -990,12 +1064,11 @@ select:disabled {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
   gap: 8px;
   font-size: 0.875rem;
 }
 .orc__confirmar button {
-  min-height: 40px;
+  min-height: 44px;
   padding: 0 14px;
   border-radius: 999px;
   background: var(--tom-2);
@@ -1264,19 +1337,38 @@ select:disabled {
 
 /* Prévia da mensagem do WhatsApp na lista (fechada por padrão, para não roubar espaço). */
 .orc__previa {
-  border: 1px solid var(--linha, #dde2ea);
+  border: 1px solid var(--tom-2);
   border-radius: 12px;
-  background: #f6f8fb;
+  background: var(--paper);
 }
 .orc__previa summary {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: 12px;
   min-height: 44px;
   padding: 0 14px;
   font-weight: 600;
   font-size: 0.875rem;
   color: var(--royal);
   cursor: pointer;
+}
+.orc__previa summary::-webkit-details-marker {
+  display: none;
+}
+/* Seta de abrir/fechar (o marcador nativo some com display: flex). */
+.orc__previa summary::after {
+  content: '';
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  transition: transform 0.2s var(--ease);
+}
+.orc__previa[open] summary::after {
+  transform: translateY(2px) rotate(-135deg);
 }
 .orc__previa pre {
   max-height: 180px;

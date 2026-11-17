@@ -3,10 +3,12 @@
  * Itens com miniatura, lado, código, quantidade e preço unitário só em promoção; sem total (RN-04).
  * Diálogo modal: foco preso no painel, Esc fecha e devolve o foco a quem abriu.
  * Fim da lista (DEC-017, RN-11, RN-12): "Solicitar orçamento" vai ao vendedor do link (atendimento
- * travado) ou, sem link, ao vendedor da vez no rodízio; sem link há também a escolha de um vendedor,
- * numa faixa compacta que não afasta o botão principal.
+ * travado) ou, sem link, ao vendedor da vez no rodízio. Sem link, acima do botão, o cliente pode
+ * marcar um vendedor (opcional); o botão envia para o marcado e a escolha consome a vez (RN-12).
+ * O painel rola por inteiro (itens, observação, prévia, aviso, limpar) e só a ação fica presa embaixo
+ * (revisão impeccable: o rodapé fixo ocupava até 80% do painel e escondia os itens no celular).
  */
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type MouseEvent, type WheelEvent } from 'react';
 import { codigoDoLado, formatarPreco, imagemProduto, obterProduto } from '../content/catalogo';
 import { textos } from '../content/site';
 import { iniciais } from '../content/vendedores';
@@ -23,6 +25,8 @@ export function PainelOrcamento() {
   const fecharBtn = useRef<HTMLButtonElement>(null);
   const origem = useRef<HTMLElement | null>(null);
   const [confirmando, setConfirmando] = useState(false);
+  // Vendedor marcado na escolha manual (só sem vendedor do link); vazio = vendedor da vez.
+  const [marcado, setMarcado] = useState<string | null>(null);
 
   useEffect(() => {
     if (o.aberta) {
@@ -30,6 +34,7 @@ export function PainelOrcamento() {
       requestAnimationFrame(() => fecharBtn.current?.focus());
     } else {
       setConfirmando(false);
+      setMarcado(null);
       origem.current?.focus?.();
     }
   }, [o.aberta]);
@@ -55,6 +60,39 @@ export function PainelOrcamento() {
   }, [o.aberta, o.fechar]);
 
   const vazia = !o.lista.itens.length;
+  const escolhido = !o.vendedor && marcado ? o.ativos.find(v => v.codigo === marcado) : undefined;
+  const urlBotao = escolhido ? o.urlPara(escolhido) : o.urlEnvio;
+  // Abre o WhatsApp com a URL deste instante e só depois registra o pedido: enviar() avança a fila e
+  // muda o link do botão, e o React poderia trocar o href antes de o navegador segui-lo (pedido iria
+  // para o vendedor seguinte).
+  const solicitar = (e: MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    window.open(urlBotao, '_blank', 'noopener');
+    o.enviar(escolhido);
+    setMarcado(null);
+  };
+  // Faixa de vendedores: setas ‹ › no desktop (só aparecem quando há para onde rolar) e a roda do
+  // mouse rola na horizontal; no celular, arrastar com o dedo.
+  const faixa = useRef<HTMLUListElement>(null);
+  const [setas, setSetas] = useState({ esq: false, dir: false });
+  const medirFaixa = () => {
+    const f = faixa.current;
+    if (!f) return;
+    setSetas({ esq: f.scrollLeft > 4, dir: f.scrollLeft + f.clientWidth < f.scrollWidth - 4 });
+  };
+  const rolarFaixa = (e: WheelEvent<HTMLUListElement>) => {
+    if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) e.currentTarget.scrollLeft += e.deltaY;
+  };
+  const passarFaixa = (sentido: 1 | -1) => faixa.current?.scrollBy({ left: sentido * faixa.current.clientWidth * 0.7, behavior: 'smooth' });
+  useEffect(() => {
+    if (!o.aberta) return;
+    const id = requestAnimationFrame(medirFaixa);
+    window.addEventListener('resize', medirFaixa);
+    return () => {
+      cancelAnimationFrame(id);
+      window.removeEventListener('resize', medirFaixa);
+    };
+  }, [o.aberta, o.vendedor, o.lista.itens.length]);
 
   return (
     <div className={`orc${o.aberta ? ' orc--aberta' : ''}`} inert={!o.aberta}>
@@ -79,89 +117,102 @@ export function PainelOrcamento() {
             </Button>
           </div>
         ) : (
-          <ul className="orc__itens">
-            {o.lista.itens.map(i => {
-              const p = obterProduto(i.slug);
-              if (!p) return null;
-              const img = imagemProduto(p);
-              const codigo = codigoDoLado(p, i.lado);
-              return (
-                <li key={`${i.slug}:${i.lado ?? ''}`} className={`orc__item${p.promocao ? ' orc__item--promo' : ''}`}>
-                  <span className="orc__mini">{img && <img src={img.src} alt="" width={img.largura} height={img.altura} loading="lazy" />}</span>
-                  <div className="orc__info">
-                    <Link href={`/produto/${p.slug}`} onClick={o.fechar} className="orc__nome">
-                      {p.nome}
-                    </Link>
-                    <p className="orc__det">
-                      {i.lado && <span className="chip-lado">{i.lado}</span>}
-                      {codigo && <span className="orc__cod">{codigo}</span>}
-                      {p.promocao && <span className="orc__preco">{textos.orcamento.precoUn(formatarPreco(p.promocao.preco))}</span>}
-                    </p>
-                    <div className="orc__linha">
-                      <Quantidade valor={i.quantidade} onChange={q => o.alterar(i.slug, i.lado, q)} rotulo={`${textos.produto.quantidade}: ${p.nome}${i.lado ? ` ${i.lado}` : ''}`} pequeno />
-                      <button type="button" className="orc__remover" onClick={() => o.remover(i.slug, i.lado)} aria-label={textos.orcamento.remover(`${p.nome}${i.lado ? ` ${i.lado}` : ''}`)}>
-                        <Icone nome="lixeira" tamanho={20} />
-                      </button>
-                    </div>
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
-        )}
-
-        {!vazia && (
-          <footer className="orc__rodape">
-            <label className="orc__obs">
-              <span>{textos.orcamento.observacao}</span>
-              <textarea value={o.lista.observacao} maxLength={OBS_MAX} rows={2} placeholder={textos.orcamento.observacaoAjuda} onChange={e => o.observar(e.target.value)} />
-              <small aria-hidden="true">{textos.orcamento.caracteres(o.lista.observacao.length)}</small>
-            </label>
-            <details className="orc__previa">
-              <summary>{textos.orcamento.previa}</summary>
-              <pre>{o.mensagemEnvio}</pre>
-            </details>
-            <p className="orc__aviso">
-              <Icone nome="whatsapp" tamanho={18} />
-              {textos.orcamento.aviso}
-            </p>
-            <a className="btn btn--primario btn--lg orc__enviar" href={o.urlEnvio} target="_blank" rel="noopener" onClick={() => o.enviar()} aria-describedby="orc-destino">
-              <Icone nome="whatsapp" tamanho={22} />
-              <span className="btn__texto">{textos.orcamento.enviar}</span>
-            </a>
-            <p id="orc-destino" className="orc__destino">
-              {o.vendedor ? textos.orcamento.comVendedor(o.vendedor.nome) : o.daVez ? textos.orcamento.daVez(o.daVez.nome) : textos.orcamento.semVendedor}
-            </p>
-            {!o.vendedor && o.ativos.length > 1 && (
-              <section className="orc__escolha" aria-labelledby="orc-escolha">
-                <h3 id="orc-escolha">{textos.orcamento.escolher}</h3>
-                <ul>
-                  {o.ativos.map(v => (
-                    <li key={v.codigo}>
-                      <a href={o.urlPara(v)} target="_blank" rel="noopener" onClick={() => o.enviar(v)} aria-label={textos.orcamento.escolherVendedor(v.nome)}>
-                        <span className="orc__avatar" aria-hidden="true">
-                          {v.foto ? <img src={v.foto} alt="" width={40} height={40} loading="lazy" /> : iniciais(v.nome)}
-                        </span>
-                        <span className="orc__vend-nome">{v.nome}</span>
-                      </a>
+          <>
+            <div className="orc__corpo">
+              <ul className="orc__itens">
+                {o.lista.itens.map(i => {
+                  const p = obterProduto(i.slug);
+                  if (!p) return null;
+                  const img = imagemProduto(p);
+                  const codigo = codigoDoLado(p, i.lado);
+                  return (
+                    <li key={`${i.slug}:${i.lado ?? ''}`} className={`orc__item${p.promocao ? ' orc__item--promo' : ''}`}>
+                      <span className="orc__mini">{img && <img src={img.src} alt="" width={img.largura} height={img.altura} loading="lazy" />}</span>
+                      <div className="orc__info">
+                        <Link href={`/produto/${p.slug}`} onClick={o.fechar} className="orc__nome">
+                          {p.nome}
+                        </Link>
+                        <p className="orc__det">
+                          {i.lado && <span className="chip-lado">{i.lado}</span>}
+                          {codigo && <span className="orc__cod">{codigo}</span>}
+                          {p.promocao && <span className="orc__preco">{textos.orcamento.precoUn(formatarPreco(p.promocao.preco))}</span>}
+                        </p>
+                        <div className="orc__linha">
+                          <Quantidade valor={i.quantidade} onChange={q => o.alterar(i.slug, i.lado, q)} rotulo={`${textos.produto.quantidade}: ${p.nome}${i.lado ? ` ${i.lado}` : ''}`} pequeno />
+                          <button type="button" className="orc__remover" onClick={() => o.remover(i.slug, i.lado)} aria-label={textos.orcamento.remover(`${p.nome}${i.lado ? ` ${i.lado}` : ''}`)}>
+                            <Icone nome="lixeira" tamanho={20} />
+                          </button>
+                        </div>
+                      </div>
                     </li>
-                  ))}
-                </ul>
-              </section>
-            )}
-            {confirmando ? (
-              <div className="orc__confirmar" role="group" aria-label={textos.orcamento.confirmarLimpar}>
-                <span>{textos.orcamento.confirmarLimpar}</span>
-                <button type="button" onClick={() => { o.limpar(); setConfirmando(false); }}>{textos.orcamento.sim}</button>
-                <button type="button" onClick={() => setConfirmando(false)}>{textos.orcamento.nao}</button>
+                  );
+                })}
+              </ul>
+              <div className="orc__extras">
+                <label className="orc__obs">
+                  <span>{textos.orcamento.observacao}</span>
+                  <textarea value={o.lista.observacao} maxLength={OBS_MAX} rows={2} placeholder={textos.orcamento.observacaoAjuda} onChange={e => o.observar(e.target.value)} />
+                  {o.lista.observacao.length > OBS_MAX * 0.8 && <small aria-hidden="true">{textos.orcamento.caracteres(o.lista.observacao.length)}</small>}
+                </label>
+                <details className="orc__previa">
+                  <summary>{textos.orcamento.previa}</summary>
+                  <pre>{escolhido ? o.mensagemPara(escolhido) : o.mensagemEnvio}</pre>
+                </details>
+                <p className="orc__aviso">{textos.orcamento.aviso}</p>
+                {confirmando ? (
+                  <div className="orc__confirmar" role="group" aria-label={textos.orcamento.confirmarLimpar}>
+                    <span>{textos.orcamento.confirmarLimpar}</span>
+                    <button type="button" onClick={() => { o.limpar(); setConfirmando(false); }}>{textos.orcamento.sim}</button>
+                    <button type="button" onClick={() => setConfirmando(false)}>{textos.orcamento.nao}</button>
+                  </div>
+                ) : (
+                  <button type="button" className="orc__limpar" onClick={() => setConfirmando(true)}>
+                    <Icone nome="lixeira" tamanho={18} />
+                    {textos.orcamento.limpar}
+                  </button>
+                )}
               </div>
-            ) : (
-              <button type="button" className="orc__limpar" onClick={() => setConfirmando(true)}>
-                <Icone nome="lixeira" tamanho={18} />
-                {textos.orcamento.limpar}
-              </button>
-            )}
-          </footer>
+            </div>
+            <footer className="orc__rodape">
+              {!o.vendedor && o.ativos.length > 1 && (
+                <section className="orc__escolha" aria-labelledby="orc-escolha">
+                  <h3 id="orc-escolha">{textos.orcamento.escolher}</h3>
+                  <div className={`orc__faixa${setas.esq ? ' orc__faixa--esq' : ''}${setas.dir ? ' orc__faixa--dir' : ''}`}>
+                    <button type="button" className="orc__seta orc__seta--esq" onClick={() => passarFaixa(-1)} aria-label={textos.orcamento.vendedoresAnteriores} tabIndex={-1} hidden={!setas.esq}>
+                      <Icone nome="setaEsq" tamanho={18} />
+                    </button>
+                    <ul ref={faixa} onWheel={rolarFaixa} onScroll={medirFaixa}>
+                      {o.ativos.map(v => (
+                        <li key={v.codigo}>
+                          <button type="button" aria-pressed={marcado === v.codigo} onClick={() => setMarcado(m => (m === v.codigo ? null : v.codigo))}>
+                            <span className="orc__avatar" aria-hidden="true">
+                              {marcado === v.codigo ? <Icone nome="check" tamanho={18} /> : v.foto ? <img src={v.foto} alt="" width={40} height={40} loading="lazy" /> : iniciais(v.nome)}
+                            </span>
+                            <span className="orc__vend-nome">{v.nome}</span>
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                    <button type="button" className="orc__seta orc__seta--dir" onClick={() => passarFaixa(1)} aria-label={textos.orcamento.maisVendedores} tabIndex={-1} hidden={!setas.dir}>
+                      <Icone nome="seta" tamanho={18} />
+                    </button>
+                  </div>
+                </section>
+              )}
+              <a className="btn btn--primario btn--lg orc__enviar" href={urlBotao} target="_blank" rel="noopener" onClick={solicitar} aria-describedby="orc-destino">
+                <Icone nome="whatsapp" tamanho={22} />
+                <span className="btn__texto">{textos.orcamento.enviar}</span>
+              </a>
+              <p id="orc-destino" className="orc__destino">
+                {o.vendedor ? textos.orcamento.comVendedor(o.vendedor.nome) : escolhido ? textos.orcamento.paraEscolhido(escolhido.nome) : o.daVez ? textos.orcamento.daVez(o.daVez.nome) : textos.orcamento.semVendedor}
+                {escolhido && (
+                  <button type="button" className="orc__desmarcar" onClick={() => setMarcado(null)}>
+                    {textos.orcamento.voltarDaVez}
+                  </button>
+                )}
+              </p>
+            </footer>
+          </>
         )}
       </div>
     </div>

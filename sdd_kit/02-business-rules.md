@@ -187,10 +187,12 @@ Decisões: `DEC-017`, `DEC-018`, `DEC-019`.
 
 ## RN-12 — Escolha manual de vendedor (visitante sem link)
 
-- No fim da lista, perto do botão de orçar, uma seção "Escolher um vendedor" mostra
-  foto (ou iniciais) e nome de cada vendedor ativo.
-- Escolher um vendedor abre o WhatsApp dele com a mensagem de `RN-05` e **consome a
-  vez**: o vendedor escolhido vai para o fim da fila e os demais mantêm a ordem
+- No fim da lista, logo acima do botão "Solicitar orçamento", uma seção "Escolha um
+  vendedor (opcional)" mostra foto (ou iniciais) e nome de cada vendedor ativo
+  (pedido do responsável).
+- O cliente marca um vendedor (pode desmarcar ou voltar ao vendedor da vez); o botão
+  "Solicitar orçamento" abre o WhatsApp do marcado com a mensagem de `RN-05` e
+  **consome a vez**: o vendedor escolhido vai para o fim da fila e os demais mantêm a ordem
   (`DEC-017`). Exemplo: fila A B C D E F; escolher D leva a A B C E F D; escolher F em
   seguida leva a A B C E D F.
 - **Não aparece** quando há vendedor atribuído por link (`RN-07`).

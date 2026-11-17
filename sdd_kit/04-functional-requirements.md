@@ -76,8 +76,9 @@
   (`RN-07`).
 - **RF-27** Sem vendedor, a lista tem "Solicitar orçamento", que usa o rodízio e abre
   o WhatsApp do vendedor da vez (`RN-11`).
-- **RF-28** Sem vendedor, a lista tem a seção "Escolher um vendedor" com foto e nome;
-  escolher abre o WhatsApp do vendedor (`RN-12`).
+- **RF-28** Sem vendedor, a lista tem, acima do botão de orçar, a seção "Escolha um
+  vendedor (opcional)" com foto e nome; o vendedor marcado recebe o pedido pelo botão
+  "Solicitar orçamento" (`RN-12`).
 - **RF-29** O admin de demonstração mostra a fila do rodízio e o próximo da vez
   (`RN-11`).
 - **RF-30** Painel do vendedor (`/vendedor`) com login simulado: montar orçamento com

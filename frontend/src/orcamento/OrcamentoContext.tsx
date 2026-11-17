@@ -35,6 +35,8 @@ type Ctx = {
   urlEnvio: string;
   /** Link do WhatsApp de um vendedor com a mensagem da lista (escolha manual, RN-12). */
   urlPara: (v: Vendedor) => string;
+  /** Mensagem da lista endereçada a um vendedor (prévia da escolha manual). */
+  mensagemPara: (v: Vendedor) => string;
   /** Sem vendedor do link: o primeiro da fila do rodízio (RN-11). */
   daVez: Vendedor | undefined;
   /** Vendedores ativos para a escolha manual, na ordem do cadastro. */
@@ -130,7 +132,8 @@ export function OrcamentoProvider({ children }: { children: ReactNode }) {
   const destino = vendedor ?? daVez;
   const mensagemEnvio = useMemo(() => mensagemLista(lista, destino?.nome), [lista, destino]);
   const urlEnvio = useMemo(() => whatsapp(destinoWhatsApp(destino), mensagemEnvio), [mensagemEnvio, destino]);
-  const urlPara = useCallback((v: Vendedor) => whatsapp(v.whatsapp, mensagemLista(lista, v.nome)), [lista]);
+  const mensagemPara = useCallback((v: Vendedor) => mensagemLista(lista, v.nome), [lista]);
+  const urlPara = useCallback((v: Vendedor) => whatsapp(v.whatsapp, mensagemPara(v)), [mensagemPara]);
 
   const enviar = useCallback<Ctx['enviar']>(
     escolhido => {
@@ -165,6 +168,7 @@ export function OrcamentoProvider({ children }: { children: ReactNode }) {
     enviar,
     urlEnvio,
     urlPara,
+    mensagemPara,
     daVez,
     ativos,
     mensagemEnvio,
