@@ -1,0 +1,474 @@
+/*
+ * Documento do orçamento (A4), igual à página 1 do modelo (docs/Para-Socio-Orcamento: CSS_ORC e a base
+ * de padrao.py), com as classes prefixadas por doc- (o site já usa .orc na lista de orçamento).
+ * Serve à prévia na tela e à impressão ("Salvar como PDF"). Só carregado com a área do vendedor.
+ */
+.doc {
+  --doc-navy: #0b1a36;
+  --doc-navy2: #13254a;
+  --doc-royal: #1c4fd0;
+  --doc-vivid: #3d7eff;
+  --doc-silver: #d9dee5;
+  --doc-paper: #f3f5f8;
+  --doc-ink2: #5b6678;
+  --doc-tint: #e4ecff;
+  --doc-muted-dark: #9aa6b8;
+  --doc-promo-red: #c81e2a;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 210mm;
+  min-height: 297mm;
+  background: #fff;
+  color: var(--doc-navy);
+  font-family: 'IBM Plex Sans', Arial, sans-serif;
+  font-size: 9.4pt;
+  line-height: 1.5;
+  font-variant-numeric: tabular-nums;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+.doc *,
+.doc *::before,
+.doc *::after {
+  box-sizing: border-box;
+}
+.doc p {
+  margin: 0;
+}
+.doc h4 {
+  margin: 0 0 1mm;
+  font-family: 'Saira', sans-serif;
+  font-weight: 600;
+  font-size: 7.2pt;
+  font-stretch: 112%;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--doc-royal);
+}
+.doc-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 2.4mm;
+  font-family: 'Saira', sans-serif;
+  font-weight: 600;
+  font-size: 7.2pt;
+  font-stretch: 112%;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--doc-vivid);
+}
+.doc-eyebrow::before {
+  content: '';
+  width: 1.1mm;
+  height: 4.4mm;
+  background: var(--doc-vivid);
+  transform: skewX(-12deg);
+}
+.doc-topo {
+  position: relative;
+  height: 50mm;
+  padding: 11mm 15mm 9mm;
+  overflow: hidden;
+  background: linear-gradient(160deg, var(--doc-navy) 0%, var(--doc-navy2) 100%);
+  color: #fff;
+}
+.doc-topo::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(78deg, rgb(61 126 255 / 0) 0 8mm, rgb(61 126 255 / 0.12) 8mm 8.25mm);
+}
+.doc-topo::after {
+  content: '';
+  position: absolute;
+  right: -25mm;
+  bottom: -40mm;
+  width: 110mm;
+  height: 80mm;
+  background: radial-gradient(closest-side, rgb(61 126 255 / 0.45), transparent);
+}
+.doc-topo > * {
+  position: relative;
+  z-index: 1;
+}
+.doc-topo__linha {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+}
+.doc-topo__marca {
+  display: flex;
+  align-items: center;
+  gap: 7mm;
+}
+.doc-selo {
+  display: block;
+  width: 28mm;
+  height: 28mm;
+}
+.doc-topo h1 {
+  margin: 1.6mm 0 0;
+  font-family: 'Saira', sans-serif;
+  font-style: italic;
+  font-weight: 800;
+  font-stretch: 120%;
+  font-size: 28pt;
+  line-height: 1;
+}
+.doc-meta {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 1.2mm 7mm;
+  font-size: 8.2pt;
+}
+.doc-meta span {
+  color: var(--doc-muted-dark);
+}
+.doc-meta b {
+  font-weight: 600;
+  color: #fff;
+}
+.doc-corpo {
+  padding: 6mm 15mm 0;
+}
+.doc-partes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4mm;
+  margin-bottom: 5mm;
+}
+.doc-parte {
+  padding: 3mm 4mm;
+  border: 1px solid var(--doc-silver);
+  border-radius: 3.2mm;
+  background: var(--doc-paper);
+}
+.doc-parte b {
+  display: block;
+  font-size: 10pt;
+  font-weight: 600;
+}
+.doc-parte span {
+  display: block;
+  font-size: 8.2pt;
+  line-height: 1.4;
+  color: var(--doc-ink2);
+}
+.doc-itens {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid var(--doc-silver);
+  border-radius: 3.2mm;
+  overflow: hidden;
+  font-size: 8.4pt;
+}
+.doc-itens thead {
+  display: table-header-group;
+}
+.doc-itens tr {
+  break-inside: avoid;
+}
+.doc-itens th {
+  padding: 2.1mm 2.6mm;
+  background: var(--doc-navy);
+  color: #fff;
+  font-family: 'Saira', sans-serif;
+  font-weight: 600;
+  font-size: 6.6pt;
+  font-stretch: 112%;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-align: left;
+}
+.doc-itens .n {
+  text-align: right;
+}
+.doc-itens td {
+  padding: 2mm 2.6mm;
+  border-top: 1px solid #e6eaf0;
+  vertical-align: middle;
+  line-height: 1.3;
+}
+.doc-itens tbody tr:first-child td {
+  border-top: 0;
+}
+.doc-itens .doc-foto {
+  width: 15mm;
+  padding: 1.4mm 1.4mm 1.4mm 2.2mm;
+}
+.doc-foto div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 12.6mm;
+  height: 10mm;
+  overflow: hidden;
+  border: 1px solid #e6eaf0;
+  border-radius: 1.6mm;
+  background: #fff;
+}
+.doc-foto img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+.doc-nm b {
+  display: block;
+  font-weight: 600;
+}
+.doc-nm > span {
+  color: var(--doc-ink2);
+  font-size: 7.6pt;
+}
+.doc-promo {
+  display: inline-block;
+  margin-left: 1mm;
+  padding: 0.3mm 1.4mm;
+  border-radius: 0.8mm;
+  background: var(--doc-promo-red);
+  color: #fff;
+  font-family: 'Saira', sans-serif;
+  font-weight: 600;
+  font-size: 5.8pt;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  vertical-align: 1px;
+}
+.doc-old {
+  display: block;
+  color: var(--doc-ink2);
+  font-size: 7.6pt;
+  text-decoration: line-through;
+}
+.doc-new {
+  display: block;
+  font-weight: 600;
+}
+.doc-off {
+  display: inline-block;
+  margin-left: 1mm;
+  padding: 0.3mm 1.5mm;
+  border-radius: 99px;
+  background: var(--doc-royal);
+  color: #fff;
+  font-family: 'Saira', sans-serif;
+  font-weight: 600;
+  font-size: 6.2pt;
+  letter-spacing: 0.04em;
+  vertical-align: 1px;
+}
+.doc-consulta {
+  color: var(--doc-ink2);
+  font-style: italic;
+}
+.doc-baixo {
+  display: grid;
+  grid-template-columns: 1fr 66mm;
+  gap: 5mm;
+  align-items: start;
+  margin-top: 5mm;
+  break-inside: avoid;
+}
+.doc-nota {
+  margin-bottom: 3mm;
+  padding: 0.4mm 0 0.4mm 3mm;
+  border-left: 1mm solid var(--doc-vivid);
+  font-size: 8.2pt;
+}
+.doc-nota > b {
+  display: block;
+  margin-bottom: 0.6mm;
+  font-family: 'Saira', sans-serif;
+  font-weight: 600;
+  font-size: 6.8pt;
+  font-stretch: 112%;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--doc-royal);
+}
+.doc-nota > b small {
+  font-family: 'IBM Plex Sans', Arial, sans-serif;
+  font-weight: 400;
+  font-size: 6.8pt;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--doc-ink2);
+}
+.doc-nota p {
+  color: #2b3852;
+}
+.doc-tot {
+  overflow: hidden;
+  border: 1px solid var(--doc-silver);
+  border-radius: 3.2mm;
+  font-size: 8.6pt;
+}
+.doc-tot .doc-l {
+  display: flex;
+  justify-content: space-between;
+  gap: 3mm;
+  padding: 1.8mm 3.4mm;
+  border-top: 1px solid #e6eaf0;
+}
+.doc-tot .doc-l:first-child {
+  border-top: 0;
+}
+.doc-tot .doc-old {
+  display: inline;
+  font-size: inherit;
+}
+.doc-final {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 3mm 3.4mm;
+  background: var(--doc-navy);
+  color: #fff;
+}
+.doc-final span {
+  font-family: 'Saira', sans-serif;
+  font-weight: 600;
+  font-size: 7pt;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--doc-silver);
+}
+.doc-final b {
+  font-family: 'Saira', sans-serif;
+  font-weight: 800;
+  font-size: 17pt;
+  font-style: italic;
+  font-stretch: 118%;
+}
+.doc-eco {
+  padding: 1.8mm;
+  background: var(--doc-tint);
+  color: var(--doc-royal);
+  font-size: 8pt;
+  font-weight: 600;
+  text-align: center;
+}
+.doc-link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5mm;
+  margin-top: 5mm;
+  padding: 3.2mm 4.4mm;
+  border: 1px solid var(--doc-silver);
+  border-radius: 3.2mm;
+  background: var(--doc-paper);
+  break-inside: avoid;
+}
+.doc-link b {
+  font-size: 9pt;
+  font-weight: 600;
+}
+.doc-link span {
+  display: block;
+  font-size: 7.8pt;
+  color: var(--doc-ink2);
+}
+.doc-link a {
+  color: inherit;
+  text-decoration: none;
+}
+.doc-btn {
+  padding: 2.4mm 5mm;
+  border-radius: 99px;
+  background: var(--doc-royal);
+  color: #fff !important;
+  font-family: 'Saira', sans-serif;
+  font-weight: 700;
+  font-size: 8.4pt;
+  font-stretch: 112%;
+  white-space: nowrap;
+}
+.doc-rod {
+  display: flex;
+  justify-content: space-between;
+  margin: auto 15mm 8mm;
+  padding-top: 2.6mm;
+  border-top: 1px solid var(--doc-silver);
+  font-size: 7.2pt;
+  line-height: 1.45;
+  color: var(--doc-ink2);
+}
+.doc-rod strong {
+  color: var(--doc-navy);
+  font-weight: 600;
+}
+.doc-rod > span:last-child {
+  text-align: right;
+}
+.doc-respiro {
+  height: 6mm;
+}
+
+/* ---------- Tela do documento na área do vendedor: barra de ações e prévia em escala ---------- */
+.doc-tela {
+  display: grid;
+  gap: 14px;
+  justify-items: center;
+}
+.doc-acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  width: 100%;
+  max-width: 1080px;
+}
+.doc-acoes__dica {
+  flex-basis: 100%;
+  text-align: center;
+  color: var(--ink-2);
+  font-size: 0.8125rem;
+}
+.doc-previa {
+  width: 100%;
+  max-width: 820px;
+  overflow: hidden;
+  border-radius: 6px;
+  box-shadow: 0 16px 40px -20px rgb(8 19 41 / 0.45), 0 0 0 1px var(--adm-linha);
+}
+
+/* Impressão ("Salvar como PDF"): só o documento, em A4, sem margens e com os fundos. */
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+  html,
+  body {
+    background: #fff !important;
+  }
+  .vend-topo,
+  .vend-faixa,
+  .doc-acoes,
+  .adm-aviso,
+  .adm-tela__cabeca {
+    display: none !important;
+  }
+  .vend-app,
+  .vend-corpo,
+  .doc-tela {
+    display: block !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: #fff !important;
+  }
+  .doc-previa {
+    max-width: none !important;
+    overflow: visible !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+  .doc-zoom {
+    zoom: 1 !important;
+  }
+}

@@ -67,6 +67,20 @@ export async function copiarLink(orc: Orcamento): Promise<'copiado' | 'falhou'> 
   }
 }
 
+/** Próximo número de documento (ORC-0001, ORC-0002…), sequencial neste navegador (demonstração). */
+export function proximoNumero(): string {
+  const chave = 'mk-orcamento-seq';
+  let n = 0;
+  try {
+    n = Number(localStorage.getItem(chave)) || 0;
+  } catch {
+    /* indisponível */
+  }
+  n += 1;
+  gravar(chave, String(n));
+  return `ORC-${String(n).padStart(4, '0')}`;
+}
+
 export const novoIdOrcamento = () => novoId().replace(/-/g, '').slice(0, 10);
 
 // ---------- Sessão simulada do vendedor (DEC-021) ----------

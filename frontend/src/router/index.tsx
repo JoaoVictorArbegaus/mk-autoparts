@@ -17,8 +17,8 @@ export type Rota =
   | { nome: 'nao-encontrado' };
 
 /** Área do vendedor de demonstração (DEC-018, DEC-021, RN-13). */
-export type TelaVendedor = 'lista' | 'novo';
-const TELAS_VENDEDOR: Record<string, TelaVendedor> = { '/vendedor': 'lista', '/vendedor/novo': 'novo' };
+export type TelaVendedor = 'lista' | 'novo' | 'documento';
+const TELAS_VENDEDOR: Record<string, TelaVendedor> = { '/vendedor': 'lista', '/vendedor/novo': 'novo', '/vendedor/documento': 'documento' };
 export const caminhosVendedor = Object.keys(TELAS_VENDEDOR);
 
 /** Telas do admin de demonstração (DEC-015). */

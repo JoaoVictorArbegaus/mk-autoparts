@@ -49,6 +49,10 @@ autorização humana, atualização dos documentos afetados e novo registro aqui
   não precisa de servidor; o HTML pré-renderizado por produto atende SEO e
   desempenho. Nenhum agente do landing-pages usa Next.js.
 - **Consequência:** A stack do produto definitivo fica em aberto (`PEND-009`).
+- **Extensão (REU-06):** biblioteca `docx` (versão fixa) para gerar o orçamento em Word no
+  navegador, carregada só quando o vendedor pede o Word. O PDF não usa biblioteca: é a página
+  A4 do orçamento impressa pelo navegador ("Salvar como PDF"), porque o protótipo não tem
+  servidor; o guia do modelo recomenda Chrome headless no servidor para o produto definitivo.
 
 ### DEC-004 — Preço único e promoção individual
 

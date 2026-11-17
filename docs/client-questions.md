@@ -127,12 +127,15 @@ demonstração**, que não é a decisão final. Fontes recebidas ficam em `docs/
 - **PEND-034 — Fotos dos vendedores:** nomes e WhatsApps dos oito vendedores já recebidos
   (`DEC-022`). Falta a foto de cada um e a autorização de uso. *Demonstração:* iniciais no
   lugar da foto.
-- **PEND-035 — Documento do orçamento:** o modelo (layout) do PDF e do Word será
-  produzido pelo responsável e colocado no repositório (aguardando). Com um padrão pronto,
-  mostrar à contratante e perguntar o que ela quer que o vendedor possa editar, além do
-  que já está definido (cliente, itens, preços, desconto, observação e validade). Entram
-  nessa pergunta os textos fixos (condições de pagamento, prazo, frete, garantia) e quem
-  os fornece. Avisos de mudança no orçamento: só no painel, por enquanto.
+- **PEND-035 — Documento do orçamento:** o modelo do responsável
+  (`docs/Para-Socio-Orcamento/PADRAO-ORCAMENTO-PARA-O-SITE.md`) foi implementado em PDF e
+  Word e mostrado à contratante, que **gostou do modelo, mas ainda vai pedir alterações**
+  (em aberto; aguardando a lista). Continuam pendentes: o que o vendedor pode editar além
+  do já definido (cliente, itens, preços, desconto, observação e validade); os textos fixos
+  (condições de pagamento, prazo, frete, garantia) e quem os fornece; os dados do rodapé e
+  a autorização do CNPJ; prazo de entrega ou frete no documento; assinatura, numeração por
+  vendedor ou mais de uma via; fundo claro ou escuro. Avisos de mudança no orçamento: só
+  no painel, por enquanto.
 
 ### Catálogo e venda
 

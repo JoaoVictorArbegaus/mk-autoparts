@@ -13,8 +13,12 @@ export type Alteracao = { em: string; texto: string };
 
 export type Orcamento = {
   id: string;
+  /** Número sequencial do documento (ORC-0001), dado ao salvar. */
+  numero?: string;
   vendedor: string;
   cliente?: string;
+  /** Contato do cliente (opcional), como no modelo do documento. */
+  clienteContato?: string;
   itens: ItemOrcamento[];
   descontoTotal?: Desconto;
   observacao: string;
@@ -25,7 +29,8 @@ export type Orcamento = {
   alteracoes: Alteracao[];
 };
 
-const centavos = (n: number) => Math.round(n * 100) / 100;
+/** Arredonda a 2 casas, meio para cima (como ROUND_HALF_UP do modelo), sem o erro de ponto flutuante. */
+export const centavos = (n: number) => Math.sign(n) * Math.round((Math.abs(n) + Number.EPSILON) * 100) / 100;
 
 /** Valor depois do desconto, nunca negativo. */
 export function aplicarDesconto(valor: number, desconto?: Desconto): number {
@@ -54,20 +59,47 @@ export function calcularItem(item: ItemOrcamento): LinhaCalculada {
   return { comPreco: true, unitario: item.preco, unitarioFinal, pct: porcentagem(item.preco, unitarioFinal), total: centavos(unitarioFinal * item.quantidade) };
 }
 
-export type Totais = { subtotal: number; total: number; pct: number; semPreco: number };
+export type Totais = {
+  /** Σ preço × qtd dos itens com preço, sem nenhum desconto. */
+  subtotalSemDesconto: number;
+  /** Σ total dos itens (já com o desconto de cada item). */
+  subtotal: number;
+  /** Valor do desconto no total. */
+  descontoTotal: number;
+  total: number;
+  /** % do desconto no total, sobre o subtotal com desconto nos itens. */
+  pct: number;
+  /** % de economia final, sobre o subtotal sem desconto (linha do documento). */
+  economia: number;
+  semPreco: number;
+};
 
-/** Subtotal dos itens com preço (já com os descontos deles) e o total com o desconto geral. */
+/** Regras do modelo do documento (docs/Para-Socio-Orcamento): itens sem preço ficam fora de todas as somas. */
 export function calcularTotais(orc: Pick<Orcamento, 'itens' | 'descontoTotal'>): Totais {
+  let subtotalSemDesconto = 0;
   let subtotal = 0;
   let semPreco = 0;
   for (const i of orc.itens) {
     const l = calcularItem(i);
-    if (l.comPreco) subtotal += l.total;
-    else semPreco++;
+    if (!l.comPreco) {
+      semPreco++;
+      continue;
+    }
+    subtotalSemDesconto += centavos(l.unitario * i.quantidade);
+    subtotal += l.total;
   }
+  subtotalSemDesconto = centavos(subtotalSemDesconto);
   subtotal = centavos(subtotal);
   const total = aplicarDesconto(subtotal, orc.descontoTotal);
-  return { subtotal, total, pct: porcentagem(subtotal, total), semPreco };
+  return {
+    subtotalSemDesconto,
+    subtotal,
+    descontoTotal: centavos(subtotal - total),
+    total,
+    pct: porcentagem(subtotal, total),
+    economia: porcentagem(subtotalSemDesconto, total),
+    semPreco,
+  };
 }
 
 /** Validade passada: vale até o fim do dia informado. */
@@ -81,8 +113,10 @@ export function expirado(orc: Pick<Orcamento, 'validade'>, agora = new Date()): 
 
 type Compacto = {
   i: string;
+  n?: string;
   v: string;
   c?: string;
+  cc?: string;
   t: [string, string, number, number | null, Desconto['tipo'] | null, number | null][];
   dt?: [Desconto['tipo'], number];
   o?: string;
@@ -109,7 +143,9 @@ export function codificarLink(orc: Orcamento): string {
     t: orc.itens.map(i => [i.slug, i.lado ?? '', i.quantidade, i.preco ?? null, i.desconto?.tipo ?? null, i.desconto?.valor ?? null]),
     d: orc.criadoEm,
   };
+  if (orc.numero) c.n = orc.numero;
   if (orc.cliente) c.c = orc.cliente;
+  if (orc.clienteContato) c.cc = orc.clienteContato;
   if (orc.descontoTotal) c.dt = [orc.descontoTotal.tipo, orc.descontoTotal.valor];
   if (orc.observacao) c.o = orc.observacao;
   if (orc.validade) c.val = orc.validade;
@@ -123,8 +159,10 @@ export function decodificarLink(codigo: string): Orcamento | null {
     if (!c || typeof c.i !== 'string' || typeof c.v !== 'string' || !Array.isArray(c.t)) return null;
     return {
       id: c.i,
+      numero: typeof c.n === 'string' ? c.n : undefined,
       vendedor: c.v,
       cliente: typeof c.c === 'string' ? c.c : undefined,
+      clienteContato: typeof c.cc === 'string' ? c.cc : undefined,
       itens: c.t
         .filter(t => Array.isArray(t) && typeof t[0] === 'string')
         .map(([slug, lado, quantidade, preco, tipo, valor]) => ({

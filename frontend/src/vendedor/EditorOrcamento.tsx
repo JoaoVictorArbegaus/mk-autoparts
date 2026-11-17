@@ -14,7 +14,7 @@ import type { Vendedor } from '../content/vendedores';
 import { Icone } from '../components/Icons';
 import { Quantidade } from '../components/Quantidade';
 import { OBS_MAX } from '../orcamento/lista';
-import { copiarLink, enviarLink, linkDoOrcamento, novoIdOrcamento, obterOrcamento, salvarOrcamento } from './armazem';
+import { copiarLink, enviarLink, linkDoOrcamento, novoIdOrcamento, obterOrcamento, proximoNumero, salvarOrcamento } from './armazem';
 import { calcularItem, calcularTotais, formatarPorcentagem, type Desconto, type ItemOrcamento, type Orcamento } from './orcamento';
 
 const t = areaVendedor.editor;
@@ -162,7 +162,7 @@ export function EditorOrcamento({ vendedor, avisar }: { vendedor: Vendedor; avis
   const salvar = () => {
     if (!orc.itens.length) return setErro(t.semItens);
     setErro('');
-    const final = { ...orc, cliente: orc.cliente?.trim() || undefined, estado: 'ativo' as const };
+    const final = { ...orc, numero: orc.numero ?? proximoNumero(), cliente: orc.cliente?.trim() || undefined, clienteContato: orc.clienteContato?.trim() || undefined, estado: 'ativo' as const };
     salvarOrcamento(final);
     setOrc(final);
     setSalvo(final);
@@ -234,7 +234,7 @@ export function EditorOrcamento({ vendedor, avisar }: { vendedor: Vendedor; avis
                   </div>
                   <div className="vend-item__campos">
                     {temLados(p) && (
-                      <div className="vend-mini">
+                      <div className="vend-mini vend-mini--lado">
                         <span>{t.lado}</span>
                         <span className="vend-segmento" role="group" aria-label={`${t.lado}: ${p.nome}`}>
                           {(['LD', 'LE'] as const).map(lado => (
@@ -248,15 +248,15 @@ export function EditorOrcamento({ vendedor, avisar }: { vendedor: Vendedor; avis
                         </span>
                       </div>
                     )}
-                    <div className="vend-mini">
+                    <div className="vend-mini vend-mini--qtd">
                       <span>{t.quantidade}</span>
                       <Quantidade valor={it.quantidade} onChange={n => mudarItem(i, x => ({ ...x, quantidade: n }))} rotulo={`${t.quantidade}: ${p.nome}`} pequeno />
                     </div>
-                    <label className="vend-mini">
+                    <label className="vend-mini vend-mini--preco">
                       <span>{t.preco}</span>
                       <CampoValor moeda valor={it.preco} rotulo={`${t.preco}: ${p.nome}`} placeholder={t.precoDica} aoMudar={n => mudarItem(i, x => ({ ...x, preco: n }))} />
                     </label>
-                    <div className="vend-mini">
+                    <div className="vend-mini vend-mini--desc">
                       <span>{t.desconto}</span>
                       <CampoDesconto desconto={it.desconto} rotulo={`${t.desconto}: ${p.nome}`} aoMudar={d => mudarItem(i, x => ({ ...x, desconto: d }))} />
                     </div>
@@ -287,6 +287,11 @@ export function EditorOrcamento({ vendedor, avisar }: { vendedor: Vendedor; avis
           <span>{t.cliente}</span>
           <input value={orc.cliente ?? ''} maxLength={80} onChange={e => setOrc(o => ({ ...o, cliente: e.target.value }))} aria-describedby="vend-cliente-dica" />
           <small id="vend-cliente-dica">{t.clienteDica}</small>
+        </label>
+        <label className="adm-campo">
+          <span>{t.contato}</span>
+          <input value={orc.clienteContato ?? ''} maxLength={80} onChange={e => setOrc(o => ({ ...o, clienteContato: e.target.value }))} aria-describedby="vend-contato-dica" />
+          <small id="vend-contato-dica">{t.contatoDica}</small>
         </label>
         <label className="adm-campo">
           <span>{t.validade}</span>
@@ -355,12 +360,15 @@ function Resultado({ orc, avisar, refEl }: { orc: Orcamento; avisar: (t: string)
         <a className="adm-btn adm-btn--fantasma" href={link} target="_blank" rel="noopener">
           {tl.abrir}
         </a>
+        <Link className="adm-btn adm-btn--fantasma" href={`/vendedor/documento?id=${orc.id}`}>
+          <Icone nome="caixa" tamanho={16} />
+          {t.documento}
+        </Link>
       </div>
       <details className="vend-resultado__link">
         <summary>{t.verLink}</summary>
         <code>{link}</code>
       </details>
-      <p className="adm-dica">{t.documentoEmBreve}</p>
       <Link className="vend-outro" href="/vendedor/novo">
         <Icone nome="mais" tamanho={16} />
         {t.outro}

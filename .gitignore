@@ -30,3 +30,7 @@ docs/produtos/
 # Referências visuais: capturas de sites de terceiros e a prancha da marca (só as notas entram)
 frontend/design/referencias/*
 !frontend/design/referencias/notas.md
+
+# Modelo do orçamento (PDF/Word de exemplo, scripts e imagens): material de trabalho, só o guia entra.
+docs/Para-Socio-Orcamento/*
+!docs/Para-Socio-Orcamento/PADRAO-ORCAMENTO-PARA-O-SITE.md

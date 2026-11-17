@@ -1316,10 +1316,6 @@
 }
 .vend-item__campos {
   grid-area: campos;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  gap: 10px 14px;
 }
 .vend-item__valor {
   grid-area: valor;
@@ -1334,10 +1330,53 @@
 .vend-item__remover {
   grid-area: remover;
 }
-@media (min-width: 1100px) {
+/*
+ * Campos do item em grade fixa (revisão: os cartões "quebravam" conforme o nome e o lado):
+ * cada campo tem o seu lugar; sem lado, o lugar do lado fica vazio e nada se desloca.
+ * Celular: 2 × 2 (Lado | Quantidade, Preço | Desconto). Desktop: uma linha de colunas fixas,
+ * abaixo do nome, e o preço final na primeira linha, ao lado da lixeira.
+ */
+.vend-item__campos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-areas:
+    'lado qtd'
+    'preco desc';
+  align-items: end;
+  gap: 10px 12px;
+}
+.vend-mini--lado {
+  grid-area: lado;
+}
+.vend-mini--qtd {
+  grid-area: qtd;
+}
+.vend-mini--preco {
+  grid-area: preco;
+}
+.vend-mini--desc {
+  grid-area: desc;
+}
+.vend-item__campos .vend-valor {
+  width: 100%;
+  min-width: 0;
+}
+.vend-item__campos .vend-desconto .vend-valor {
+  flex: 1;
+  width: auto;
+}
+@media (min-width: 760px) {
   .vend-item {
-    grid-template-columns: 56px minmax(150px, 1fr) auto minmax(150px, auto) 44px;
-    grid-template-areas: 'foto nome campos valor remover';
+    grid-template-columns: 56px minmax(0, 1fr) auto 44px;
+    grid-template-areas:
+      'foto nome valor remover'
+      'campos campos campos campos';
+  }
+  .vend-item__campos {
+    grid-template-columns: 150px 140px 160px 200px;
+    grid-template-areas: 'lado qtd preco desc';
+    justify-content: start;
+    margin-left: 68px;
   }
 }
 .vend-mini {
@@ -1370,6 +1409,7 @@
 .vend-desconto {
   display: flex;
   gap: 4px;
+  min-width: 0;
 }
 .vend-desconto .vend-valor {
   width: 5.5em;

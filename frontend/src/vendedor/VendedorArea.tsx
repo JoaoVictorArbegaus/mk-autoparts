@@ -13,6 +13,7 @@ import { Icone } from '../components/Icons';
 import { copiarLink, entrarComo, enviarLink, lerOrcamentos, linkDoOrcamento, sairDaSessao, vendedorDaSessao, atualizarOrcamento, CHAVE_ORCAMENTOS } from './armazem';
 import { calcularTotais, expirado, type Orcamento } from './orcamento';
 import { EditorOrcamento } from './EditorOrcamento';
+import { TelaDocumento } from './TelaDocumento';
 
 export function VendedorArea({ tela }: { tela: TelaVendedor }) {
   const [sessao, setSessao] = useState<Vendedor | null | undefined>(undefined);
@@ -69,7 +70,9 @@ export function VendedorArea({ tela }: { tela: TelaVendedor }) {
             {t.selo}
           </p>
         </div>
-        <main className="vend-corpo">{tela === 'novo' ? <EditorOrcamento vendedor={sessao} avisar={avisar} /> : <Lista vendedor={sessao} avisar={avisar} />}</main>
+        <main className="vend-corpo">
+          {tela === 'novo' ? <EditorOrcamento vendedor={sessao} avisar={avisar} /> : tela === 'documento' ? <TelaDocumento vendedor={sessao} avisar={avisar} /> : <Lista vendedor={sessao} avisar={avisar} />}
+        </main>
       </div>
     );
 
@@ -225,6 +228,7 @@ function Lista({ vendedor, avisar }: { vendedor: Vendedor; avisar: (t: string) =
                       <a href={linkDoOrcamento(o)} target="_blank" rel="noopener">
                         {tl.abrir}
                       </a>
+                      <Link href={`/vendedor/documento?id=${o.id}`}>{tl.documento}</Link>
                       <button type="button" onClick={() => window.confirm(tl.confirmarEncerrar) && mudar(o.id, x => ({ ...x, estado: 'encerrado' }), tl.encerrado)}>
                         {tl.encerrar}
                       </button>

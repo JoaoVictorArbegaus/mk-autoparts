@@ -34,6 +34,26 @@ describe('orçamento do vendedor (RN-13)', () => {
     expect(t.semPreco).toBe(1);
   });
 
+  it('confere com o modelo do documento: 7 itens e 3% no total dão R$ 4.798,83 (PADRAO-ORCAMENTO)', () => {
+    const itens = [
+      { slug: 'a', lado: 'LD' as const, quantidade: 2, preco: 489, desconto: { tipo: 'percentual' as const, valor: 10 } },
+      { slug: 'a', lado: 'LE' as const, quantidade: 2, preco: 489, desconto: { tipo: 'percentual' as const, valor: 10 } },
+      { slug: 'b', lado: 'LD' as const, quantidade: 1, preco: 1890, desconto: { tipo: 'valor' as const, valor: 140 } },
+      { slug: 'c', lado: 'LE' as const, quantidade: 1, preco: 780 },
+      { slug: 'd', lado: 'LD' as const, quantidade: 2, preco: 119.9 },
+      { slug: 'e', quantidade: 1, preco: 439, desconto: { tipo: 'percentual' as const, valor: 5 } },
+      { slug: 'f', quantidade: 2 },
+    ];
+    const t = calcularTotais({ itens, descontoTotal: { tipo: 'percentual', valor: 3 } });
+    expect(t.subtotalSemDesconto).toBe(5304.8);
+    expect(t.subtotal).toBe(4947.25);
+    expect(t.descontoTotal).toBe(148.42);
+    expect(t.total).toBe(4798.83);
+    expect(formatarPorcentagem(t.economia)).toBe('9,5%');
+    expect(formatarPorcentagem(calcularItem(itens[2]).pct)).toBe('7,4%');
+    expect(t.semPreco).toBe(1);
+  });
+
   it('porcentagem com uma casa só quando não é inteira', () => {
     expect(formatarPorcentagem(10)).toBe('10%');
     expect(formatarPorcentagem(13.0434)).toBe('13%');

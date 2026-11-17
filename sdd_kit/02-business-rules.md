@@ -237,9 +237,13 @@ Decisões: `DEC-017`, `DEC-018`, `DEC-019`.
   atual; texto escolhido pelo responsável, porque o cliente já está vendo um orçamento) e
   "Falar com `<nome>`" (abre a conversa, sem a lista). No celular, o total e o envio ficam
   numa barra fixa embaixo.
-- **Documento (PDF e Word):** padronizado, com o logo principal (`DEC-020`), nome e
-  contato do vendedor, cliente, itens com código, lado, quantidade, preço, desconto e
-  total, observação, data e validade (se o vendedor definiu). Textos fixos e campos editáveis
+- **Documento (PDF e Word):** padronizado conforme o modelo do responsável
+  (`docs/Para-Socio-Orcamento/PADRAO-ORCAMENTO-PARA-O-SITE.md`), com o logo principal
+  (`DEC-020`), número sequencial (ORC-0001), nome e contato do vendedor, cliente (nome e
+  contato), itens com foto, código, lado, quantidade, preço, desconto e total, observação,
+  data e validade (se o vendedor definiu), subtotal sem desconto, desconto no total e a
+  economia. Os textos fixos e os dados da empresa ficam num só arquivo
+  (`src/content/documento.ts`); o CNPJ só aparece com autorização da MK. Textos fixos e campos editáveis
   além dos definidos: `PEND-035`.
 - **Orçamentos ativos:** o painel lista os orçamentos ativos do vendedor (cliente, data,
   itens, total). Quando o cliente altera um pelo link, o orçamento ganha o aviso "Alterado

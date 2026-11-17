@@ -31,7 +31,8 @@ simulada e sem persistência.
 | Orçamentos | Lista dos orçamentos ativos, aviso "Alterado pelo cliente" com o que mudou, "Marcar como visto" e "Encerrar" (`RN-13`) |
 | Novo orçamento | Busca no catálogo, lado, quantidade, observação e cliente opcional (`RN-13`) |
 | Preços | Preço unitário por item (ou sem preço) e desconto em valor ou %, por item ou no total, com preço antigo riscado e porcentagem (`RN-13`) |
-| Resultado | "Copiar link", "Baixar PDF" e "Baixar Word", à escolha do vendedor |
+| Resultado | "Enviar ao cliente" (link), "Copiar link" e "PDF e Word" |
+| Documento (`/vendedor/documento`) | Prévia A4 igual ao modelo (`docs/Para-Socio-Orcamento`), "Salvar PDF" (impressão do navegador) e "Baixar Word" (`.docx`); número sequencial ORC-0001 |
 
 Fora do protótipo: login real, histórico de orçamentos, status, métricas pessoais e
 permissões (`PEND-023`). O documento segue a identidade de `docs/design/`, com o
