@@ -155,7 +155,10 @@ em WebP em `public/img/`.
    apagada, segue no topo do catálogo.
 2. **Montadoras** (faixa marinho-3): nomes das 8 marcas de veículo, sem
    número de peças (`RN-14`), em marquee que pausa no hover e no foco (sem botão de pausa); cada uma abre o catálogo filtrado.
-3. **Categorias** (claro): 6 cartões marinho em 3 colunas (referência: cartões
+3. **Categorias** (claro): 7 cartões marinho; a partir de 1100 px, grade de 4 colunas
+   fechada por um 8º ladrilho "Ver todo o catálogo" (sem contagem, `RN-14`), que substitui
+   o link ao lado do título; no tablet, 3 colunas com o sétimo centralizado e o link ao
+   lado do título; no celular, trilho deslizável (referência: cartões
    de "peça em destaque"). Todos usam a mesma foto de estúdio de um caminhão sem
    marca (`public/img/categorias/caminhao-base-1536.jpg`); cada cartão aproxima a região da sua
    categoria e acende as peças em azul vivo com brilho (SVG sobre a foto; motor em
@@ -163,7 +166,8 @@ em WebP em `public/img/`.
    maiúsculo com filete a 12°, sem contagem de peças (`RN-14`). Em teste: os destaques desenhados podem ser
    trocados por imagens editadas pela IA. "Implementos e
    acessórios" fica fora da vitrine (só tem foto de arte, destoava) e segue no
-   catálogo. "Ver todo o catálogo" é um link discreto com seta ao lado do título.
+   catálogo. "Ver todo o catálogo" é um link discreto com seta ao lado do título até 1099 px e
+   vira o 8º ladrilho da grade a partir de 1100 px.
 4. **Promoções** (marinho): só as 3 artes de promoção, grandes (até 380 px), com
    brilho azul e nome e preço na legenda; a do meio em pódio. Fundo na mesma
    linguagem do hero: linhas de velocidade a 12° mais densas, aurora azul vinda de

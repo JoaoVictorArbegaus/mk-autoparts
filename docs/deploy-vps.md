@@ -22,7 +22,7 @@ e não altera o catálogo público. Ele também é acessível por URL direta. `n
 
 ## Estado implantado
 
-- Build com `SITE_URL` definitivo e 85 rotas pré-renderizadas mais 404.
+- Build com `SITE_URL` definitivo e 120 rotas pré-renderizadas mais 404.
 - Gerador local de release `.tar.gz` com SHA-256.
 - Container Nginx sem privilégios, filesystem somente leitura, limites, healthcheck
   e rotação de logs.

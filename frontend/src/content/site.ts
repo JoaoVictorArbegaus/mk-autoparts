@@ -108,6 +108,7 @@ export const textos = {
     titulo: 'Encontre pela categoria',
     apoio: 'Faróis, lanternas, retrovisores e mais, separados como no catálogo da loja.',
     verTodas: 'Ver todo o catálogo',
+    todasApoio: 'Todas as categorias, com busca por código e veículo',
   },
 
   promocoes: {

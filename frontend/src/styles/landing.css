@@ -386,6 +386,39 @@
     opacity: 0.72;
   }
 }
+/* Peças grandes (cabine): preenchimento leve para não chapar a foto. */
+.cat__painel > * {
+  fill: rgb(61 126 255 / 0.16);
+}
+/* Ladrilho "Ver todo o catálogo": só no desktop largo, fecha a grade 4×2. */
+.categorias__item--todos {
+  display: none;
+}
+.cat__palco--todos {
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 2px;
+  background: radial-gradient(120% 90% at 50% 100%, rgb(61 126 255 / 0.28), transparent 70%), #070f22;
+}
+.cat__todos-seta {
+  color: var(--vivid);
+  filter: drop-shadow(0 0 14px rgb(61 126 255 / 0.7));
+  transition: transform 0.35s var(--ease);
+}
+.cat--todos:hover .cat__todos-seta {
+  transform: translateX(6px);
+}
+.cat__total-rotulo {
+  max-width: 22ch;
+  margin-top: 10px;
+  color: rgb(217 222 229 / 0.72);
+  font-size: 0.95rem;
+  text-align: center;
+}
+.cat--todos:hover .cat__palco--todos {
+  background: radial-gradient(120% 90% at 50% 100%, rgb(61 126 255 / 0.42), transparent 70%), #070f22;
+}
 .cat__contorno {
   fill: none;
   stroke-dasharray: 8 6;
@@ -509,6 +542,25 @@
     margin-inline: 0;
     padding: 0;
     gap: 18px;
+  }
+  /* Tablet: o cartão que sobra sozinho na última linha (7 categorias) fica no centro, do mesmo tamanho. */
+  .categorias__item:nth-last-child(2):nth-child(3n + 1) {
+    grid-column: 2;
+  }
+}
+/* Desktop largo: 4 colunas; o ladrilho "Ver todo o catálogo" fecha a grade e substitui o link do título. */
+@media (min-width: 1100px) {
+  .categorias__grade {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .categorias__item:nth-last-child(2):nth-child(3n + 1) {
+    grid-column: auto;
+  }
+  .categorias__item--todos {
+    display: block;
+  }
+  .categorias__ver-todas {
+    display: none;
   }
 }
 

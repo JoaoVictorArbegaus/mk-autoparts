@@ -142,8 +142,11 @@ Uma verificação executada no build (ou teste unitário chamado pelo build) fal
 
 ## Dados atuais
 
-Transcritos em `frontend/src/content/` a partir do PDF de 2025 e das artes de
-promoção: 76 produtos, 7 categorias e 8 marcas de veículo. Correções, dúvidas e a
+Transcritos em `frontend/src/content/` a partir do PDF de 2025, das artes de
+promoção e da planilha "LISTA IMPORTAÇÃO MK AUTOPARTS 2026" (só nome, códigos e foto; os
+custos, preços e quantidades da planilha nunca entram no site nem no repositório): 107
+produtos, 8 categorias (nova: "Cabine e acabamentos") e as marcas de veículo e de
+implementos (nova: Guerra). Correções, dúvidas e a
 classificação adotada estão em `frontend/design/catalogo-revisao.md`
 (`PEND-029`).
 

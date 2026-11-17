@@ -1,4 +1,5 @@
-// Gerado a partir de frontend/design/originais (PDF "CATALOGO MK AUTOPARTS 2025" e artes de promoção).
+// Gerado a partir de frontend/design/originais (PDF "CATALOGO MK AUTOPARTS 2025", artes de promoção e
+// planilha "LISTA IMPORTAÇÃO MK AUTOPARTS 2026": só nome, códigos e foto, nunca custos, preços ou quantidades).
 // Revisão da transcrição: frontend/design/catalogo-revisao.md
 import type { Produto } from './tipos';
 
@@ -800,5 +801,313 @@ export const produtos: Produto[] = [
     imagem: "/img/produtos/caixa-de-lanterna-randon-original.png",
     destaque: true,
     ativo: true,
+  },
+  {
+    slug: "grade-superior-scania-ntg-1872158",
+    nome: "Grade superior Scania NTG (Série 6)",
+    categoria: "cabine",
+    codigosOriginais: ["1872158"],
+    aplicacoes: [{montadora: "scania", modelo: "ntg"}],
+    imagem: "/img/produtos/grade-superior-scania-ntg-1872158.png",
+    ativo: true,
+    // Planilha "LISTA IMPORTAÇÃO MK AUTOPARTS 2026", linha 6. GRADE SUPERIOR SCANIA S6 (S6 = Série 6/NTG, como no site)
+  },
+  {
+    slug: "grade-inferior-scania-95-cm-1875843",
+    nome: "Grade inferior Scania, 95 cm",
+    categoria: "cabine",
+    codigosOriginais: ["1875843"],
+    aplicacoes: [{montadora: "scania"}],
+    imagem: "/img/produtos/grade-inferior-scania-95-cm-1875843.png",
+    ativo: true,
+    // Planilha "LISTA IMPORTAÇÃO MK AUTOPARTS 2026", linha 7. GRADE INFERIOR SCANIA 95CM
+  },
+  {
+    slug: "bojo-do-farol-scania-serie-5-1431920",
+    nome: "Bojo do farol Scania Série 5",
+    categoria: "cabine",
+    variantes: [{lado: "LD", codigosOriginais: ["1431920"]}, {lado: "LE", codigosOriginais: ["1431921"]}],
+    aplicacoes: [{montadora: "scania", modelo: "serie-5"}],
+    imagem: "/img/produtos/bojo-do-farol-scania-serie-5-1431920.png",
+    ativo: true,
+    // Planilha "LISTA IMPORTAÇÃO MK AUTOPARTS 2026", linha 8. BOJO FAROL SCANIA S5 LD/LE
+  },
+  {
+    slug: "defletor-scania-1538384",
+    nome: "Defletor Scania",
+    categoria: "cabine",
+    variantes: [{lado: "LD", codigosOriginais: ["1538384"]}, {lado: "LE", codigosOriginais: ["1538385"]}],
+    aplicacoes: [{montadora: "scania"}],
+    imagem: "/img/produtos/defletor-scania-1538384.png",
+    ativo: true,
+    // Planilha "LISTA IMPORTAÇÃO MK AUTOPARTS 2026", linha 10. DEFLETOR SCANIA LD/LE
+  },
+  {
+    slug: "defletor-scania-ntg-2055973",
+    nome: "Defletor Scania NTG (Série 6)",
+    categoria: "cabine",
+    variantes: [{lado: "LD", codigosOriginais: ["2055973"]}, {lado: "LE", codigosOriginais: ["2055974"]}],
+    aplicacoes: [{montadora: "scania", modelo: "ntg"}],
+    imagem: "/img/produtos/defletor-scania-ntg-2055973.png",
+    ativo: true,
+    // Planilha "LISTA IMPORTAÇÃO MK AUTOPARTS 2026", linha 12. DEFLETOR SCANIA S6 LD/LE
+  },
+  {
+    slug: "acabamento-do-defletor-da-coluna-scania-r-pp1066",
+    nome: "Acabamento do defletor da coluna Scania R",
+    categoria: "cabine",
+    variantes: [{lado: "LD", codigo: "PP1066", codigosOriginais: ["2162652"]}, {lado: "LE", codigo: "PP1067", codigosOriginais: ["2162653"]}],
+    aplicacoes: [{montadora: "scania"}],
+    imagem: "/img/produtos/acabamento-do-defletor-da-coluna-scania-r-pp1066.png",
+    ativo: true,
+    // Planilha "LISTA IMPORTAÇÃO MK AUTOPARTS 2026", linha 39. Linhas 14/15 (ACABAMENTO DEFLETOR COLUNA SCANIA R) e 38/39 (Acabamento Defletor Ext S6 R 2012/..., PP1066/PP1067) têm o mesmo OEM: tratadas como o mesmo produto. A planilha traz 2162652 nos dois lados da 38/39.
+  },
+  {
+    slug: "acabamento-do-defletor-da-coluna-scania-g-2162650",
+    nome: "Acabamento do defletor da coluna Scania G",
+    categoria: "cabine",
+    variantes: [{lado: "LD", codigosOriginais: ["2162650"]}, {lado: "LE", codigosOriginais: ["2162551"]}],
+    aplicacoes: [{montadora: "scania"}],
+    imagem: "/img/produtos/acabamento-do-defletor-da-coluna-scania-g-2162650.png",
+    ativo: true,
+    // Planilha "LISTA IMPORTAÇÃO MK AUTOPARTS 2026", linha 16. OEM do LE na planilha: 2162551 (provável 2162651, a confirmar)
+  },
+  {
+    slug: "protetor-do-catalisador-com-manta-termica-2560450",
+    nome: "Protetor do catalisador com manta térmica",
+    categoria: "cabine",
+    codigosOriginais: ["2560450"],
+    aplicacoes: [],
+    imagem: "/img/produtos/protetor-do-catalisador-com-manta-termica-2560450.png",
+    ativo: true,
+    // Planilha "LISTA IMPORTAÇÃO MK AUTOPARTS 2026", linha 18. Aplicação não informada na planilha
+  },
+  {
+    slug: "tampa-de-tanque-scania-modelo-original-1481301",
+    nome: "Tampa de tanque Scania, modelo original",
+    categoria: "cabine",
+    codigosOriginais: ["1481301"],
+    aplicacoes: [{montadora: "scania"}],
+    imagem: "/img/produtos/tampa-de-tanque-scania-modelo-original-1481301.png",
+    ativo: true,
+    // Planilha "LISTA IMPORTAÇÃO MK AUTOPARTS 2026", linha 19.
+  },
+  {
+    slug: "acabamento-do-espelho-de-rampa-scania-ntg-2118477",
+    nome: "Acabamento do espelho de rampa Scania NTG",
+    categoria: "cabine",
+    codigosOriginais: ["2118477"],
+    aplicacoes: [{montadora: "scania", modelo: "ntg"}],
+    imagem: "/img/produtos/acabamento-do-espelho-de-rampa-scania-ntg-2118477.png",
+    ativo: true,
+    // Planilha "LISTA IMPORTAÇÃO MK AUTOPARTS 2026", linha 20.
+  },
+  {
+    slug: "acabamento-do-estribo-scania-r-pp1052",
+    nome: "Acabamento do estribo Scania R",
+    categoria: "cabine",
+    variantes: [{lado: "LD", codigo: "PP1052", codigosOriginais: ["1442654"]}, {lado: "LE", codigo: "PP1053", codigosOriginais: ["1442653"]}],
+    aplicacoes: [{montadora: "scania"}],
+    imagem: "/img/produtos/acabamento-do-estribo-scania-r-pp1052.png",
+    ativo: true,
+    // Planilha "LISTA IMPORTAÇÃO MK AUTOPARTS 2026", linha 21.
+  },
+  {
+    slug: "acabamento-do-paralama-dianteiro-scania-ntg-sca2297984",
+    nome: "Acabamento do paralama dianteiro Scania NTG",
+    categoria: "cabine",
+    variantes: [{lado: "LD", codigo: "SCA2297984", codigosOriginais: ["2297984"]}, {lado: "LE", codigo: "SCA2297983", codigosOriginais: ["2297983"]}],
+    aplicacoes: [{montadora: "scania", modelo: "ntg"}],
+    imagem: "/img/produtos/acabamento-do-paralama-dianteiro-scania-ntg-sca2297984.png",
+    ativo: true,
+    // Planilha "LISTA IMPORTAÇÃO MK AUTOPARTS 2026", linha 24. Descrição do LD cita 2297983 (OEM do LE); usado o OEM da coluna, 2297984
+  },
+  {
+    slug: "acabamento-do-paralama-dianteiro-diant-diant-scania-ntg-sca2297986",
+    nome: "Acabamento do paralama dianteiro (diant./diant.) Scania NTG",
+    categoria: "cabine",
+    variantes: [{lado: "LD", codigo: "SCA2297986", codigosOriginais: ["2297986"]}, {lado: "LE", codigo: "SCA2297985", codigosOriginais: ["2297985"]}],
+    aplicacoes: [{montadora: "scania", modelo: "ntg"}],
+    imagem: "/img/produtos/acabamento-do-paralama-dianteiro-diant-diant-scania-ntg-sca2297986.png",
+    ativo: true,
+    // Planilha "LISTA IMPORTAÇÃO MK AUTOPARTS 2026", linha 25.
+  },
+  {
+    slug: "acabamento-do-paralama-superior-scania-ntg-sca2297992",
+    nome: "Acabamento do paralama superior Scania NTG",
+    categoria: "cabine",
+    variantes: [{lado: "LD", codigo: "SCA2297992", codigosOriginais: ["2297992"]}, {lado: "LE", codigo: "SCA2297991", codigosOriginais: ["2297991"]}],
+    aplicacoes: [{montadora: "scania", modelo: "ntg"}],
+    imagem: "/img/produtos/acabamento-do-paralama-superior-scania-ntg-sca2297992.png",
+    ativo: true,
+    // Planilha "LISTA IMPORTAÇÃO MK AUTOPARTS 2026", linha 27.
+  },
+  {
+    slug: "acabamento-do-paralama-dianteiro-traseiro-scania-ntg-sca2297996",
+    nome: "Acabamento do paralama dianteiro/traseiro Scania NTG",
+    categoria: "cabine",
+    variantes: [{lado: "LD", codigo: "SCA2297996", codigosOriginais: ["2297996"]}, {lado: "LE", codigo: "SCA2297995", codigosOriginais: ["2297995"]}],
+    aplicacoes: [{montadora: "scania", modelo: "ntg"}],
+    imagem: "/img/produtos/acabamento-do-paralama-dianteiro-traseiro-scania-ntg-sca2297996.png",
+    ativo: true,
+    // Planilha "LISTA IMPORTAÇÃO MK AUTOPARTS 2026", linha 29. Planilha: "Diant Tras LE" e "Traseiro LD Dianteiro LE": lados a confirmar
+  },
+  {
+    slug: "capa-do-para-choque-central-scania-ntg-sca2077928",
+    nome: "Capa do para-choque central Scania NTG",
+    categoria: "cabine",
+    codigo: "SCA2077928",
+    codigosOriginais: ["2077928", "10497"],
+    aplicacoes: [{montadora: "scania", modelo: "ntg"}],
+    imagem: "/img/produtos/capa-do-para-choque-central-scania-ntg-sca2077928.png",
+    ativo: true,
+    // Planilha "LISTA IMPORTAÇÃO MK AUTOPARTS 2026", linha 31.
+  },
+  {
+    slug: "capa-do-para-choque-lateral-scania-ntg-sca2525859",
+    nome: "Capa do para-choque lateral Scania NTG",
+    categoria: "cabine",
+    variantes: [{lado: "LD", codigo: "SCA2525859", codigosOriginais: ["2525859", "2077927"]}, {lado: "LE", codigo: "SCA2525858", codigosOriginais: ["2525858", "2077926"]}],
+    aplicacoes: [{montadora: "scania", modelo: "ntg"}],
+    imagem: "/img/produtos/capa-do-para-choque-lateral-scania-ntg-sca2525859.png",
+    ativo: true,
+    // Planilha "LISTA IMPORTAÇÃO MK AUTOPARTS 2026", linha 33.
+  },
+  {
+    slug: "acabamento-do-estribo-scania-serie-5-r-pp1056",
+    nome: "Acabamento do estribo Scania Série 5 R",
+    categoria: "cabine",
+    variantes: [{lado: "LD", codigo: "PP1056", codigosOriginais: ["1779121"]}, {lado: "LE", codigo: "PP1057", codigosOriginais: ["1779120"]}],
+    aplicacoes: [{montadora: "scania", modelo: "serie-5"}],
+    imagem: "/img/produtos/acabamento-do-estribo-scania-serie-5-r-pp1056.png",
+    ativo: true,
+    // Planilha "LISTA IMPORTAÇÃO MK AUTOPARTS 2026", linha 34.
+  },
+  {
+    slug: "acabamento-do-bojo-do-farol-scania-r-highline-pp1058",
+    nome: "Acabamento do bojo do farol Scania R Highline",
+    categoria: "cabine",
+    variantes: [{lado: "LD", codigosOriginais: ["1431923"]}, {lado: "LE", codigo: "PP1058", codigosOriginais: ["1431922"]}],
+    aplicacoes: [{montadora: "scania"}],
+    imagem: "/img/produtos/acabamento-do-bojo-do-farol-scania-r-highline-pp1058.png",
+    ativo: true,
+    // Planilha "LISTA IMPORTAÇÃO MK AUTOPARTS 2026", linha 36. O LD tem o código MK PP1057, o mesmo do estribo Série 5 R LE: a confirmar (ficou sem código MK)
+  },
+  {
+    slug: "paralama-de-tracao-volvo-fh-2015-a-2025-pp014",
+    nome: "Paralama de tração dianteiro/traseiro Volvo FH 2015 a 2025, preto",
+    categoria: "cabine",
+    codigo: "PP014",
+    codigosOriginais: ["21094391"],
+    aplicacoes: [{montadora: "volvo", modelo: "fh", anoInicio: 2015, anoFim: 2025}],
+    imagem: "/img/produtos/paralama-de-tracao-volvo-fh-2015-a-2025-pp014.png",
+    ativo: true,
+    // Planilha "LISTA IMPORTAÇÃO MK AUTOPARTS 2026", linha 40.
+  },
+  {
+    slug: "lanterna-traseira-led-volvo-fh16-a-partir-de-2022-v01-044",
+    nome: "Lanterna traseira LED Volvo FH16 a partir de 2022 (50 cm)",
+    categoria: "lanternas",
+    variantes: [{lado: "LD", codigo: "V01-044", codigosOriginais: ["82849894", "84195505"]}, {lado: "LE", codigo: "V01-045", codigosOriginais: ["82849925", "84195519"]}],
+    aplicacoes: [{montadora: "volvo", modelo: "fh", anoInicio: 2022}],
+    imagem: "/img/produtos/lanterna-traseira-led-volvo-fh16-a-partir-de-2022-v01-044.png",
+    ativo: true,
+    // Planilha "LISTA IMPORTAÇÃO MK AUTOPARTS 2026", linha 52.
+  },
+  {
+    slug: "lanterna-pisca-mercedes-benz-axor-b04-003",
+    nome: "Lanterna pisca Mercedes-Benz Axor",
+    categoria: "lanternas",
+    variantes: [{lado: "LD", codigo: "B04-003", codigosOriginais: ["9408200421"]}, {lado: "LE", codigo: "B04-004", codigosOriginais: ["9408200321"]}],
+    aplicacoes: [{montadora: "mercedes-benz", modelo: "axor"}],
+    imagem: "/img/produtos/lanterna-pisca-mercedes-benz-axor-b04-003.png",
+    ativo: true,
+    // Planilha "LISTA IMPORTAÇÃO MK AUTOPARTS 2026", linha 77.
+  },
+  {
+    slug: "farol-principal-daf-xf-a-partir-de-2020-d01-009",
+    nome: "Farol principal DAF XF a partir de 2020",
+    categoria: "farois",
+    variantes: [{lado: "LD", codigo: "D01-009", codigosOriginais: ["1835875"]}, {lado: "LE", codigo: "D01-010", codigosOriginais: ["1835874"]}],
+    aplicacoes: [{montadora: "daf", modelo: "xf", anoInicio: 2020}],
+    imagem: "/img/produtos/farol-principal-daf-xf-a-partir-de-2020-d01-009.png",
+    ativo: true,
+    // Planilha "LISTA IMPORTAÇÃO MK AUTOPARTS 2026", linha 82.
+  },
+  {
+    slug: "espelho-retrovisor-completo-daf-xf-105-2020-a-2024-d01-011",
+    nome: "Espelho retrovisor completo DAF XF 105, 2020 a 2024",
+    categoria: "retrovisores",
+    variantes: [{lado: "LD", codigo: "D01-011", codigosOriginais: ["1644303"]}, {lado: "LE", codigo: "D01-012", codigosOriginais: ["1644302"]}],
+    aplicacoes: [{montadora: "daf", modelo: "xf", anoInicio: 2020, anoFim: 2024}],
+    imagem: "/img/produtos/espelho-retrovisor-completo-daf-xf-105-2020-a-2024-d01-011.png",
+    ativo: true,
+    // Planilha "LISTA IMPORTAÇÃO MK AUTOPARTS 2026", linha 83.
+  },
+  {
+    slug: "lanterna-traseira-mercedes-benz-new-actros-a-partir-de-2019-35443403",
+    nome: "Lanterna traseira Mercedes-Benz New Actros a partir de 2019",
+    categoria: "lanternas",
+    variantes: [{lado: "LD", codigosOriginais: ["35443403"]}, {lado: "LE", codigosOriginais: ["35443203"]}],
+    aplicacoes: [{montadora: "mercedes-benz", modelo: "actros", anoInicio: 2019}],
+    imagem: "/img/produtos/lanterna-traseira-mercedes-benz-new-actros-a-partir-de-2019-35443403.png",
+    ativo: true,
+    // Planilha "LISTA IMPORTAÇÃO MK AUTOPARTS 2026", linha 85. Planilha: LD "sem vigia" e LE "com vigia" (a confirmar)
+  },
+  {
+    slug: "lanterna-traseira-guerra-a-partir-de-2012-36-leds",
+    nome: "Lanterna traseira Guerra a partir de 2012, 36 LEDs",
+    categoria: "lanternas",
+    variantes: [{lado: "LD"}, {lado: "LE"}],
+    aplicacoes: [{montadora: "guerra", anoInicio: 2012}],
+    imagem: "/img/produtos/lanterna-traseira-guerra-a-partir-de-2012-36-leds.png",
+    ativo: true,
+    // Planilha "LISTA IMPORTAÇÃO MK AUTOPARTS 2026", linha 87. Sem código MK nem OEM na planilha
+  },
+  {
+    slug: "lanterna-traseira-led-scania-ntg-com-chicote-de-7-vias",
+    nome: "Lanterna traseira LED Scania NTG com chicote de 7 vias",
+    categoria: "lanternas",
+    variantes: [{lado: "LD"}, {lado: "LE"}],
+    aplicacoes: [{montadora: "scania", modelo: "ntg"}],
+    imagem: "/img/produtos/lanterna-traseira-led-scania-ntg-com-chicote-de-7-vias.png",
+    ativo: true,
+    // Planilha "LISTA IMPORTAÇÃO MK AUTOPARTS 2026", linha 89. Sem código MK nem OEM na planilha
+  },
+  {
+    slug: "ar-condicionado-eletrico-para-caminhao-12-v",
+    nome: "Ar-condicionado elétrico para caminhão 12 V",
+    categoria: "implementos",
+    aplicacoes: [],
+    imagem: "/img/produtos/ar-condicionado-eletrico-para-caminhao-12-v.png",
+    ativo: true,
+    // Planilha "LISTA IMPORTAÇÃO MK AUTOPARTS 2026", linha 91. Sem código na planilha; foto é arte de anúncio de terceiros (trocar)
+  },
+  {
+    slug: "ar-condicionado-eletrico-para-caminhao-24-v",
+    nome: "Ar-condicionado elétrico para caminhão 24 V",
+    categoria: "implementos",
+    aplicacoes: [],
+    imagem: "/img/produtos/ar-condicionado-eletrico-para-caminhao-24-v.png",
+    ativo: true,
+    // Planilha "LISTA IMPORTAÇÃO MK AUTOPARTS 2026", linha 92. Sem código na planilha; foto é arte de anúncio de terceiros (trocar)
+  },
+  {
+    slug: "gerador-automotivo-inteligente-24-v-1800-w",
+    nome: "Gerador automotivo inteligente 24 V, 1800 W",
+    categoria: "implementos",
+    aplicacoes: [],
+    imagem: "/img/produtos/gerador-automotivo-inteligente-24-v-1800-w.png",
+    ativo: true,
+    // Planilha "LISTA IMPORTAÇÃO MK AUTOPARTS 2026", linha 93. Sem código na planilha
+  },
+  {
+    slug: "mini-geladeira-35-litros-12-24-v",
+    nome: "Mini geladeira 35 litros, 12/24 V e 110/220 V",
+    categoria: "implementos",
+    aplicacoes: [],
+    imagem: "/img/produtos/mini-geladeira-35-litros-12-24-v.png",
+    ativo: true,
+    // Planilha "LISTA IMPORTAÇÃO MK AUTOPARTS 2026", linha 94. Sem código na planilha
   },
 ];

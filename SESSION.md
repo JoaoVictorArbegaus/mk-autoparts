@@ -9,11 +9,11 @@ pertencem ao `sdd_kit/`.
 - Direção visual aprovada: opção A, "Cromado na pista" (`frontend/design/direcao-visual.md`,
   contrato completo, com a seção Acabamento preenchida).
 - Protótipo construído em `frontend/` (Vite + React + TS, CSS próprio, Motion, Lenis,
-  roteador próprio, pré-renderização): landing, `/catalogo`, `/produto/<slug>` (76),
+  roteador próprio, pré-renderização): landing, `/catalogo`, `/produto/<slug>` (107),
   lista de orçamento, sete rotas de `/admin/*` (métricas em `/admin/metricas`; `/painel` redireciona) e 404. Ver `frontend/README.md`.
 - Na última validação completa, `npm run build` passou (typecheck, build, SSR,
-  pré-renderização de 85 rotas + 404 e validação dos dados) e `npm test` passou
-  (30 testes das regras puras).
+  pré-renderização de 120 rotas + 404 e validação dos dados) e `npm test` passou
+  (45 testes das regras puras).
 - Rodada de ajustes da landing aplicada: hero com mosaico de peças ao fundo
   (`public/img/hero/mosaico-*.jpg`, `DEC-024`), emendas em corte inclinado com filete azul (no lugar da onda, definitivo),
   categorias em cartões marinho com a foto base do caminhão e peças destacadas em SVG

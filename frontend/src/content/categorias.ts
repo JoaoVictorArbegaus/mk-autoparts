@@ -9,5 +9,6 @@ export const categorias: Categoria[] = [
   { slug: "lentes-vidros", nome: "Lentes e vidros de farol", ordem: 4 },
   { slug: "portas-vidros", nome: "Portas e vidros elétricos", ordem: 5 },
   { slug: "motor", nome: "Motor, tensores e polias", ordem: 6 },
-  { slug: "implementos", nome: "Implementos e acessórios", ordem: 7 },
+  { slug: "cabine", nome: "Cabine e acabamentos", ordem: 7 },
+  { slug: "implementos", nome: "Implementos e acessórios", ordem: 8 },
 ];

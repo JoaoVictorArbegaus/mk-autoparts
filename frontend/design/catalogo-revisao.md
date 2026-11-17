@@ -72,3 +72,35 @@ abril de 2025) e as três imagens recebidas em `docs/produtos/`. Resultado em
   farol Scania NTG manual, lanterna LED Scania NTG, lanterna traseira Volvo FH16,
   espelho Volvo FH New, farol Actros 2018+, farol VW Delivery 2017, além das três
   promoções.
+
+## Planilha "LISTA IMPORTAÇÃO MK AUTOPARTS 2026"
+
+Recebida do responsável em `frontend/design/originais/catalogo-planilha/` (fora do Git). É uma lista
+de importação: **custos, preços de compra e venda e quantidades não são usados** (repositório e site
+públicos; `DEC-008`, `RN-14`). Usados só descrição, código MK, código original (OEM) e foto.
+
+- **Resultado:** 31 produtos novos (pares LD/LE juntados, `DEC-012`) e 8 fotos trocadas por versões
+  maiores (lanterna Randon, Iveco Stralis, retrovisores Volvo FH13 e FH New, lanterna-pisca Scania,
+  retrovisor Scania braço fino, farol auxiliar NTG, farol VW Delivery). Nos outros 11 produtos que já
+  existiam, a foto da planilha era menor e a atual foi mantida.
+- **Categoria nova:** "Cabine e acabamentos" (grades, defletores, acabamentos de estribo, paralama e
+  bojo de farol, capas de para-choque, paralama Volvo FH, tampa de tanque, protetor do catalisador).
+  Ar-condicionado, gerador e geladeira foram para "Implementos e acessórios".
+- **Convenção mantida:** "Scania S6" da planilha = NTG (Série 6), como no resto do site.
+- **A confirmar com a MK:**
+  - linhas 14/15 e 38/39 têm o mesmo OEM (2162652/2162653): tratadas como um só produto
+    (Acabamento do defletor da coluna Scania R, PP1066/PP1067);
+  - OEM do Acabamento do defletor da coluna Scania G LE: 2162551 (provável 2162651);
+  - código MK PP1057 aparece no estribo Série 5 R LE e no bojo do farol R Highline LD (o bojo ficou
+    sem código MK);
+  - Acabamento do paralama NTG dianteiro LD: a descrição cita 2297983 (OEM do LE);
+  - Acabamento do paralama NTG dianteiro/traseiro: lados confusos na planilha;
+  - Lanterna New Actros: LD "sem vigia" e LE "com vigia" (são o mesmo produto?);
+  - aplicação do protetor do catalisador não informada; lanternas Guerra e NTG com chicote,
+    ar-condicionado, gerador e geladeira sem código.
+- **Fotos a trocar antes do site definitivo** (usadas só na apresentação, a pedido do responsável):
+  marca-d'água "EPAC" (grades, defletores, acabamentos do defletor, protetor do catalisador, tampa de
+  tanque), logo de outra loja (acabamentos de paralama e de bojo de farol), montagem de anúncio
+  (lanterna Volvo FH16) e arte de anúncio com texto (ar-condicionado 12 V e 24 V).
+- **Fotos pequenas (até 200 px) nos produtos novos:** grades, bojo do farol Série 5, defletores,
+  acabamentos do defletor G, espelho de rampa, lanternas Guerra e Actros; pedir fotos melhores.

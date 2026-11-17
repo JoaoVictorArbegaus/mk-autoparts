@@ -61,6 +61,16 @@ const destaques: Record<string, ReactNode> = {
       <rect x={823} y={503} width={30} height={32} rx={6} />
     </>
   ),
+  /* Cabine: peças grandes com preenchimento mais leve (cat__painel). O para-choque tem as neblinas
+     vazadas (já acendem em Faróis); o arco acompanha a borda do paralama sobre o pneu. */
+  cabine: (
+    <g className="cat__painel">
+      <polygon points="338,506 630,506 616,700 592,716 372,718 356,700" />
+      <path fillRule="evenodd" d={`M286,738 356,724 592,722 742,704 744,790 600,802 360,806 292,772Z M${neblinaEsq}Z M${neblinaDir}Z`} />
+      <polygon points="805,700 812,650 828,614 852,598 880,590 912,596 942,612 952,622 940,626 912,612 880,606 856,613 840,630 828,662 822,702" />
+      <polygon points="652,430 717,422 720,580 620,590 630,530 650,445" />
+    </g>
+  ),
   motor: (
     <g className="cat__raiox">
       <rect x={360} y={500} width={290} height={225} rx={18} className="cat__raiox-bloco" />
@@ -81,6 +91,7 @@ const cena: Record<string, { z: number; tx: number; ty: number }> = {
   'lentes-vidros': { z: 2.4, tx: 17.5, ty: -15 },
   'portas-vidros': { z: 1.8, tx: -3, ty: 11 },
   motor: { z: 1.9, tx: 17, ty: -10 },
+  cabine: { z: 1.45, tx: 12, ty: -12 },
 };
 
 function Cartao({ c, i }: { c: { slug: string; nome: string }; i: number }) {
@@ -117,7 +128,7 @@ export function Categorias() {
               {t.apoio}
             </Reveal>
           </div>
-          <Reveal i={2}>
+          <Reveal i={2} className="categorias__ver-todas">
             <Link href="/catalogo" className="link-seta">
               {t.verTodas}
               <Icone nome="seta" tamanho={18} />
@@ -130,6 +141,19 @@ export function Categorias() {
               <Cartao c={c} i={i} />
             </Reveal>
           ))}
+          {/* Desktop largo (4 colunas): fecha a grade 4×2 e substitui o link ao lado do título. */}
+          <Reveal as="li" i={cats.length} amount={0} className="categorias__item categorias__item--todos">
+            <Link href="/catalogo" className="cat cat--todos">
+              <span className="cat__palco cat__palco--todos" aria-hidden="true">
+                <Icone nome="seta" tamanho={56} className="cat__todos-seta" />
+                <span className="cat__total-rotulo">{t.todasApoio}</span>
+              </span>
+              <span className="cat__corpo">
+                <span className="cat__nome">{t.verTodas}</span>
+                <Icone nome="setaDiag" tamanho={20} className="cat__seta" />
+              </span>
+            </Link>
+          </Reveal>
         </ul>
       </div>
       <Emenda para="navy" />

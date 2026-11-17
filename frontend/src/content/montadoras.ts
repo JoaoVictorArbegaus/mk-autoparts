@@ -12,4 +12,5 @@ export const montadoras: Montadora[] = [
   { slug: "iveco", nome: "Iveco", modelos: [{ slug: "stralis", nome: "Stralis" }, { slug: "tector", nome: "Tector" }, { slug: "cursor", nome: "Cursor" }] },
   { slug: "daf", nome: "DAF", modelos: [{ slug: "xf", nome: "XF" }, { slug: "cf", nome: "CF" }] },
   { slug: "randon", nome: "Randon", modelos: [{ slug: "bitrem", nome: "Bitrem" }, { slug: "carreta", nome: "Carreta / semirreboque" }] },
+  { slug: "guerra", nome: "Guerra", modelos: [] },
 ];

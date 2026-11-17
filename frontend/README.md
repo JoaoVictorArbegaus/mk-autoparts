@@ -11,7 +11,7 @@ Protótipo de apresentação, somente frontend (`DEC-001`). Direção visual: op
 - Roteamento próprio com a History API (`src/router/`), sem biblioteca.
 - Pré-renderização no build sem biblioteca extra: `src/entry-server.tsx` + `scripts/prerender.mjs`
   geram `dist/index.html`, `dist/catalogo/`, `dist/produto/<slug>/` (cada produto ativo),
-  as sete rotas de `/admin/*` e `dist/404.html`. Com os 76 produtos atuais, são 85
+  as sete rotas de `/admin/*` e `dist/404.html`. Com os 107 produtos atuais, são 120
   rotas mais a página 404. A validação dos dados roda no prerender e
   falha o build.
 - Vitest só para as regras puras (busca, filtros, lista, mensagem do WhatsApp, carrinhos, métricas).

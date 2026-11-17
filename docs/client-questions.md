@@ -124,6 +124,9 @@ demonstração**, que não é a decisão final. Fontes recebidas ficam em `docs/
 
 ### Painel do vendedor e atendimento (`DEC-017` a `DEC-021`)
 
+- **PEND-039 — Produtos da planilha de importação:** confirmar as dúvidas de códigos e lados
+  listadas em `frontend/design/catalogo-revisao.md` (seção "Planilha") e mandar fotos próprias
+  para os produtos com marca-d'água ou arte de anúncio de terceiros e para os de foto pequena.
 - **PEND-034 — Fotos dos vendedores:** nomes e WhatsApps dos oito vendedores já recebidos
   (`DEC-022`). Falta a foto de cada um e a autorização de uso. *Demonstração:* iniciais no
   lugar da foto.
