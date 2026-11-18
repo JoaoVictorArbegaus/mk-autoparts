@@ -128,8 +128,9 @@ demonstração**, que não é a decisão final. Fontes recebidas ficam em `docs/
   listadas em `frontend/design/catalogo-revisao.md` (seção "Planilha") e mandar fotos próprias
   para os produtos com marca-d'água ou arte de anúncio de terceiros e para os de foto pequena.
 - **PEND-034 — Fotos dos vendedores:** nomes e WhatsApps dos oito vendedores já recebidos
-  (`DEC-022`). Falta a foto de cada um e a autorização de uso. *Demonstração:* iniciais no
-  lugar da foto.
+  (`DEC-022`). Recebidas as artes de perfil de **Daniel e Vitor**: o rosto foi recortado para o
+  avatar (`public/img/vendedores/`). Faltam as dos outros seis e a autorização de uso das fotos.
+  *Demonstração:* iniciais no lugar da foto de quem ainda não tem.
 - **PEND-035 — Documento do orçamento:** as alterações pedidas pela MK chegaram e foram
   implementadas no modelo novo (`DEC-025`): código de venda, cliente PJ/PF, entrega e
   pagamento, IPI, ST, frete, impostos, cubagem e pesos; CNPJ no rodapé do documento
