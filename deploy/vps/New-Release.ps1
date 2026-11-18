@@ -51,8 +51,8 @@ finally {
 $requiredFiles = @(
     'index.html',
     'catalogo\index.html',
-    'painel\index.html',
     'admin\index.html',
+    'admin\metricas\index.html',
     '404.html'
 )
 foreach ($relativePath in $requiredFiles) {
