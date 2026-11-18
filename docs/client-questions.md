@@ -130,15 +130,17 @@ demonstração**, que não é a decisão final. Fontes recebidas ficam em `docs/
 - **PEND-034 — Fotos dos vendedores:** nomes e WhatsApps dos oito vendedores já recebidos
   (`DEC-022`). Falta a foto de cada um e a autorização de uso. *Demonstração:* iniciais no
   lugar da foto.
-- **PEND-035 — Documento do orçamento:** o modelo do responsável
-  (`docs/Para-Socio-Orcamento/PADRAO-ORCAMENTO-PARA-O-SITE.md`) foi implementado em PDF e
-  Word e mostrado à contratante, que **gostou do modelo, mas ainda vai pedir alterações**
-  (em aberto; aguardando a lista). Continuam pendentes: o que o vendedor pode editar além
-  do já definido (cliente, itens, preços, desconto, observação e validade); os textos fixos
-  (condições de pagamento, prazo, frete, garantia) e quem os fornece; os dados do rodapé e
-  a autorização do CNPJ; prazo de entrega ou frete no documento; assinatura, numeração por
-  vendedor ou mais de uma via; fundo claro ou escuro. Avisos de mudança no orçamento: só
-  no painel, por enquanto.
+- **PEND-035 — Documento do orçamento:** as alterações pedidas pela MK chegaram e foram
+  implementadas no modelo novo (`DEC-025`): código de venda, cliente PJ/PF, entrega e
+  pagamento, IPI, ST, frete, impostos, cubagem e pesos; CNPJ no rodapé do documento
+  liberado pelo responsável. **A confirmar com a MK:** desconto no total rateado antes do IPI
+  (muda a base do IPI; quem cuida da parte fiscal); ST somado depois do IPI; de onde vêm IPI,
+  ST, peso e medidas de cada produto (NCM e tributação); formato do código de venda e
+  integração com o sistema da MK; numeração de página ("Página 1 de 2"); se o vendedor edita
+  as condições por orçamento; textos fixos (condições, validade, "sob consulta"; hoje são de
+  exemplo); outros dados no rodapé (telefone, e-mail, site) e prazo de entrega; assinatura,
+  numeração por vendedor ou mais de uma via; fundo claro ou escuro. Avisos de mudança no
+  orçamento: só no painel, por enquanto.
 
 ### Catálogo e venda
 

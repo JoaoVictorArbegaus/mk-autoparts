@@ -8,7 +8,7 @@
 
 - **Nome do negócio:** MK Autoparts (razão social Mk Auto Parts LTDA; grafia na
   página em `PEND-018`)
-- **CNPJ:** 41.577.754/0001-96 (exibir no rodapé só se o cliente autorizar)
+- **CNPJ:** 41.577.754/0001-96 (no rodapé do documento do orçamento, liberado com o modelo novo, `DEC-025`; no rodapé do site, só se o cliente autorizar)
 - **Desde:** 14/04/2021 (data de abertura)
 - **Nicho / segmento:** loja de autopeças e suprimentos (Google); importação,
   exportação e distribuição de peças e acessórios para caminhões (Instagram)

@@ -5,15 +5,16 @@
  */
 import { gravar, lerJson, novoId } from '../rastreio/armazenamento';
 import { obterVendedor } from '../content/vendedores';
-import { codificarLink, type Alteracao, type Orcamento } from './orcamento';
+import { codificarLink, lerOrcamento, nomeCliente, type Alteracao, type Orcamento } from './orcamento';
 
 export const CHAVE_ORCAMENTOS = 'mk-orcamentos-v1';
 export const CHAVE_SESSAO_VENDEDOR = 'mk-vendedor-sessao';
 
-const valida = (d: unknown) => (Array.isArray(d) ? (d.filter(o => o && typeof o.id === 'string' && typeof o.vendedor === 'string' && Array.isArray(o.itens)) as Orcamento[]) : null);
+// Lê também os orçamentos gravados no formato anterior (cliente em texto, valores em número).
+const valida = (d: unknown) => (Array.isArray(d) ? d.map(lerOrcamento).filter((o): o is Orcamento => !!o) : null);
 
 export function lerOrcamentos(): Orcamento[] {
-  return (lerJson(CHAVE_ORCAMENTOS, valida) ?? []).map(o => ({ ...o, alteracoes: Array.isArray(o.alteracoes) ? o.alteracoes : [] }));
+  return lerJson(CHAVE_ORCAMENTOS, valida) ?? [];
 }
 
 function gravarTodos(lista: Orcamento[]) {
@@ -49,7 +50,7 @@ export async function enviarLink(orc: Orcamento): Promise<'compartilhado' | 'cop
   const nav = typeof navigator === 'undefined' ? undefined : navigator;
   if (nav?.share) {
     try {
-      await nav.share({ title: 'Orçamento MK Autoparts', text: orc.cliente ? `Orçamento para ${orc.cliente}` : 'Seu orçamento da MK Autoparts', url });
+      await nav.share({ title: 'Orçamento MK Autoparts', text: nomeCliente(orc.cliente) ? `Orçamento para ${nomeCliente(orc.cliente)}` : 'Seu orçamento da MK Autoparts', url });
       return 'compartilhado';
     } catch (e) {
       if ((e as Error)?.name === 'AbortError') return 'cancelado';

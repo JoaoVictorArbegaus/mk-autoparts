@@ -205,17 +205,42 @@ Decisões: `DEC-017`, `DEC-018`, `DEC-019`.
   pública e `noindex`. O acesso é controlado pelo administrador principal (`DEC-021`).
   Na demonstração o login é simulado.
 - O vendedor monta um **orçamento** escolhendo produtos, lado, quantidade e observação,
-  com as mesmas regras de `RN-04`, e informa o cliente (nome, opcional). Em peça com lado,
-  "Par" divide a linha em duas (LD e LE), cada uma com o próprio código, quantidade e preço.
+  com as mesmas regras de `RN-04`. Em peça com lado, "Par" divide a linha em duas (LD e LE),
+  cada uma com o próprio código, quantidade e preço.
+- **Cliente (obrigatório):** empresa (PJ) ou pessoa física (PF). PJ exige a razão social e
+  tem comprador (pessoa de contato), CNPJ e inscrição estadual, opcionais; PF exige o nome e
+  tem CPF, opcional. E-mail e telefone, opcionais, nos dois. CPF e CNPJ têm os dígitos
+  verificadores validados. Não existe código do cliente: o cliente não tem conta e os dados
+  são digitados no orçamento (`DEC-025`).
+- **Entrega e pagamento (opcionais, texto livre):** endereço de entrega, endereço de
+  cobrança (com "igual ao de entrega"), transportadora com o tipo de frete (ex.: "FOB -
+  nome"; lista de transportadoras fica para depois) e prazo de pagamento.
+- **Código de venda (opcional):** gerado pela MK fora do sistema; o vendedor digita, até 20
+  caracteres. Sem valor, o documento mostra "—".
+- **Itens:** descrição, Nº compatível (códigos originais do catálogo do lado escolhido,
+  separados por "/") e unidade (padrão "PC") vêm do catálogo e podem ser editados no
+  orçamento sem alterar o catálogo. IPI (%) e valor da substituição tributária (R$, do item
+  inteiro) começam em zero e são editáveis (o catálogo do protótipo não tem tributação).
+- **Frete (+), impostos (−, dedução), cubagem, volumes, peso líquido e peso bruto:** digitados
+  pelo vendedor (o catálogo não tem peso e medidas); sem nenhum dado de logística, a faixa
+  não aparece no documento.
 - **Preço:** o vendedor digita o preço unitário de cada item, ou deixa sem preço e o item
   aparece como "sob consulta". Item em promoção parte do preço promocional (`RN-02A`),
   que ele pode alterar. Sem preço, o item fica fora do total.
-- **Desconto:** em valor (R$) ou em porcentagem, em itens específicos ou no total. O
-  desconto nunca deixa o preço negativo.
+- **Desconto:** em valor (R$, por unidade) ou em porcentagem (0 a 100), em itens específicos
+  ou no total. O desconto nunca deixa o preço negativo. O desconto no total é **rateado** em
+  todos os itens com preço, antes do IPI (`DEC-025`).
+- **Cálculo (aritmética decimal, metade para cima a 2 casas, cada unitário antes de
+  multiplicar pela quantidade; referência executável `orcamento_modelo.py`):** líquido =
+  preço após o desconto do item × fator do desconto no total; unitário = líquido × (1 + IPI%);
+  total do item = unitário × quantidade; valor dos produtos = Σ líquido × quantidade;
+  IPI = Σ (total do item − líquido × quantidade); **total = valor dos produtos + IPI + ST +
+  frete − impostos**. Desconto exibido = valor sem desconto − valor dos produtos.
 - **Exibição do desconto:** o preço antigo aparece riscado, o novo logo abaixo e, ao lado
   dos dois, a porcentagem de desconto (calculada sobre o preço antigo; uma casa decimal
-  só quando não for inteira). No total, o subtotal fica riscado acima do total final,
-  com a porcentagem ao lado.
+  só quando não for inteira). No documento, a caixa de totais mostra o valor dos produtos
+  sem desconto riscado e o desconto com a porcentagem; nas barras de total da tela, só o
+  total e a porcentagem (o valor sem desconto não tem IPI nem ST).
 - **Formas de envio:** o vendedor escolhe uma ou mais: **link**, **PDF** ou **documento
   editável** (Word). Todas trazem os mesmos dados. O link sai por "Enviar ao cliente", que
   usa o compartilhamento do celular (WhatsApp e outros apps) ou copia o link no computador.
@@ -224,10 +249,13 @@ Decisões: `DEC-017`, `DEC-018`, `DEC-019`.
   não mostra o orçamento: avisa o cliente e oferece "Falar com `<nome>`" (o vendedor
   dono). Na demonstração, a exclusão vale no navegador do vendedor (`localStorage`); entre
   aparelhos, só com servidor.
-- **Link:** abre a página do orçamento (`/orcamento`) com itens, preços e desconto,
-  atribui a sessão ao vendedor que o gerou (`RN-07`) e trava a escolha de outro
+- **Link:** abre a página do orçamento (`/orcamento`) com os itens, os mesmos valores e
+  totais do PDF (Nº compatível, IPI, ST, descontos, frete, impostos e um resumo igual à caixa
+  de totais), atribui a sessão ao vendedor que o gerou (`RN-07`) e trava a escolha de outro
   vendedor. O item que deixou de existir é removido com aviso, como em `RN-04`. Na
-  demonstração, o orçamento vai codificado na URL.
+  demonstração, o orçamento vai codificado na URL, **sem os dados pessoais do cliente**: só o
+  nome em destaque; CPF/CNPJ, inscrição, e-mail, telefone, endereços, transportadora e prazo
+  ficam só no PDF e no Word (`DEC-025`).
 - **O cliente no link:** pode alterar quantidades, remover itens e adicionar produtos do
   catálogo. O preço e o desconto do vendedor continuam nos itens dele; o item adicionado
   pelo cliente entra "sob consulta" e o total é recalculado. Ao adicionar peça com lado, o
@@ -237,14 +265,23 @@ Decisões: `DEC-017`, `DEC-018`, `DEC-019`.
   atual; texto escolhido pelo responsável, porque o cliente já está vendo um orçamento) e
   "Falar com `<nome>`" (abre a conversa, sem a lista). No celular, o total e o envio ficam
   numa barra fixa embaixo.
-- **Documento (PDF e Word):** padronizado conforme o modelo do responsável
-  (`docs/Para-Socio-Orcamento/PADRAO-ORCAMENTO-PARA-O-SITE.md`), com o logo principal
-  (`DEC-020`), número sequencial (ORC-0001), nome e contato do vendedor, cliente (nome e
-  contato), itens com foto, código, lado, quantidade, preço, desconto e total, observação,
-  data e validade (se o vendedor definiu), subtotal sem desconto, desconto no total e a
-  economia. Os textos fixos e os dados da empresa ficam num só arquivo
-  (`src/content/documento.ts`); o CNPJ só aparece com autorização da MK. Textos fixos e campos editáveis
-  além dos definidos: `PEND-035`.
+- **Documento (PDF e Word):** igual à página 1 do modelo pedido pela MK
+  (`docs/pfd-regras/MKautoparts/`, fora do Git: especificação, exemplo em PDF e Word e
+  guia), na ordem: faixa de topo (selo `DEC-020`, nº do orçamento ORC-0001, código de venda
+  em amarelo, emissão no fuso de Brasília, validade); Vendedor (nome e WhatsApp) | Cliente
+  (destaque e campos do tipo; campo vazio não aparece); Entrega | Cobrança |
+  Transportadora/frete e prazo; tabela de itens (foto, produto com "Cód. MK · lado" e
+  "Nº compatível", un., qtd., Vl. líquido, IPI, Vl. ST, Vl. unit., Vl. total; item sob
+  consulta numa linha com "Sob consulta" e fora de todas as somas); observação, validade,
+  condições e logística (2 × 2) | caixa de totais (sem desconto, desconto, valor dos produtos,
+  IPI, ST, frete, impostos, valor total); link online; rodapé com razão social, **CNPJ**,
+  endereço e Instagram em todas as páginas. Orçamento longo continua na página seguinte sem
+  repetir o cabeçalho do documento; a linha de títulos da tabela se repete e a linha do item
+  não se parte. **O documento não tem:** controle do representante, ordem de compra, data de
+  embarque prevista, código do cliente, redespacho, "Descontos" no cabeçalho, aviso de
+  conferência da mercadoria nem cabeçalho repetido. Os textos fixos e os dados da empresa
+  ficam num só arquivo (`src/content/documento.ts`); condições, validade e "sob consulta"
+  ainda são textos de exemplo (`PEND-035`).
 - **Orçamentos ativos:** o painel lista os orçamentos ativos do vendedor (cliente, data,
   itens, total). Quando o cliente altera um pelo link, o orçamento ganha o aviso "Alterado
   pelo cliente" com o que mudou (item, ação, data), até o vendedor marcar como visto. O

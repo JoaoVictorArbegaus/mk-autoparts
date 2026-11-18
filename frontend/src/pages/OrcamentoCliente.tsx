@@ -9,14 +9,17 @@
  */
 import { useEffect, useMemo, useState, type MouseEvent } from 'react';
 import { Link, useRouter } from '../router';
-import { codigoDoLado, formatarPreco, imagemProduto, listarProdutos, normalizar, obterProduto, temLados, type Lado } from '../content/catalogo';
+import { imagemProduto, listarProdutos, normalizar, obterProduto, temLados, type Lado } from '../content/catalogo';
+import { documento as doc } from '../content/documento';
 import { empresa, mensagens, textos, whatsapp } from '../content/site';
 import { obterVendedor } from '../content/vendedores';
 import { useOrcamento } from '../orcamento/OrcamentoContext';
 import { mensagemLista } from '../orcamento/lista';
 import { aplicarParametroVendedor } from '../rastreio/vendedor';
 import { gravar, lerJson } from '../rastreio/armazenamento';
-import { calcularItem, calcularTotais, decodificarLink, expirado, formatarPorcentagem, type ItemOrcamento, type Orcamento } from '../vendedor/orcamento';
+import { calcularOrcamento, decodificarLink, expirado, lerItem, nomeCliente, type ItemOrcamento, type Orcamento } from '../vendedor/orcamento';
+import { brl, num, pctFiscal, pctTexto } from '../vendedor/decimal';
+import { dadosDoItem } from '../vendedor/itens';
 import { obterOrcamento, registrarAlteracao } from '../vendedor/armazem';
 import { Icone } from '../components/Icons';
 import { Quantidade } from '../components/Quantidade';
@@ -24,7 +27,8 @@ import { AvisoHorario } from '../components/AvisoHorario';
 
 const t = textos.orcamentoCliente;
 const chaveCliente = (id: string) => `mk-orcamento-cliente-${id}`;
-const validaItens = (d: unknown) => (Array.isArray(d) ? (d as ItemOrcamento[]) : null);
+// Lista ajustada pelo cliente neste navegador (também no formato anterior, com valores em número).
+const validaItens = (d: unknown) => (Array.isArray(d) ? d.map(lerItem).filter((i): i is ItemOrcamento => !!i) : null);
 
 type Estado = { tipo: 'carregando' } | { tipo: 'invalido' } | { tipo: 'indisponivel'; orc: Orcamento; motivo: 'expirado' | 'excluido' } | { tipo: 'ok'; orc: Orcamento };
 
@@ -124,7 +128,9 @@ export function OrcamentoCliente() {
     );
 
   const o = estado.orc;
-  const totais = calcularTotais({ itens, descontoTotal: o.descontoTotal });
+  // Mesmo cálculo do PDF e do Word: com a lista do vendedor, os totais são os do documento.
+  const calc = calcularOrcamento({ itens, descontoTotal: o.descontoTotal, frete: o.frete, impostosDeducao: o.impostosDeducao });
+  const r = doc.rotulos;
   const mensagem = `${mensagemLista({ itens: itens.map(({ slug, lado, quantidade }) => ({ slug, lado, quantidade })), observacao: o.observacao }, vendedor?.nome)}\n\n${t.referencia(o.id)}`;
   const solicitar = (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
@@ -137,10 +143,12 @@ export function OrcamentoCliente() {
     <section className="orcl contido" aria-labelledby="orcl-titulo">
       <header className="orcl__cabeca">
         <p className="orcl__de">{t.de(vendedor!.nome)}</p>
-        <h1 id="orcl-titulo">{o.cliente ? t.paraCliente(o.cliente) : t.titulo}</h1>
+        <h1 id="orcl-titulo">{nomeCliente(o.cliente) ? t.paraCliente(nomeCliente(o.cliente)) : t.titulo}</h1>
         <p className="orcl__meta">
+          {o.numero && `${o.numero} · `}
           {t.criado(data(o.criadoEm))}
           {o.validade && ` · ${t.valido(data(o.validade))}`}
+          {o.codigoVenda && ` · ${r.codigoVenda} ${o.codigoVenda}`}
         </p>
       </header>
 
@@ -153,13 +161,14 @@ export function OrcamentoCliente() {
       <ul className="orcl__itens">
         {itens.map((i, k) => {
           const p = obterProduto(i.slug)!;
-          const l = calcularItem(i);
+          const l = calc.itens[k];
+          const item = dadosDoItem(i, p);
           const img = imagemProduto(p);
           return (
             <li key={`${i.slug}-${i.lado ?? ''}-${k}`} data-chave={`${i.slug}:${i.lado ?? ''}`} className={`orcl__item${realce.includes(`${i.slug}:${i.lado ?? ''}`) ? ' orcl__item--novo' : ''}`}>
               <span className="orcl__foto">{img && <img src={img.src} alt="" width={72} height={72} loading="lazy" />}</span>
               <div className="orcl__info">
-                <strong>{p.nome}</strong>
+                <strong>{item.descricao}</strong>
                 <span className="orcl__cod">
                   {/* Peça sem preço do vendedor (adicionada pelo cliente ou sob consulta): o cliente pode trocar o lado. */}
                   {i.lado && i.preco === undefined && temLados(p) ? (
@@ -173,7 +182,8 @@ export function OrcamentoCliente() {
                   ) : (
                     i.lado && <span className="chip-lado">{i.lado}</span>
                   )}
-                  {codigoDoLado(p, i.lado) ?? p.codigo}
+                  {item.codigoMk}
+                  {item.codigoOriginal && <span className="orcl__compat">{r.compativel(item.codigoOriginal)}</span>}
                 </span>
                 <div className="orcl__linha">
                   <Quantidade valor={i.quantidade} rotulo={`${textos.produto.quantidade}: ${nome(i)}`} pequeno onChange={n => mudar(itens.map((x, j) => (j === k ? { ...x, quantidade: n } : x)), t.alterouQtd(nome(i), n))} />
@@ -185,10 +195,12 @@ export function OrcamentoCliente() {
               <div className="orcl__preco">
                 {l.comPreco ? (
                   <>
-                    {l.pct > 0 && <s>{formatarPreco(l.unitario)}</s>}
-                    <strong>{formatarPreco(l.unitarioFinal)}</strong>
-                    {l.pct > 0 && <span className="orcl__pct">-{formatarPorcentagem(l.pct)}</span>}
-                    <small>{i.quantidade > 1 ? t.linha(i.quantidade, formatarPreco(l.total)) : t.porUnidade}</small>
+                    {l.pctDesconto && <s>{brl(l.preco!)}</s>}
+                    <strong>{brl(l.liquido!)}</strong>
+                    {l.pctDesconto && <span className="orcl__pct">-{pctTexto(l.pctDesconto)}</span>}
+                    <small>{l.ipiPct.zero ? t.porUnidade : t.comIpi(pctFiscal(l.ipiPct), brl(l.unitario!))}</small>
+                    {i.quantidade > 1 && <small>{t.linha(i.quantidade, brl(l.total!))}</small>}
+                    {!l.st.zero && <small>{t.st(brl(l.st))}</small>}
                   </>
                 ) : (
                   <span className="orcl__consulta">{t.sobConsulta}</span>
@@ -260,6 +272,37 @@ export function OrcamentoCliente() {
         )}
       </div>
 
+      {calc.comPreco > 0 && (
+        // Resumo com as mesmas linhas da caixa de totais do PDF.
+        <section className="orcl__resumo" aria-labelledby="orcl-resumo">
+          <h2 id="orcl-resumo">{t.resumo}</h2>
+          <dl>
+            {!calc.desconto.zero && (
+              <>
+                <dt>{r.semDesconto}</dt>
+                <dd>
+                  <s>{num(calc.semDesconto)}</s>
+                </dd>
+                <dt>{r.desconto(pctTexto(calc.pctDesconto))}</dt>
+                <dd>− {num(calc.desconto)}</dd>
+              </>
+            )}
+            <dt>{r.valorProdutos}</dt>
+            <dd>{num(calc.valorProdutos)}</dd>
+            <dt>{r.ipiTotal}</dt>
+            <dd>{num(calc.ipi)}</dd>
+            <dt>{r.stTotal}</dt>
+            <dd>{num(calc.st)}</dd>
+            <dt>{r.frete}</dt>
+            <dd>{num(calc.frete)}</dd>
+            <dt>{r.impostos}</dt>
+            <dd>{num(calc.impostos)}</dd>
+            <dt className="orcl__resumo-total">{r.valorTotal}</dt>
+            <dd className="orcl__resumo-total">{brl(calc.total)}</dd>
+          </dl>
+        </section>
+      )}
+
       {o.observacao && <p className="orcl__obs">{t.observacao(o.observacao)}</p>}
       <AvisoHorario />
       <a className="btn btn--contorno btn--lg orcl__falar" href={falar} target="_blank" rel="noopener">
@@ -283,16 +326,15 @@ export function OrcamentoCliente() {
         </div>
         <div className="orcl__total">
           <span>{t.total}</span>
-          {totais.subtotal > 0 ? (
+          {calc.comPreco > 0 ? (
             <div className="orcl__total-valor">
-              {totais.pct > 0 && <s>{formatarPreco(totais.subtotal)}</s>}
-              <strong>{formatarPreco(totais.total)}</strong>
-              {totais.pct > 0 && <span className="orcl__pct">-{formatarPorcentagem(totais.pct)}</span>}
+              <strong>{brl(calc.total)}</strong>
+              {!calc.desconto.zero && <span className="orcl__pct">-{pctTexto(calc.pctDesconto)}</span>}
             </div>
           ) : (
             <strong>{t.sobConsulta}</strong>
           )}
-          {totais.semPreco > 0 && totais.subtotal > 0 && <small>{t.semPreco(totais.semPreco)}</small>}
+          {calc.semPreco > 0 && calc.comPreco > 0 && <small>{t.semPreco(calc.semPreco)}</small>}
         </div>
         <a className="btn btn--primario btn--lg orcl__enviar" href={whatsapp(vendedor!.whatsapp, mensagem)} target="_blank" rel="noopener" onClick={solicitar}>
           <Icone nome="whatsapp" tamanho={22} />

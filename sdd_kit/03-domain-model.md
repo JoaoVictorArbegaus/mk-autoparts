@@ -89,19 +89,29 @@ WhatsApp da empresa.
 
 | Campo | Tipo | Regra |
 | --- | --- | --- |
-| `vendedor` | código | Vendedor que gerou o orçamento |
-| `cliente` | texto opcional | Nome para o documento |
-| `itens` | lista | `{ slug, lado?, quantidade, preco?, desconto? }`; `desconto` é `{ tipo: 'valor' \| 'percentual', valor }` |
-| `descontoTotal` | `{ tipo, valor }` opcional | Aplicado ao subtotal dos itens com preço |
+| `vendedor` | código | Vendedor que gerou o orçamento (nome e WhatsApp vêm do cadastro) |
+| `numero` | `ORC-0001` | Sequencial, dado ao salvar; não editável |
+| `codigoVenda` | texto até 20, opcional | Gerado pela MK; vazio mostra "—" |
+| `cliente` | `{ tipo: 'PJ' \| 'PF', razaoSocial?, nome?, documento?, inscricaoEstadual?, email?, telefone? }` | PJ exige `razaoSocial` (`nome` = comprador); PF exige `nome`; `documento` = CNPJ ou CPF com dígitos válidos; `inscricaoEstadual` só PJ |
+| `entrega` | `{ enderecoEntrega?, enderecoCobranca?, cobrancaIgualEntrega?, transportadora?, prazoPagamento? }` | Texto livre |
+| `itens` | lista | `{ slug, lado?, quantidade, preco?, desconto?, descricao?, codigoOriginal?, unidade?, ipiPct?, st? }`; `desconto` é `{ tipo: 'valor' \| 'percentual', valor }`; `descricao`, `codigoOriginal` e `unidade` vazios = os do catálogo |
+| `descontoTotal` | `{ tipo, valor }` opcional | Rateado em todos os itens com preço, antes do IPI |
+| `frete`, `impostosDeducao` | valor em R$, opcional | Somado / deduzido do total; padrão 0 |
+| `logistica` | `{ cubagemM3?, volumes?, pesoLiquidoKg?, pesoBrutoKg? }` opcional | Cubagem com 6 casas, pesos com 4 |
 | `observacao` | texto até 500 | Igual à lista (`RN-04`) |
+| `criadoEm` | data e hora | Emissão do documento |
 | `id` | string | Identifica o orçamento no link e no painel |
 | `validade` | data opcional | Prazo definido pelo vendedor em cada orçamento; passado o prazo, o link mostra que o orçamento expirou |
 | `estado` | `ativo` \| `encerrado` \| `excluido` | Só orçamentos ativos aparecem na lista de trabalho do vendedor. Link de orçamento `excluido` (o vendedor pode excluir a qualquer momento) deixa de abrir o orçamento |
 | `alteracoes` | lista | O que o cliente mudou pelo link: item, ação e data; some do aviso quando o vendedor marca como visto |
 
-Preço, desconto, porcentagem exibida e total são calculados e validados por funções
-puras testáveis. Item sem `preco` fica "sob consulta" e fora do total. O desconto
-nunca deixa o preço negativo.
+Valores em dinheiro e alíquotas são texto com ponto decimal (`"489.00"`, `"3.25"`), como no
+contrato `orcamento-exemplo.json`; nenhum valor calculado é gravado. Líquido, IPI, unitário,
+totais e porcentagens são calculados por funções puras testáveis em aritmética decimal
+(`src/vendedor/decimal.ts`, que reproduz o `decimal` do Python de `orcamento_modelo.py`), com
+o caso de teste do exemplo (R$ 4.936,74). Item sem `preco` fica "sob consulta" e fora de
+todas as somas. O desconto nunca deixa o preço negativo. Orçamentos gravados no formato
+anterior (cliente em texto, valores em número) são lidos e convertidos.
 
 ### Fila do rodízio (`RN-11`)
 

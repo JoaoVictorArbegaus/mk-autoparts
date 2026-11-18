@@ -1267,7 +1267,7 @@
 .vend-item {
   display: grid;
   grid-template-columns: 56px minmax(0, 1fr) auto;
-  grid-template-areas: 'foto nome remover' 'campos campos campos' 'valor valor valor';
+  grid-template-areas: 'foto nome remover' 'campos campos campos' 'mais mais mais' 'valor valor valor';
   gap: 10px 12px;
   align-items: center;
   padding: 12px;
@@ -1370,7 +1370,11 @@
     grid-template-columns: 56px minmax(0, 1fr) auto 44px;
     grid-template-areas:
       'foto nome valor remover'
-      'campos campos campos campos';
+      'campos campos campos campos'
+      'mais mais mais mais';
+  }
+  .vend-item__mais {
+    margin-left: 68px;
   }
   .vend-item__campos {
     grid-template-columns: 150px 140px 160px 200px;
@@ -1559,4 +1563,76 @@
 }
 .vend-mais__lista .vend-perigo {
   color: var(--promo-red);
+}
+
+/*
+ * Campos do documento do orçamento (especificação da MK): dados do item vindos do cadastro (descrição,
+ * Nº compatível, unidade, IPI e ST) num painel recolhível, para o cartão continuar curto no celular;
+ * blocos de cliente, entrega, valores e logística em grade que vira uma coluna no celular.
+ */
+.vend-item__mais {
+  grid-area: mais;
+  min-width: 0;
+  border-top: 1px dashed var(--adm-linha);
+  padding-top: 8px;
+}
+.vend-item__mais > summary {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--royal);
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+.vend-item__fiscal {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px 12px;
+  padding: 4px 0 6px;
+}
+.vend-item__fiscal .vend-valor {
+  width: 100%;
+}
+.vend-item__dica,
+.vend-editor__dica {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--ink-2);
+  font-size: 0.8125rem;
+}
+.vend-campo--largo {
+  grid-column: 1 / -1;
+}
+.vend-campo__erro {
+  color: var(--promo-red) !important;
+  font-weight: 600;
+}
+.adm-campo input[aria-invalid='true'] {
+  border-color: var(--promo-red);
+}
+.vend-segmento--largo button {
+  flex: 1;
+  padding: 0 14px;
+}
+.vend-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  font-weight: 500;
+  font-size: 0.9375rem;
+  color: var(--ink);
+}
+.vend-check input {
+  width: 20px;
+  height: 20px;
+  min-height: 0;
+  accent-color: var(--royal);
+}
+.vend-editor__dados > h2:not(:first-child) {
+  margin-top: 8px;
+}
+.vend-editor__dados .vend-valor {
+  width: 100%;
 }

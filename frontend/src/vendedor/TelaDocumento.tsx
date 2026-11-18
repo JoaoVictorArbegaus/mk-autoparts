@@ -101,6 +101,11 @@ export function TelaDocumento({ vendedor, avisar }: { vendedor: Vendedor; avisar
           {gerando ? t.gerando : t.word}
         </button>
         <p className="doc-acoes__dica">{t.dica}</p>
+        {dados.removidos > 0 && (
+          <p className="doc-acoes__aviso" role="status">
+            {t.removidos}
+          </p>
+        )}
       </div>
       <div ref={caixa} className="doc-previa">
         <div className="doc-zoom" style={{ zoom: escala } as CSSProperties}>

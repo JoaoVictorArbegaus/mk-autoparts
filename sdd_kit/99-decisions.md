@@ -400,3 +400,24 @@ autorização humana, atualização dos documentos afetados e novo registro aqui
 - **Alcance:** vale só para o hero (confirmado pelo responsável). O topo do catálogo e os
   cartões de categoria seguem com a foto do caminhão.
 - **Consequência:** Lighthouse no celular (`RNF-05`) conferido depois da troca.
+
+### DEC-025 — Documento do orçamento no modelo novo da MK
+
+- **Contexto:** a MK pediu campos novos no documento do orçamento, a partir de um orçamento de
+  fornecedor que ela usa. O responsável entregou a especificação, o exemplo em PDF e Word, o
+  contrato de dados e o cálculo de referência (`docs/pfd-regras/MKautoparts/`, fora do Git:
+  traz um orçamento real com dados de terceiros).
+- **Decisão:** o documento passa a ter código de venda, cliente PJ ou PF, entrega e pagamento,
+  Nº compatível, unidade, IPI e ST por item, frete, impostos (dedução), cubagem e pesos, com o
+  cálculo de `orcamento_modelo.py` (desconto no total rateado antes do IPI; total = produtos +
+  IPI + ST + frete − impostos), em aritmética decimal.
+- **Escolhas do responsável nesta implementação:** o **CNPJ da MK passa a sair no rodapé do
+  documento** (só no documento; o rodapé do site segue sem CNPJ); o **cliente é obrigatório**
+  (razão social ou nome); o **link não leva dados pessoais do cliente** (a URL fica no
+  histórico do WhatsApp e nos logs do servidor), mas leva todos os valores, para os totais
+  serem iguais aos do PDF.
+- **Comportamento de demonstração (a confirmar com a MK, `PEND-035`):** desconto no total
+  rateado antes do IPI (muda a base do IPI); ST somado depois do IPI; IPI, ST, peso e medidas
+  digitados no orçamento (o catálogo não tem); código de venda digitado pelo vendedor;
+  sem numeração de página; PDF pela impressão do navegador (sem servidor, `DEC-001`), com o
+  rodapé nas caixas de margem da página (Chrome e Edge).

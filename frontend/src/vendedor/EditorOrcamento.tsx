@@ -1,44 +1,57 @@
 /*
- * Novo orçamento / editar (RN-13, RF-30, RF-31), pensado para o celular (revisão impeccable):
- * busca de peças primeiro (sobe para o topo ao tocar, para os resultados não ficarem sob o teclado),
- * cliente e validade depois, lado em botões LD | LE, preço formatado (vazio = sob consulta; item em
- * promoção parte do preço promocional), desconto em % ou R$ por item e no total, e uma barra fixa
- * embaixo com o total e "Salvar e gerar link". Depois de salvar, "Enviar ao cliente" usa o
- * compartilhamento do aparelho; PDF e Word ficam para a REU-06.
+ * Novo orçamento / editar (RN-13, RF-30, RF-31), pensado para o celular (revisão impeccable), com os
+ * campos do documento pedido pela MK (docs/pfd-regras, especificação do orçamento):
+ * peças primeiro (busca que sobe para o topo ao tocar; lado em LD | LE | Par; preço vazio = sob consulta;
+ * item em promoção parte do preço promocional; desconto em % ou R$; descrição, Nº compatível, unidade,
+ * IPI e ST editáveis sem mudar o catálogo), depois o cliente (empresa ou pessoa física), entrega e
+ * pagamento, desconto no total, frete e impostos, cubagem e pesos, e por fim código de venda,
+ * validade e observação. Valores digitados viram texto decimal (nunca ponto flutuante). Uma barra
+ * fixa embaixo mostra o total e "Salvar e gerar link".
  */
-import { useEffect, useMemo, useRef, useState, type RefObject } from 'react';
+import { useEffect, useMemo, useRef, useState, type ReactNode, type RefObject } from 'react';
 import { Link, useRouter } from '../router';
 import { areaVendedor } from '../content/vendedor';
-import { codigoDoLado, formatarPreco, imagemProduto, listarProdutos, normalizar, obterProduto, temLados } from '../content/catalogo';
+import { imagemProduto, listarProdutos, normalizar, obterProduto, temLados } from '../content/catalogo';
 import type { Vendedor } from '../content/vendedores';
 import { Icone } from '../components/Icons';
 import { Quantidade } from '../components/Quantidade';
 import { OBS_MAX } from '../orcamento/lista';
 import { copiarLink, enviarLink, linkDoOrcamento, novoIdOrcamento, obterOrcamento, proximoNumero, salvarOrcamento } from './armazem';
-import { calcularItem, calcularTotais, formatarPorcentagem, type Desconto, type ItemOrcamento, type Orcamento } from './orcamento';
+import { Dec, brl, lerDecimal, num, pctTexto } from './decimal';
+import { cnpjValido, cpfValido } from './documentos';
+import { compativelDoCatalogo, dadosDoItem, itensDoCatalogo } from './itens';
+import {
+  CODIGO_VENDA_MAX,
+  calcularOrcamento,
+  clienteVazio,
+  limparOrcamento,
+  validarOrcamento,
+  type ClienteOrcamento,
+  type Desconto,
+  type EntregaOrcamento,
+  type ItemOrcamento,
+  type Logistica,
+  type Orcamento,
+} from './orcamento';
 
 const t = areaVendedor.editor;
 const tl = areaVendedor.lista;
 
-/** "1.234,56", "12,5" ou "12.5" → número; vazio → undefined; inválido → null. */
-function lerValor(texto: string): number | undefined | null {
-  const s = texto.trim().replace(/^R\$\s*/, '');
-  if (!s) return undefined;
-  const n = Number(s.includes(',') ? s.replace(/\./g, '').replace(',', '.') : s);
-  return Number.isFinite(n) && n >= 0 ? n : null;
-}
-const mostrarValor = (n: number | undefined, moeda: boolean) =>
-  n === undefined ? '' : moeda ? n.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : String(n).replace('.', ',');
+const mostrarValor = (v: string | undefined, moeda: boolean) => (v === undefined ? '' : moeda ? num(Dec.de(v)) : v.replace('.', ','));
 
-/** Campo de valor com texto livre (aceita vírgula); formata ao sair do campo; só propaga números válidos. */
-function CampoValor({ valor, aoMudar, rotulo, placeholder, moeda = false }: { valor: number | undefined; aoMudar: (n: number | undefined) => void; rotulo: string; placeholder?: string; moeda?: boolean }) {
+/**
+ * Campo de valor com texto livre (aceita vírgula e milhar). Propaga só valores válidos, como texto
+ * decimal com até `casas` casas; moeda formata ao sair do campo ("1.234,50").
+ */
+function CampoValor({ valor, aoMudar, rotulo, placeholder, moeda = false, casas = 2, invalido: invalidoFora = false }: { valor: string | undefined; aoMudar: (v: string | undefined) => void; rotulo: string; placeholder?: string; moeda?: boolean; casas?: number; invalido?: boolean }) {
   const [texto, setTexto] = useState(mostrarValor(valor, moeda));
   const focado = useRef(false);
   useEffect(() => {
-    if (!focado.current && lerValor(texto) !== valor) setTexto(mostrarValor(valor, moeda));
+    const lido = lerDecimal(texto, casas);
+    if (!focado.current && (lido === null || lido === undefined ? lido !== valor : valor === undefined || !Dec.de(lido).igual(valor))) setTexto(mostrarValor(valor, moeda));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [valor]);
-  const invalido = lerValor(texto) === null;
+  const invalido = lerDecimal(texto, casas) === null || invalidoFora;
   return (
     <input
       className={`vend-valor${moeda ? ' vend-valor--moeda' : ''}${invalido ? ' vend-valor--erro' : ''}`}
@@ -50,29 +63,30 @@ function CampoValor({ valor, aoMudar, rotulo, placeholder, moeda = false }: { va
       onFocus={() => (focado.current = true)}
       onBlur={() => {
         focado.current = false;
-        const n = lerValor(texto);
-        if (n !== null) setTexto(mostrarValor(n, moeda));
+        const v = lerDecimal(texto, casas);
+        if (v !== null) setTexto(mostrarValor(v, moeda));
       }}
       onChange={e => {
         setTexto(e.target.value);
-        const n = lerValor(e.target.value);
-        if (n !== null) aoMudar(n);
+        const v = lerDecimal(e.target.value, casas);
+        if (v !== null) aoMudar(v);
       }}
     />
   );
 }
 
 function CampoDesconto({ desconto, aoMudar, rotulo }: { desconto?: Desconto; aoMudar: (d?: Desconto) => void; rotulo: string }) {
-  // O tipo pode ser escolhido antes do valor; sem valor, não há desconto.
+  // O tipo pode ser escolhido antes do valor; sem valor (ou zero), não há desconto.
   const [tipoLocal, setTipoLocal] = useState<Desconto['tipo']>(desconto?.tipo ?? 'percentual');
   const tipo = desconto?.tipo ?? tipoLocal;
   const trocar = (novo: Desconto['tipo']) => {
     setTipoLocal(novo);
     if (desconto) aoMudar({ ...desconto, tipo: novo });
   };
+  const acimaDe100 = tipo === 'percentual' && !!desconto?.valor && Dec.de(desconto.valor).comparar(100) > 0;
   return (
     <span className="vend-desconto">
-      <CampoValor valor={desconto?.valor} rotulo={rotulo} placeholder="0" aoMudar={n => aoMudar(n ? { tipo, valor: n } : undefined)} />
+      <CampoValor valor={desconto?.valor} rotulo={rotulo} placeholder="0" invalido={acimaDe100} aoMudar={v => aoMudar(v && !Dec.de(v).zero ? { tipo, valor: v } : undefined)} />
       <span className="vend-segmento" role="group" aria-label={`${rotulo}: tipo`}>
         <button type="button" aria-pressed={tipo === 'percentual'} onClick={() => trocar('percentual')}>
           %
@@ -85,18 +99,38 @@ function CampoDesconto({ desconto, aoMudar, rotulo }: { desconto?: Desconto; aoM
   );
 }
 
-function Preco({ antigo, novo, pct }: { antigo: number; novo: number; pct: number }) {
-  if (pct <= 0) return <span className="vend-preco">{formatarPreco(novo)}</span>;
+function Preco({ antigo, novo, pct }: { antigo: Dec; novo: Dec; pct?: Dec }) {
+  if (!pct) return <span className="vend-preco">{brl(novo)}</span>;
   return (
     <span className="vend-preco">
-      <s>{formatarPreco(antigo)}</s>
-      <span>{formatarPreco(novo)}</span>
-      <span className="vend-pct">-{formatarPorcentagem(pct)}</span>
+      <s>{brl(antigo)}</s>
+      <span>{brl(novo)}</span>
+      <span className="vend-pct">-{pctTexto(pct)}</span>
     </span>
   );
 }
 
-const vazio = (vendedor: string): Orcamento => ({ id: novoIdOrcamento(), vendedor, itens: [], observacao: '', criadoEm: new Date().toISOString(), estado: 'ativo', alteracoes: [] });
+function Campo({ rotulo, dica, erro, children, largo = false }: { rotulo: string; dica?: string; erro?: string; children: ReactNode; largo?: boolean }) {
+  return (
+    <label className={`adm-campo${largo ? ' vend-campo--largo' : ''}`}>
+      <span>{rotulo}</span>
+      {children}
+      {erro ? <small className="vend-campo__erro">{erro}</small> : dica && <small>{dica}</small>}
+    </label>
+  );
+}
+
+const vazio = (vendedor: string): Orcamento => ({
+  id: novoIdOrcamento(),
+  vendedor,
+  cliente: clienteVazio(),
+  entrega: {},
+  itens: [],
+  observacao: '',
+  criadoEm: new Date().toISOString(),
+  estado: 'ativo',
+  alteracoes: [],
+});
 
 export function EditorOrcamento({ vendedor, avisar }: { vendedor: Vendedor; avisar: (t: string) => void }) {
   const { busca, navegar } = useRouter();
@@ -123,12 +157,16 @@ export function EditorOrcamento({ vendedor, avisar }: { vendedor: Vendedor; avis
     if (existente && existente.id === idAtual.current) return;
     setSalvo(null);
     if (existente && existente.vendedor === vendedor.codigo) {
-      setOrc(existente);
+      // Produto que saiu do catálogo é removido do orçamento, com aviso.
+      const { validos, removidos } = itensDoCatalogo(existente.itens);
+      setOrc({ ...existente, itens: validos });
+      if (removidos) avisar(t.removidos);
       setEditando(true);
     } else {
       setOrc(vazio(vendedor.codigo));
       setEditando(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [idEditar, vendedor.codigo]);
 
   const resultados = useMemo(() => {
@@ -140,37 +178,50 @@ export function EditorOrcamento({ vendedor, avisar }: { vendedor: Vendedor; avis
   }, [q]);
 
   const mudarItem = (i: number, f: (it: ItemOrcamento) => ItemOrcamento) => setOrc(o => ({ ...o, itens: o.itens.map((it, k) => (k === i ? f(it) : it)) }));
+  const mudarCliente = (c: Partial<ClienteOrcamento>) => setOrc(o => ({ ...o, cliente: { ...o.cliente, ...c } }));
+  const mudarEntrega = (e: Partial<EntregaOrcamento>) => setOrc(o => ({ ...o, entrega: { ...o.entrega, ...e } }));
+  const mudarLogistica = (l: Partial<Logistica>) => setOrc(o => ({ ...o, logistica: { ...o.logistica, ...l } }));
   // "Par": a linha vira duas (LD e LE), com a mesma quantidade, preço e desconto; cada lado fica editável.
+  // O Nº compatível editado é do lado original: cada lado volta ao código do catálogo.
   const dividirPar = (i: number) => {
     const it = orc.itens[i];
     const p = it && obterProduto(it.slug);
     if (!p) return;
-    setOrc(o => ({ ...o, itens: o.itens.flatMap((x, k) => (k === i ? [{ ...x, lado: 'LD' as const }, { ...x, lado: 'LE' as const }] : [x])) }));
+    setOrc(o => ({ ...o, itens: o.itens.flatMap((x, k) => (k === i ? [{ ...x, lado: 'LD' as const, codigoOriginal: undefined }, { ...x, lado: 'LE' as const, codigoOriginal: undefined }] : [x])) }));
     setDestaque([`${it.slug}:LD`, `${it.slug}:LE`]);
     avisar(t.parAdicionado(p.nome));
   };
   const adicionar = (slug: string) => {
     const p = obterProduto(slug);
     if (!p) return;
-    setOrc(o => ({ ...o, itens: [...o.itens, { slug, lado: temLados(p) ? 'LD' : undefined, quantidade: 1, preco: p.promocao?.preco }] }));
+    const preco = p.promocao ? Dec.de(String(p.promocao.preco)).texto(2) : undefined;
+    setOrc(o => ({ ...o, itens: [...o.itens, { slug, lado: temLados(p) ? 'LD' : undefined, quantidade: 1, preco }] }));
     setQ('');
     setSalvo(null);
   };
 
-  const totais = calcularTotais(orc);
+  const calc = calcularOrcamento(orc);
+  const c = orc.cliente;
+  const pj = c.tipo === 'PJ';
+  const docInvalido = !!c.documento?.trim() && !(pj ? cnpjValido(c.documento) : cpfValido(c.documento));
 
   const salvar = () => {
-    if (!orc.itens.length) return setErro(t.semItens);
+    const final = limparOrcamento({ ...orc, numero: orc.numero ?? undefined, estado: 'ativo' });
+    const erros = validarOrcamento(final);
+    if (erros.length) return setErro(t.erros[erros[0]]);
     setErro('');
-    const final = { ...orc, numero: orc.numero ?? proximoNumero(), cliente: orc.cliente?.trim() || undefined, clienteContato: orc.clienteContato?.trim() || undefined, estado: 'ativo' as const };
-    salvarOrcamento(final);
-    setOrc(final);
-    setSalvo(final);
+    const comNumero = { ...final, numero: final.numero ?? proximoNumero() };
+    salvarOrcamento(comNumero);
+    setOrc(comNumero);
+    setSalvo(comNumero);
     setEditando(true);
     avisar(t.salvo);
-    if (idEditar !== final.id) navegar(`/vendedor/novo?id=${final.id}`, { substituir: true, manterRolagem: true });
+    if (idEditar !== comNumero.id) navegar(`/vendedor/novo?id=${comNumero.id}`, { substituir: true, manterRolagem: true });
     requestAnimationFrame(() => resultadoRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }));
   };
+
+  const lg = orc.logistica ?? {};
+  const e = orc.entrega;
 
   return (
     <section className="adm-tela vend-tela vend-editor" aria-labelledby="vend-editor-titulo">
@@ -188,10 +239,10 @@ export function EditorOrcamento({ vendedor, avisar }: { vendedor: Vendedor; avis
               type="search"
               value={q}
               placeholder={t.buscarDica}
-              onChange={e => setQ(e.target.value)}
+              onChange={ev => setQ(ev.target.value)}
               // No celular, o campo sobe para o topo: os resultados não ficam sob o teclado.
-              onFocus={e => {
-                if (window.matchMedia('(max-width: 859px)').matches) e.currentTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              onFocus={ev => {
+                if (window.matchMedia('(max-width: 859px)').matches) ev.currentTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
               }}
               autoComplete="off"
               enterKeyHint="search"
@@ -223,14 +274,15 @@ export function EditorOrcamento({ vendedor, avisar }: { vendedor: Vendedor; avis
             {orc.itens.map((it, i) => {
               const p = obterProduto(it.slug);
               if (!p) return null;
-              const l = calcularItem(it);
+              const l = calc.itens[i];
+              const item = dadosDoItem(it, p);
               const img = imagemProduto(p);
               return (
                 <li key={`${it.slug}-${i}`} className={`vend-item${destaque.includes(`${it.slug}:${it.lado}`) ? ' vend-item--novo' : ''}`}>
                   <span className="vend-item__foto">{img && <img src={img.src} alt="" width={56} height={56} loading="lazy" />}</span>
                   <div className="vend-item__nome">
-                    <strong>{p.nome}</strong>
-                    <small>{codigoDoLado(p, it.lado) ?? p.codigo}</small>
+                    <strong>{item.descricao}</strong>
+                    <small>{[item.codigoMk, item.codigoOriginal && `${t.compativel} ${item.codigoOriginal}`].filter(Boolean).join(' · ')}</small>
                   </div>
                   <div className="vend-item__campos">
                     {temLados(p) && (
@@ -238,7 +290,7 @@ export function EditorOrcamento({ vendedor, avisar }: { vendedor: Vendedor; avis
                         <span>{t.lado}</span>
                         <span className="vend-segmento" role="group" aria-label={`${t.lado}: ${p.nome}`}>
                           {(['LD', 'LE'] as const).map(lado => (
-                            <button key={lado} type="button" aria-pressed={it.lado === lado} onClick={() => mudarItem(i, x => ({ ...x, lado }))}>
+                            <button key={lado} type="button" aria-pressed={it.lado === lado} onClick={() => mudarItem(i, x => ({ ...x, lado, codigoOriginal: x.lado === lado ? x.codigoOriginal : undefined }))}>
                               {lado}
                             </button>
                           ))}
@@ -254,24 +306,46 @@ export function EditorOrcamento({ vendedor, avisar }: { vendedor: Vendedor; avis
                     </div>
                     <label className="vend-mini vend-mini--preco">
                       <span>{t.preco}</span>
-                      <CampoValor moeda valor={it.preco} rotulo={`${t.preco}: ${p.nome}`} placeholder={t.precoDica} aoMudar={n => mudarItem(i, x => ({ ...x, preco: n }))} />
+                      <CampoValor moeda valor={it.preco} rotulo={`${t.preco}: ${p.nome}`} placeholder={t.precoDica} aoMudar={v => mudarItem(i, x => ({ ...x, preco: v }))} />
                     </label>
                     <div className="vend-mini vend-mini--desc">
                       <span>{t.desconto}</span>
                       <CampoDesconto desconto={it.desconto} rotulo={`${t.desconto}: ${p.nome}`} aoMudar={d => mudarItem(i, x => ({ ...x, desconto: d }))} />
                     </div>
                   </div>
+                  <details className="vend-item__mais">
+                    <summary>{t.maisDados}</summary>
+                    <div className="vend-item__fiscal">
+                      <Campo rotulo={t.descricao} largo>
+                        <input value={it.descricao ?? ''} placeholder={p.nome} maxLength={160} onChange={ev => mudarItem(i, x => ({ ...x, descricao: ev.target.value || undefined }))} />
+                      </Campo>
+                      <Campo rotulo={t.compativel} dica={t.compativelDica}>
+                        <input value={it.codigoOriginal ?? ''} placeholder={compativelDoCatalogo(p, it.lado)} maxLength={120} onChange={ev => mudarItem(i, x => ({ ...x, codigoOriginal: ev.target.value || undefined }))} />
+                      </Campo>
+                      <Campo rotulo={t.unidade}>
+                        <input value={it.unidade ?? ''} placeholder="PC" maxLength={6} onChange={ev => mudarItem(i, x => ({ ...x, unidade: ev.target.value.toUpperCase() || undefined }))} />
+                      </Campo>
+                      <Campo rotulo={t.ipi}>
+                        <CampoValor valor={it.ipiPct} rotulo={`${t.ipi}: ${p.nome}`} placeholder="0" aoMudar={v => mudarItem(i, x => ({ ...x, ipiPct: v }))} />
+                      </Campo>
+                      <Campo rotulo={t.st}>
+                        <CampoValor moeda valor={it.st} rotulo={`${t.st}: ${p.nome}`} placeholder="0,00" aoMudar={v => mudarItem(i, x => ({ ...x, st: v }))} />
+                      </Campo>
+                      <p className="vend-item__dica">{t.fiscalDica}</p>
+                    </div>
+                  </details>
                   <div className="vend-item__valor">
-                    {l.comPreco ? (
+                    {l?.comPreco ? (
                       <>
-                        <Preco antigo={l.unitario} novo={l.unitarioFinal} pct={l.pct} />
-                        {it.quantidade > 1 && <small>{`${it.quantidade} × = ${formatarPreco(l.total)}`}</small>}
+                        <Preco antigo={l.preco!} novo={l.liquido!} pct={l.pctDesconto} />
+                        {!l.ipiPct.zero && <small>{t.comIpi(brl(l.unitario!))}</small>}
+                        {it.quantidade > 1 && <small>{`${it.quantidade} × = ${brl(l.total!)}`}</small>}
                       </>
                     ) : (
                       <span className="vend-consulta">{t.sobConsulta}</span>
                     )}
                   </div>
-                  <button type="button" className="adm-icone-btn vend-item__remover" aria-label={t.remover(p.nome)} onClick={() => setOrc(o => ({ ...o, itens: o.itens.filter((_, k) => k !== i) }))}>
+                  <button type="button" className="adm-icone-btn vend-item__remover" aria-label={t.remover(item.descricao)} onClick={() => setOrc(o => ({ ...o, itens: o.itens.filter((_, k) => k !== i) }))}>
                     <Icone nome="lixeira" tamanho={18} />
                   </button>
                 </li>
@@ -282,33 +356,120 @@ export function EditorOrcamento({ vendedor, avisar }: { vendedor: Vendedor; avis
       </div>
 
       <div className="adm-bloco vend-editor__dados">
-        <h2>{t.dados}</h2>
-        <label className="adm-campo">
-          <span>{t.cliente}</span>
-          <input value={orc.cliente ?? ''} maxLength={80} onChange={e => setOrc(o => ({ ...o, cliente: e.target.value }))} aria-describedby="vend-cliente-dica" />
-          <small id="vend-cliente-dica">{t.clienteDica}</small>
-        </label>
-        <label className="adm-campo">
-          <span>{t.contato}</span>
-          <input value={orc.clienteContato ?? ''} maxLength={80} onChange={e => setOrc(o => ({ ...o, clienteContato: e.target.value }))} aria-describedby="vend-contato-dica" />
-          <small id="vend-contato-dica">{t.contatoDica}</small>
-        </label>
-        <label className="adm-campo">
-          <span>{t.validade}</span>
-          <input type="date" value={orc.validade ?? ''} onChange={e => setOrc(o => ({ ...o, validade: e.target.value || undefined }))} />
-        </label>
-        {orc.itens.length > 0 && (
+        <h2>{t.cliente}</h2>
+        <div className="vend-mini vend-campo--largo">
+          <span>{t.tipoCliente}</span>
+          <span className="vend-segmento vend-segmento--largo" role="group" aria-label={t.tipoCliente}>
+            <button type="button" aria-pressed={pj} onClick={() => mudarCliente({ tipo: 'PJ' })}>
+              {t.pj}
+            </button>
+            <button type="button" aria-pressed={!pj} onClick={() => mudarCliente({ tipo: 'PF' })}>
+              {t.pf}
+            </button>
+          </span>
+        </div>
+        {pj ? (
           <>
-            <label className="adm-campo vend-editor__obs">
-              <span>{t.observacao}</span>
-              <textarea value={orc.observacao} maxLength={OBS_MAX} rows={2} onChange={e => setOrc(o => ({ ...o, observacao: e.target.value }))} />
-            </label>
-            <div className="vend-mini">
-              <span>{t.descontoTotal}</span>
-              <CampoDesconto desconto={orc.descontoTotal} rotulo={t.descontoTotal} aoMudar={d => setOrc(o => ({ ...o, descontoTotal: d }))} />
-            </div>
+            <Campo rotulo={t.razaoSocial}>
+              <input value={c.razaoSocial ?? ''} maxLength={120} required autoComplete="organization" onChange={ev => mudarCliente({ razaoSocial: ev.target.value })} />
+            </Campo>
+            <Campo rotulo={t.comprador} dica={t.compradorDica}>
+              <input value={c.nome ?? ''} maxLength={80} autoComplete="name" onChange={ev => mudarCliente({ nome: ev.target.value })} />
+            </Campo>
+            <Campo rotulo={t.cnpj} erro={docInvalido ? t.documentoInvalido('CNPJ') : undefined}>
+              <input value={c.documento ?? ''} inputMode="numeric" maxLength={18} aria-invalid={docInvalido || undefined} onChange={ev => mudarCliente({ documento: ev.target.value })} />
+            </Campo>
+            <Campo rotulo={t.inscricaoEstadual}>
+              <input value={c.inscricaoEstadual ?? ''} maxLength={20} onChange={ev => mudarCliente({ inscricaoEstadual: ev.target.value })} />
+            </Campo>
+          </>
+        ) : (
+          <>
+            <Campo rotulo={t.nomePF}>
+              <input value={c.nome ?? ''} maxLength={80} required autoComplete="name" onChange={ev => mudarCliente({ nome: ev.target.value })} />
+            </Campo>
+            <Campo rotulo={t.cpf} erro={docInvalido ? t.documentoInvalido('CPF') : undefined}>
+              <input value={c.documento ?? ''} inputMode="numeric" maxLength={14} aria-invalid={docInvalido || undefined} onChange={ev => mudarCliente({ documento: ev.target.value })} />
+            </Campo>
           </>
         )}
+        <Campo rotulo={t.email}>
+          <input type="email" value={c.email ?? ''} maxLength={120} autoComplete="email" onChange={ev => mudarCliente({ email: ev.target.value })} />
+        </Campo>
+        <Campo rotulo={t.telefone}>
+          <input type="tel" value={c.telefone ?? ''} maxLength={20} autoComplete="tel" onChange={ev => mudarCliente({ telefone: ev.target.value })} />
+        </Campo>
+      </div>
+
+      <div className="adm-bloco vend-editor__dados">
+        <h2>{t.entrega}</h2>
+        <Campo rotulo={t.enderecoEntrega} largo>
+          <input value={e.enderecoEntrega ?? ''} maxLength={160} onChange={ev => mudarEntrega({ enderecoEntrega: ev.target.value })} />
+        </Campo>
+        <div className="adm-campo vend-campo--largo">
+          <span>{t.enderecoCobranca}</span>
+          <label className="vend-check">
+            <input type="checkbox" checked={!!e.cobrancaIgualEntrega} onChange={ev => mudarEntrega({ cobrancaIgualEntrega: ev.target.checked })} />
+            {t.cobrancaIgual}
+          </label>
+          {!e.cobrancaIgualEntrega && <input value={e.enderecoCobranca ?? ''} maxLength={160} aria-label={t.enderecoCobranca} onChange={ev => mudarEntrega({ enderecoCobranca: ev.target.value })} />}
+        </div>
+        <Campo rotulo={t.transportadora} dica={t.transportadoraDica}>
+          <input value={e.transportadora ?? ''} maxLength={80} onChange={ev => mudarEntrega({ transportadora: ev.target.value })} />
+        </Campo>
+        <Campo rotulo={t.prazoPagamento} dica={t.prazoDica}>
+          <input value={e.prazoPagamento ?? ''} maxLength={60} onChange={ev => mudarEntrega({ prazoPagamento: ev.target.value })} />
+        </Campo>
+      </div>
+
+      {orc.itens.length > 0 && (
+        <div className="adm-bloco vend-editor__dados">
+          <h2>{t.valores}</h2>
+          <div className="vend-mini">
+            <span>{t.descontoTotal}</span>
+            <CampoDesconto desconto={orc.descontoTotal} rotulo={t.descontoTotal} aoMudar={d => setOrc(o => ({ ...o, descontoTotal: d }))} />
+          </div>
+          <label className="vend-mini">
+            <span>{t.frete}</span>
+            <CampoValor moeda valor={orc.frete} rotulo={t.frete} placeholder="0,00" aoMudar={v => setOrc(o => ({ ...o, frete: v }))} />
+          </label>
+          <label className="vend-mini">
+            <span>{t.impostos}</span>
+            <CampoValor moeda valor={orc.impostosDeducao} rotulo={t.impostos} placeholder="0,00" aoMudar={v => setOrc(o => ({ ...o, impostosDeducao: v }))} />
+          </label>
+
+          <h2>{t.logistica}</h2>
+          <p className="vend-editor__dica">{t.logisticaDica}</p>
+          <label className="vend-mini">
+            <span>{t.cubagem}</span>
+            <CampoValor casas={6} valor={lg.cubagemM3} rotulo={t.cubagem} placeholder="0,000000" aoMudar={v => mudarLogistica({ cubagemM3: v })} />
+          </label>
+          <label className="vend-mini">
+            <span>{t.volumes}</span>
+            <CampoValor casas={0} valor={lg.volumes === undefined ? undefined : String(lg.volumes)} rotulo={t.volumes} placeholder="0" aoMudar={v => mudarLogistica({ volumes: v === undefined ? undefined : Number(v) })} />
+          </label>
+          <label className="vend-mini">
+            <span>{t.pesoLiquido}</span>
+            <CampoValor casas={4} valor={lg.pesoLiquidoKg} rotulo={t.pesoLiquido} placeholder="0,0000" aoMudar={v => mudarLogistica({ pesoLiquidoKg: v })} />
+          </label>
+          <label className="vend-mini">
+            <span>{t.pesoBruto}</span>
+            <CampoValor casas={4} valor={lg.pesoBrutoKg} rotulo={t.pesoBruto} placeholder="0,0000" aoMudar={v => mudarLogistica({ pesoBrutoKg: v })} />
+          </label>
+        </div>
+      )}
+
+      <div className="adm-bloco vend-editor__dados">
+        <h2>{t.documentoSecao}</h2>
+        <Campo rotulo={t.codigoVenda} dica={t.codigoVendaDica}>
+          <input value={orc.codigoVenda ?? ''} maxLength={CODIGO_VENDA_MAX} onChange={ev => setOrc(o => ({ ...o, codigoVenda: ev.target.value }))} />
+        </Campo>
+        <Campo rotulo={t.validade}>
+          <input type="date" value={orc.validade ?? ''} onChange={ev => setOrc(o => ({ ...o, validade: ev.target.value || undefined }))} />
+        </Campo>
+        <Campo rotulo={t.observacao} largo>
+          <textarea value={orc.observacao} maxLength={OBS_MAX} rows={2} onChange={ev => setOrc(o => ({ ...o, observacao: ev.target.value }))} />
+        </Campo>
       </div>
 
       {salvo && <Resultado orc={salvo} avisar={avisar} refEl={resultadoRef} />}
@@ -318,8 +479,16 @@ export function EditorOrcamento({ vendedor, avisar }: { vendedor: Vendedor; avis
         <div className="vend-barra">
           <div className="vend-totais__valor">
             <span>{t.total}</span>
-            {totais.subtotal > 0 ? <Preco antigo={totais.subtotal} novo={totais.total} pct={totais.pct} /> : <span className="vend-consulta">{t.sobConsulta}</span>}
-            {totais.semPreco > 0 && totais.subtotal > 0 && <small>{t.semPreco(totais.semPreco)}</small>}
+            {calc.comPreco > 0 ? (
+              // Só o total e a % de desconto: o valor sem desconto não tem IPI nem ST e não se compara ao total.
+              <span className="vend-preco">
+                <span>{brl(calc.total)}</span>
+                {!calc.desconto.zero && <span className="vend-pct">-{pctTexto(calc.pctDesconto)}</span>}
+              </span>
+            ) : (
+              <span className="vend-consulta">{t.sobConsulta}</span>
+            )}
+            {calc.semPreco > 0 && calc.comPreco > 0 && <small>{t.semPreco(calc.semPreco)}</small>}
           </div>
           {erro && (
             <p className="adm-erro" role="alert">

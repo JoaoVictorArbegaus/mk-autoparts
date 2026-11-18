@@ -1771,3 +1771,56 @@ select:disabled {
 .orcl > .btn {
   justify-self: start;
 }
+
+/* Página do link: Nº compatível do item e o resumo com as mesmas linhas da caixa de totais do PDF. */
+.orcl__compat {
+  flex-basis: 100%;
+  color: var(--ink-2);
+  font-size: 0.8125rem;
+}
+.orcl__resumo {
+  display: grid;
+  gap: 10px;
+  margin-top: 20px;
+  padding: 16px 18px;
+  border: 1px solid var(--linha-form);
+  border-radius: 14px;
+  background: var(--white);
+}
+.orcl__resumo h2 {
+  font-family: var(--f-tit);
+  font-weight: 700;
+  font-style: italic;
+  font-stretch: 112%;
+  font-size: 1.125rem;
+}
+.orcl__resumo dl {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 6px 0;
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+.orcl__resumo dt {
+  color: var(--ink-2);
+}
+.orcl__resumo dd {
+  margin: 0;
+  padding-left: 16px;
+  text-align: right;
+}
+.orcl__resumo s {
+  color: var(--ink-2);
+}
+.orcl__resumo .orcl__resumo-total {
+  padding-top: 8px;
+  border-top: 1px solid var(--linha-form);
+  color: var(--ink);
+  font-weight: 700;
+}
+dd.orcl__resumo-total {
+  font-family: var(--f-tit);
+  font-style: italic;
+  font-stretch: 112%;
+  font-size: 1.25rem;
+}

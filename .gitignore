@@ -34,3 +34,5 @@ frontend/design/referencias/*
 # Modelo do orçamento (PDF/Word de exemplo, scripts e imagens): material de trabalho, só o guia entra.
 docs/Para-Socio-Orcamento/*
 !docs/Para-Socio-Orcamento/PADRAO-ORCAMENTO-PARA-O-SITE.md
+# Material do modelo do orçamento (especificação, exemplos e um orçamento real com dados de terceiros).
+docs/pfd-regras/

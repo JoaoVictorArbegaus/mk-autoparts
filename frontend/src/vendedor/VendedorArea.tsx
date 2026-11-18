@@ -7,11 +7,12 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Link, useRouter, type TelaVendedor } from '../router';
 import { areaVendedor as t } from '../content/vendedor';
-import { formatarPreco, obterProduto } from '../content/catalogo';
+import { obterProduto } from '../content/catalogo';
 import { iniciais, vendedores, type Vendedor } from '../content/vendedores';
 import { Icone } from '../components/Icons';
 import { copiarLink, entrarComo, enviarLink, lerOrcamentos, linkDoOrcamento, sairDaSessao, vendedorDaSessao, atualizarOrcamento, CHAVE_ORCAMENTOS } from './armazem';
-import { calcularTotais, expirado, type Orcamento } from './orcamento';
+import { calcularOrcamento, expirado, nomeCliente, type Orcamento } from './orcamento';
+import { brl } from './decimal';
 import { EditorOrcamento } from './EditorOrcamento';
 import { TelaDocumento } from './TelaDocumento';
 
@@ -165,20 +166,20 @@ function Lista({ vendedor, avisar }: { vendedor: Vendedor; avisar: (t: string) =
       ) : (
         <ul className="vend-orcs">
           {lista.map(o => {
-            const tot = calcularTotais(o);
+            const tot = calcularOrcamento(o);
             const venceu = expirado(o);
             return (
               <li key={o.id} className={`adm-bloco vend-orc${o.alteracoes.length ? ' vend-orc--alterado' : ''}`}>
                 <div className="vend-orc__cabeca">
                   <div>
-                    <h2>{o.cliente || tl.semCliente}</h2>
+                    <h2>{nomeCliente(o.cliente) || tl.semCliente}</h2>
                     <p className="vend-orc__meta">
                       {tl.criado(dataCurta(o.criadoEm))} · {tl.itens(o.itens.length)}
                       {o.validade && ` · ${tl.valido(dataCurta(o.validade))}`}
                       {venceu && <span className="adm-tag vend-tag--expirado">{tl.expirado}</span>}
                     </p>
                   </div>
-                  <strong className="vend-orc__total">{tot.subtotal > 0 ? formatarPreco(tot.total) : tl.sobConsulta}</strong>
+                  <strong className="vend-orc__total">{tot.comPreco > 0 ? brl(tot.total) : tl.sobConsulta}</strong>
                 </div>
                 <p className="vend-orc__itens">
                   {o.itens
