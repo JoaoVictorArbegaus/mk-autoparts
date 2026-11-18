@@ -81,6 +81,9 @@ Ordem inicial; a ordem final e o tratamento visual ficam em
 - Cabeçalho com campo de busca e ordenação, sem contador de resultados (`RN-14`).
 - Desktop: filtros em coluna lateral. Celular: botão "Filtrar" com ícone de
   abrir/fechar e painel sobreposto, com contador de filtros ativos.
+- Filtros de veículo: marca, modelo e ano (`DEC-026`); com ano, primeiro as peças com o ano e
+  depois as sem ano, com asterisco amarelo e nota acima da grade.
+- "Compartilhar com meu link" na barra do catálogo e no produto, só com o vendedor logado.
 - Chips dos filtros ativos com remoção individual e "Limpar filtros".
 - Grade de cards com carregamento incremental (lotes de 24).
 - **Hidratação:** o HTML pré-renderizado de `/catalogo` mostra a lista sem filtros;

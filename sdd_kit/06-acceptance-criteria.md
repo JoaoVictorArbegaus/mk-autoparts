@@ -134,3 +134,25 @@
   celular.
 - Sem rolagem lateral em 390 px e sem erros de console. Lighthouse no celular conferido
   depois da troca (`RNF-05`).
+
+## AC-14 — Busca por ano (`DEC-026`)
+
+- `/catalogo?montadora=scania&modelo=ntg&ano=2018` mostra o chip "Ano 2018"; as peças com o ano
+  cadastrado vêm antes das sem ano, e cada peça sem ano tem o asterisco amarelo com a dica.
+- O farol Scania Série 5 2011 a 2017 aparece com 2012 e não aparece com 2018.
+- `?ano=` sem marca do veículo é ignorado. O bloco "Buscar pelo veículo" da landing leva ao
+  catálogo com marca, modelo e ano.
+
+## AC-15 — Compartilhar e QR (`DEC-026`)
+
+- Sem sessão de vendedor, nenhuma página pública mostra "Compartilhar com meu link".
+- Com o vendedor logado, o botão do produto e do catálogo gera a página atual com `?v=<código>`
+  (troca um `v` anterior e mantém busca e filtros).
+- A área do vendedor mostra o link pessoal e o QR; "Baixar imagem" gera um PNG com o nome do
+  vendedor; o QR aponta para `/?v=<código>`.
+
+## AC-16 — Vigência da promoção (`DEC-026`)
+
+- Promoção sem datas sempre aparece; com datas, só dentro do período (Brasília), e o dia do fim
+  ainda vale. No admin, a situação "Agendada", "Ativa" ou "Encerrada" acompanha as datas, e fim
+  antes do início é recusado.

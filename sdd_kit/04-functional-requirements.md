@@ -103,3 +103,11 @@
   um deles, com o que mudou; o vendedor marca como visto ou encerra (`RN-13`).
 - **RF-38** O hero da landing usa como fundo uma imagem com mosaico de peças para caminhão,
   por trás do texto, no lugar da foto do caminhão (`DEC-024`).
+- **RF-39** Filtro por ano do veículo no catálogo e bloco "Buscar pelo veículo" na landing
+  (`DEC-026`, `RN-03`).
+- **RF-40** "Compartilhar com meu link" no produto e no catálogo para o vendedor logado
+  (`DEC-026`).
+- **RF-41** Link pessoal e QR Code do vendedor na área do vendedor, com baixar e imprimir
+  (`DEC-026`).
+- **RF-42** Promoção com início e fim opcionais, editáveis no admin de demonstração
+  (`DEC-026`, `RN-02A`).

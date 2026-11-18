@@ -21,22 +21,22 @@ vendedor é dele e não escolhe outro (`DEC-017`).
 
 Respostas do responsável aplicadas ao SDD. Decisões: `DEC-017` a `DEC-021`.
 
-| ID | Mudança | Decisão / regra | Estado do SDD | Depende de |
+| ID | Mudança | Decisão / regra | Estado | Depende de |
 | --- | --- | --- | --- | --- |
-| REU-01 | Cliente com link de vendedor não vê escolha de outro vendedor; vale o último link aberto | `DEC-017`, `RN-07`, `RF-26` | Documentado | — |
-| REU-02 | Sem link: "Solicitar orçamento" distribui por rodízio (pilha circular, ordem de chegada) | `DEC-017`, `RN-11`, `RF-27` | Documentado | — |
-| REU-03 | Sem link: seção com foto e nome dos vendedores perto do botão de orçar; a escolha leva ao WhatsApp do vendedor e consome a vez | `DEC-017`, `RN-12`, `RF-28` | Documentado | Fotos reais (`PEND-034`) |
-| REU-04 | Painel do vendedor em `/vendedor`: orçamento com preços e desconto | `DEC-018`, `RN-13`, `RF-30`, `RF-31` | Documentado | — |
-| REU-05 | Link do orçamento com itens, preços e desconto, atribuição travada | `DEC-018`, `RN-13`, `RF-33` | Documentado | REU-04 |
-| REU-06 | PDF e Word padronizados com a cara da MK | `DEC-018`, `RN-13`, `RF-32` | Documentado | Bibliotecas novas (`DEC-003`), modelo em `PEND-035` |
-| REU-07 | Remover todas as quantidades públicas, inclusive o contador de resultados | `DEC-019`, `RN-14`, `RF-34` | Feito (branch `feat/proxima-reuniao`) | — |
-| REU-08 | Logo principal: selo oficial | `DEC-020` | Cabeçalho e admin feitos; falta painel do vendedor e documentos | REU-04, REU-06 |
+| REU-01 | Cliente com link de vendedor não vê escolha de outro vendedor; vale o último link aberto | `DEC-017`, `RN-07`, `RF-26` | Feito | — |
+| REU-02 | Sem link: "Solicitar orçamento" distribui por rodízio (pilha circular, ordem de chegada) | `DEC-017`, `RN-11`, `RF-27` | Feito | — |
+| REU-03 | Sem link: seção com foto e nome dos vendedores perto do botão de orçar; a escolha leva ao WhatsApp do vendedor e consome a vez | `DEC-017`, `RN-12`, `RF-28` | Feito (Daniel e Vitor com foto) | Fotos dos outros seis (`PEND-034`) |
+| REU-04 | Painel do vendedor em `/vendedor`: orçamento com preços e desconto | `DEC-018`, `RN-13`, `RF-30`, `RF-31` | Feito | — |
+| REU-05 | Link do orçamento com itens, preços e desconto, atribuição travada | `DEC-018`, `RN-13`, `RF-33` | Feito | — |
+| REU-06 | PDF e Word padronizados com a cara da MK | `DEC-018`, `RN-13`, `RF-32` | Feito no modelo novo (`DEC-025`) | Confirmações fiscais e textos fixos (`PEND-035`) |
+| REU-07 | Remover todas as quantidades públicas, inclusive o contador de resultados | `DEC-019`, `RN-14`, `RF-34` | Feito | — |
+| REU-08 | Logo principal: selo oficial | `DEC-020` | Feito (cabeçalho, admin, área do vendedor e documento) | — |
 | REU-09 | Emendas em corte inclinado (corrigir documentação) | `direcao-visual.md` | Feito | — |
-| REU-10 | Login simulado para `/vendedor` e `/admin`, contas controladas pelo admin principal | `DEC-021`, `RF-35` | Documentado | — |
-| REU-11 | Vendedores reais no protótipo e vínculo das fotos | `DEC-022`, `03-domain-model.md` | Documentado | Fotos (`PEND-034`) |
-| REU-15 | Hero com mosaico de peças no lugar da foto do caminhão | `DEC-024`, `RF-38`, `AC-13` | Feito (falta Lighthouse) | — |
-| REU-13 | Aviso fora do horário comercial (segunda a sexta, 8h às 18h): resposta indeterminada | `DEC-023`, `RN-15`, `RF-36` | Documentado | — |
-| REU-14 | Orçamentos ativos no painel do vendedor com aviso de alteração do cliente | `DEC-018`, `RN-13`, `RF-37` | Documentado | REU-04, REU-05 |
+| REU-10 | Login simulado para `/vendedor` e `/admin`, contas controladas pelo admin principal | `DEC-021`, `RF-35` | Feito (`/vendedor`, sem senha) | — |
+| REU-11 | Vendedores reais no protótipo e vínculo das fotos | `DEC-022`, `03-domain-model.md` | Feito (oito vendedores; fotos de Daniel e Vitor) | Fotos dos outros seis (`PEND-034`) |
+| REU-15 | Hero com mosaico de peças no lugar da foto do caminhão | `DEC-024`, `RF-38`, `AC-13` | Feito (Lighthouse medido em PROTO-05) | — |
+| REU-13 | Aviso fora do horário comercial (segunda a sexta, 8h às 18h): resposta indeterminada | `DEC-023`, `RN-15`, `RF-36` | Feito | — |
+| REU-14 | Orçamentos ativos no painel do vendedor com aviso de alteração do cliente | `DEC-018`, `RN-13`, `RF-37` | Feito | — |
 
 Locais com quantidade a remover (`RN-14`): `Montadoras.tsx` (faixa de marcas),
 `Categorias.tsx` (cartões), `Sobre.tsx` (números com `CountUp`), `Catalogo.tsx` e
@@ -62,18 +62,67 @@ Só a coluna da direita é decisão final. A do meio é demonstração (`AGENTS.
 
 ## 4. Melhorias a apresentar
 
-O responsável quer apresentar todas na reunião. Cada uma entra como demonstração
-simulada; nenhuma vira requisito antes da aprovação da MK.
+Escopo revisado pelo responsável e aplicado (`DEC-026`). Cada melhoria é demonstração
+simulada; nenhuma vira requisito do produto definitivo antes da aprovação da MK.
 
-| # | Melhoria | Foco | Observação |
+| # | Melhoria | Decisão | Tarefa |
 | --- | --- | --- | --- |
-| M1 | Busca por veículo no topo da landing e do catálogo: marca → modelo → ano | Cliente | Já existe filtro por marca e modelo; falta o ano e o destaque de "meu caminhão" |
-| M2 | Lembrar o caminhão do cliente e filtrar o catálogo por ele | Cliente | Usa `localStorage`, sem cadastro |
-| M3 | Botão "Compartilhar com meu link" em produto, categoria e busca (vendedor logado) | Vendedor | Mantém a atribuição do vendedor |
-| M4 | QR Code do vendedor | Vendedor | Leva ao link dele; útil no balcão |
-| M5 | Promoção com início e fim | Catálogo | Depende de `PEND-004` para a regra final |
-| M6 | Prévia do documento antes de gerar | Vendedor | Mostra como o cliente verá |
-| M7 | Duplicar e reusar orçamentos anteriores no painel | Vendedor | Na demonstração, histórico só da sessão do navegador |
+| M1 | Busca por veículo: marca → modelo → ano | Feito | REU-16 |
+| M2 | Lembrar o caminhão do cliente | Fora por agora; pode entrar no futuro | — |
+| M3 | "Compartilhar com meu link" para o vendedor | Feito | REU-17 |
+| M4 | QR Code do vendedor | Feito | REU-18 |
+| M5 | Promoção com início e fim opcionais | Feito | REU-19 |
+| M6 | Prévia do documento | Já existe (`/vendedor/documento`) | — |
+| M7 | Duplicar orçamento | Não precisa: o vendedor já edita o orçamento | — |
+
+### M1 — Busca por veículo (REU-16)
+
+- **Hoje:** o catálogo já filtra por marca do veículo e modelo (`montadora` e `modelo` na
+  URL, `atendeAplicacao` em `src/content/catalogo.ts`). Falta o **ano** e uma entrada
+  direta na landing.
+- **Como:** um terceiro seletor "Ano", habilitado depois do modelo, e o parâmetro `ano` na
+  URL (`/catalogo?montadora=scania&modelo=ntg&ano=2018`). A lista de anos vem dos dados
+  (menor `anoInicio` até o ano atual). Um produto atende quando o ano está entre
+  `anoInicio` e `anoFim` (sem `anoFim` = até hoje). Na landing, um bloco compacto "Buscar
+  pelo veículo" (marca → modelo → ano → "Ver peças") abaixo da busca do hero ou junto da
+  faixa de marcas, levando ao catálogo filtrado. Chip "Ano 2018" removível, como os demais.
+- **Ponto de atenção:** só **32 das 116 aplicações** têm ano. Decisão do responsável: com
+  ano, aparecem primeiro as peças com o ano e depois as sem ano, com asterisco amarelo
+  ("Ano não cadastrado no sistema").
+- **Testes:** regra pura de ano em `catalogo.test.ts` (dentro, fora, sem fim, sem ano).
+
+### M3 — Compartilhar com meu link (REU-17)
+
+- **Hoje:** o vendedor entra em `/vendedor` (sessão no `sessionStorage`,
+  `mk-vendedor-sessao`) e o link pessoal dele é `?v=<codigo>`.
+- **Como:** com o vendedor logado, aparece nas páginas públicas um botão discreto
+  **"Compartilhar com meu link"** no produto, no catálogo (busca e filtros atuais) e nos
+  cartões de categoria. Ele gera a URL da página atual com `?v=<codigo>` e:
+  no celular abre o compartilhamento nativo (`navigator.share`, direto no WhatsApp); no
+  computador copia o link e mostra "Link copiado". Mensagem pronta: "Olá! Separei esta
+  peça para você: <nome> — <link>". Na área do vendedor, um atalho "Meu link" com copiar.
+- **Regras:** o cliente que abre o link fica preso ao vendedor (`DEC-017`). O botão nunca
+  aparece para o cliente comum. A visita do próprio vendedor não muda a atribuição dele
+  mesmo.
+
+### M4 — QR Code do vendedor (REU-18)
+
+- **Como:** na área do vendedor, cartão "Meu QR Code" com o QR do link pessoal
+  (`/?v=<codigo>`), o selo da MK e o nome do vendedor; botões "Baixar imagem" (PNG) e
+  "Imprimir" (para balcão ou cartão de visita).
+- **Custo:** uma biblioteca pequena de QR (ex.: `qrcode`), carregada só na área do
+  vendedor, com registro em `DEC-003`. Se ficar complexo ou pesado, sai do escopo.
+
+### M5 — Promoção com início e fim (REU-19)
+
+- **Como:** `Promocao` ganha `inicio?` e `fim?` (datas). Sem datas, a promoção vale
+  sempre (como hoje). Com datas, só aparece na landing, no catálogo e no produto dentro do
+  período (fuso de Brasília). No admin de demonstração, os campos "Início" e "Fim"
+  (opcionais) na tela de Promoções, com o estado "Agendada", "Ativa" ou "Encerrada".
+- **Limite da demonstração:** o admin não altera o site (`DEC-015`); para mostrar o
+  efeito no site, uma promoção dos dados recebe datas de exemplo. A regra final depende de
+  `PEND-004`.
+- **Testes:** regra pura de vigência (antes, durante, depois, só início, só fim).
 
 ## 5. Ordem sugerida de execução
 
@@ -83,7 +132,8 @@ simulada; nenhuma vira requisito antes da aprovação da MK.
    admin de demonstração.
 3. Login simulado, painel do vendedor, preços e desconto, link, PDF e Word
    (REU-10, REU-04 a REU-06).
-4. As melhorias M1 a M7.
+4. As melhorias aprovadas, nesta ordem: M1 (REU-16), M5 (REU-19), M3 (REU-17) e M4
+   (REU-18).
 5. Validação da Etapa 4 do agente (build, prerender, screenshots, console,
    rolagem lateral) e atualização de `SESSION.md`.
 
@@ -117,6 +167,12 @@ Dependências do dimensionamento: `PEND-010` (estoque), `PEND-014` (aplicações
 (documento).
 
 ## 7. Perguntas abertas
+
+- **Textos faltantes no site (PROTO-06):** o documento de apresentação das funcionalidades
+  da próxima reunião deve listar, de forma clara, o que ainda é provisório e depende da
+  MK: texto "Sobre nós", seção "Clientes" (`PEND-008`), CEP, horário em feriados, CNPJ no
+  site e as frases das artes ("peças originais", "grande variedade", "atendimento
+  especializado").
 
 - Fotos dos vendedores (`PEND-034`).
 - Modelo do PDF e do Word (produzido pelo responsável) e o que o vendedor pode editar

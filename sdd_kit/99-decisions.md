@@ -53,6 +53,8 @@ autorização humana, atualização dos documentos afetados e novo registro aqui
   navegador, carregada só quando o vendedor pede o Word. O PDF não usa biblioteca: é a página
   A4 do orçamento impressa pelo navegador ("Salvar como PDF"), porque o protótipo não tem
   servidor; o guia do modelo recomenda Chrome headless no servidor para o produto definitivo.
+- **Extensão (REU-18, M4):** biblioteca `uqr` (0.1.2, versão fixa, MIT, sem dependências) para
+  o QR Code do link do vendedor, carregada só na área do vendedor (pedaço separado de ~10 KB).
 
 ### DEC-004 — Preço único e promoção individual
 
@@ -421,3 +423,32 @@ autorização humana, atualização dos documentos afetados e novo registro aqui
   digitados no orçamento (o catálogo não tem); código de venda digitado pelo vendedor;
   sem numeração de página; PDF pela impressão do navegador (sem servidor, `DEC-001`), com o
   rodapé nas caixas de margem da página (Chrome e Edge).
+
+### DEC-026 — Melhorias da próxima reunião: busca por ano, compartilhar, QR e vigência
+
+- **Status:** ACEITA (responsável humano). Escopo das melhorias M1 a M7 revisado: M1, M3, M4 e
+  M5 aplicadas; M2 (lembrar o caminhão do cliente) fica para o futuro; M6 já existia
+  (`/vendedor/documento`); M7 não é necessária (o vendedor já edita o orçamento).
+- **M1 — Busca por veículo com ano:** o catálogo filtra por marca, modelo e **ano**
+  (`?ano=`, só com a marca escolhida). Com ano, aparecem **primeiro** as peças cujo período
+  cadastrado cobre o ano e, **depois**, as peças sem ano cadastrado, marcadas com um asterisco
+  amarelo cuja dica diz "Ano não cadastrado no sistema" (e uma nota acima da grade). Peças cujo
+  período cadastrado exclui o ano saem. A landing ganha o bloco "Buscar pelo veículo" (marca →
+  modelo → ano → "Ver peças") na faixa de marcas.
+- **M3 — Compartilhar com meu link:** com o vendedor logado em `/vendedor` (sessão da aba), o
+  produto e o catálogo (com busca e filtros) mostram "Compartilhar com meu link", que gera a
+  página com o `?v=` dele (`DEC-017`). No celular abre o compartilhamento do aparelho; no
+  computador copia. O cliente comum nunca vê o botão. Os cartões de categoria da landing não
+  têm o botão (são links; o catálogo filtrado pela categoria cobre o caso).
+  **Simulação:** a "sessão" é a aba em que o vendedor escolheu o nome em `/vendedor`, sem
+  senha. No produto definitivo, há login real só para a equipe da MK (`DEC-021`) e cada perfil
+  logado vê funções próprias ao navegar pelo catálogo (o vendedor, "Compartilhar com meu
+  link"); sem login, nenhuma dessas funções aparece.
+- **M4 — QR Code:** a área do vendedor mostra "Meu link e QR Code": o link pessoal, compartilhar,
+  copiar, o QR (marinho sobre branco), baixar a imagem (PNG com nome e "MK Autoparts") e
+  imprimir. Biblioteca registrada em `DEC-003`.
+- **M5 — Promoção com início e fim opcionais:** `promocao.inicio` e `promocao.fim`
+  (AAAA-MM-DD, Brasília). Sem datas, vale sempre. Antes do início fica "Agendada", depois do fim
+  "Encerrada" (o dia do fim ainda vale); fora do período o site mostra o produto sem preço e sem
+  a arte. O admin de demonstração edita as datas e mostra a situação. Nenhuma data foi inventada
+  nos dados; a regra final depende de `PEND-004`.

@@ -31,7 +31,9 @@ resolvida com o cliente.
 - Na lista e na mensagem do WhatsApp, o item em promoção leva o preço promocional
   unitário; os demais não levam preço.
 - O catálogo oferece o filtro "Somente promoções", e a landing destaca as promoções.
-- **Demonstração:** promoções não têm vigência por data no protótipo (`PEND-004`).
+- **Vigência (M5, `DEC-026`):** início e fim são opcionais. Sem datas, a promoção vale sempre;
+  antes do início ou depois do fim (o dia do fim ainda vale), o site mostra o produto sem preço
+  e sem a arte. Datas no horário de Brasília. A regra final depende de `PEND-004`.
 - O preço promocional é confirmado no atendimento (`PEND-003`, texto do aviso).
 
 ## RN-03 — Compatibilidade
@@ -41,6 +43,9 @@ resolvida com o cliente.
 - Produto sem aplicação cadastrada é tratado como "consultar aplicação" e não
   aparece quando há filtro por montadora ou modelo.
 - O filtro de modelo só oferece modelos da montadora selecionada.
+- **Ano (M1, `DEC-026`):** com ano escolhido, aparecem primeiro as peças cujo período cobre o
+  ano e depois as peças sem ano cadastrado, marcadas com asterisco amarelo ("Ano não
+  cadastrado no sistema"). Peça cujo período exclui o ano não aparece.
 
 ## RN-04 — Lista de orçamento
 

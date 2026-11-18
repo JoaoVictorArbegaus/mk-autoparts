@@ -15,8 +15,8 @@ Fase de protótipo (`DEC-001`). Somente frontend, com dados estáticos.
 | PROTO-01 | Briefing completo e massa de produtos (`produtos.ts`) a partir do PDF | DONE | Revisão do cliente em `PEND-029` (não bloqueia) |
 | PROTO-07 | Admin de demonstração (`DEC-015`) | DONE | — |
 | PROTO-05 | Roteiro de apresentação. Lighthouse no celular medido (build local no Docker): landing desempenho ~60, LCP 5,3 s; catálogo ~80, LCP 4,8 s; acessibilidade 100, boas práticas 100, CLS 0 nas duas; SEO 66 por causa do `noindex` proposital. Meta de desempenho do `RNF-05` não atingida, aceita no protótipo (o peso restante é React + Motion e as animações da landing) | READY | — |
-| PROTO-06 | Confirmações do cliente para trocar placeholders (Sobre nós, Clientes, CEP, feriados, domínio) e as frases das artes | BLOCKED | Respostas do cliente (`docs/client-questions.md`) |
-| DOC-01 | Revisar os dois PDFs e suas fontes em `docs/reuniao/` | BLOCKED | Revisão do responsável e do sócio |
+| PROTO-06 | Placeholders (Sobre nós, Clientes, CEP, feriados, CNPJ no site) e frases das artes ficam no site; **listar todos no documento de apresentação das funcionalidades** da próxima reunião, para a MK responder | BLOCKED | Respostas do cliente (`docs/client-questions.md`) |
+| DOC-01 | Documento de funcionalidades na ordem da demonstração e proposta comercial, em `JKsoftware/Documentos/MKautoparts/Proposta/` (PDF e Word, fora do Git; geradores em `Orcamento/_fonte/`) | READY | Revisão do responsável |
 
 ## Próxima reunião (`docs/planejamento-proxima-reuniao.md`)
 
@@ -38,7 +38,10 @@ apresentadas.
 | REU-13 | Aviso fora do horário comercial (segunda a sexta, 8h às 18h, Brasília): feito na lista e na escolha de vendedor (`src/orcamento/horario.ts`, `AvisoHorario`); também no `/orcamento` | DONE | — |
 | REU-14 | Painel do vendedor: orçamentos ativos, aviso "Alterado pelo cliente" (mesmo navegador), marcar como visto, encerrar e excluir link | DONE | — |
 | REU-15 | Hero com mosaico (`DEC-024`): aplicado e medido no Lighthouse (ver PROTO-05) | DONE | — |
-| REU-12 | Melhorias M1 a M7 do planejamento | READY | Revisão de escopo com o responsável |
+| REU-16 | M1: busca por veículo com ano (catálogo e bloco na landing); sem ano depois, com asterisco | DONE | — |
+| REU-19 | M5: promoção com início e fim opcionais (regra no catálogo, admin com situação) | DONE | Regra final em `PEND-004` |
+| REU-17 | M3: "Compartilhar com meu link" no produto e no catálogo, com o vendedor logado | DONE | — |
+| REU-18 | M4: link pessoal e QR Code na área do vendedor (baixar e imprimir), `uqr` em `DEC-003` | DONE | — |
 
 ## Depois da apresentação
 

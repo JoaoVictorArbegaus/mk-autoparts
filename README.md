@@ -27,7 +27,6 @@ público, usa `noindex` e não exige autenticação (`DEC-016`).
 | `docs/deploy-vps.md` | Preparação e checklist para publicação temporária em VPS |
 | `deploy/vps/` | Pacote operacional da VPS: release, Compose, Nginx, TLS e rollback |
 | `docs/fontes/` | Documentos recebidos (rascunho de regras, dados da empresa), guardados como vieram |
-| `docs/reuniao/` | Fontes, PDFs e roteiro TXT de respostas preparados para a reunião |
 | `frontend/` | Protótipo implementado em Vite + React + TypeScript |
 | `frontend/design/briefing.md` | Briefing do cliente |
 | `frontend/design/referencias/` | **Imagens de referência visual** (qualquer nome/extensão) + `notas.md` |
