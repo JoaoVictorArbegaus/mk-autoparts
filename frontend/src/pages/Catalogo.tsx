@@ -12,10 +12,12 @@ import {
   escreverConsulta,
   filtrosAtivos,
   lerConsulta,
+  listarAnos,
   listarCategorias,
   listarMarcas,
   listarMontadoras,
   obterMontadora,
+  situacaoAno,
   trocarMontadora,
   type Consulta,
   type Ordem,
@@ -27,6 +29,7 @@ import { CardProduto } from '../components/CardProduto';
 import { Icone } from '../components/Icons';
 import { useTextoCurto } from '../hooks/useTextoCurto';
 import { Button } from '../components/Button';
+import { CompartilharVendedor } from '../components/CompartilharVendedor';
 
 const LOTE = 24;
 
@@ -61,6 +64,22 @@ function Filtros({ c, aplicar, idBase }: { c: Consulta; aplicar: (proxima: Consu
         </select>
         {!montadora && (
           <small id={`${idBase}-modelo-ajuda`} className="sr-only">
+            {t.escolhaMarca}
+          </small>
+        )}
+      </div>
+      <div className="filtros__campo">
+        <label htmlFor={`${idBase}-ano`}>{t.ano}</label>
+        <select id={`${idBase}-ano`} value={c.ano || ''} disabled={!montadora} onChange={e => aplicar({ ...c, ano: Number(e.target.value) || 0 })} aria-describedby={!montadora ? `${idBase}-ano-ajuda` : undefined}>
+          <option value="">{montadora ? t.todosAnos : t.escolhaMarca}</option>
+          {listarAnos().map(a => (
+            <option key={a} value={a}>
+              {a}
+            </option>
+          ))}
+        </select>
+        {!montadora && (
+          <small id={`${idBase}-ano-ajuda`} className="sr-only">
             {t.escolhaMarca}
           </small>
         )}
@@ -208,6 +227,8 @@ export function Catalogo() {
               {t.filtrar}
               {nFiltros > 0 && <span className="btn-filtrar__n">{nFiltros}</span>}
             </button>
+            {/* M3: só com o vendedor logado; leva a busca e os filtros atuais. */}
+            <CompartilharVendedor texto={textos.compartilhar.catalogo} className="cat-barra__compartilhar" />
             <label className="cat-ordem">
               <span>{t.ordenar}</span>
               <select value={c.ordem === 'relevancia' && !c.q ? 'nome' : c.ordem} onChange={e => aplicar({ ...c, ordem: e.target.value as Ordem })}>
@@ -238,10 +259,18 @@ export function Catalogo() {
 
           {resultados.length ? (
             <>
+              {c.ano > 0 && resultados.some(p => situacaoAno(p, c) === 'sem-ano') && (
+                <p className="cat-nota-ano">
+                  <span className="card__sem-ano" aria-hidden="true">
+                    *
+                  </span>
+                  {t.semAnoNota}
+                </p>
+              )}
               <ul className="grade" aria-busy={!montado}>
                 {visiveis.map(p => (
                   <li key={p.slug}>
-                    <CardProduto produto={p} nivel={2} />
+                    <CardProduto produto={p} nivel={2} semAno={situacaoAno(p, c) === 'sem-ano'} />
                   </li>
                 ))}
               </ul>

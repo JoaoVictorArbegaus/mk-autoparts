@@ -7,13 +7,30 @@ import { produtos } from './produtos';
 import { categorias } from './categorias';
 import { montadoras } from './montadoras';
 import { dimensoesImagens } from './imagens';
-import type { Aplicacao, Categoria, Lado, Montadora, Produto } from './tipos';
+import type { Aplicacao, Categoria, Lado, Montadora, Produto, Promocao } from './tipos';
 
 export type { Aplicacao, Categoria, Lado, Montadora, Produto };
 
 /* ---------- Acesso ---------- */
 
-const ativos = produtos.filter(p => p.ativo);
+/* ---------- Vigência da promoção (M5) ---------- */
+
+/** Data de hoje em Brasília, em AAAA-MM-DD. */
+export function hojeBrasilia(agora = new Date()) {
+  return new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Sao_Paulo', year: 'numeric', month: '2-digit', day: '2-digit' }).format(agora);
+}
+
+/** Agendada antes do início, encerrada depois do fim (o dia do fim ainda vale), ativa no resto. */
+export function situacaoPromocao(promo: Promocao, hoje = hojeBrasilia()): 'agendada' | 'ativa' | 'encerrada' {
+  if (promo.inicio && hoje < promo.inicio) return 'agendada';
+  if (promo.fim && hoje > promo.fim) return 'encerrada';
+  return 'ativa';
+}
+
+/** O site só mostra a promoção dentro do período; fora dele o produto aparece sem preço (RN-02). */
+const ativos = produtos
+  .filter(p => p.ativo)
+  .map(p => (p.promocao && situacaoPromocao(p.promocao) !== 'ativa' ? { ...p, promocao: undefined, artePromocao: undefined } : p));
 const porSlug = new Map(ativos.map(p => [p.slug, p]));
 
 export const listarProdutos = (): Produto[] => ativos;
@@ -178,12 +195,14 @@ export type Consulta = {
   categorias: string[];
   montadora: string;
   modelo: string;
+  /** Ano do veículo (M1); 0 = sem filtro. Só vale com marca do veículo escolhida. */
+  ano: number;
   marcas: string[];
   promocao: boolean;
   ordem: Ordem;
 };
 
-export const consultaVazia: Consulta = { q: '', categorias: [], montadora: '', modelo: '', marcas: [], promocao: false, ordem: 'nome' };
+export const consultaVazia: Consulta = { q: '', categorias: [], montadora: '', modelo: '', ano: 0, marcas: [], promocao: false, ordem: 'nome' };
 
 /** Lê a query string, descartando valores que não existem nos dados. */
 export function lerConsulta(params: URLSearchParams): Consulta {
@@ -193,6 +212,8 @@ export function lerConsulta(params: URLSearchParams): Consulta {
   const montadora = obterMontadora(params.get('montadora') ?? '') ? params.get('montadora')! : '';
   const modeloParam = params.get('modelo') ?? '';
   const modelo = montadora && obterMontadora(montadora)!.modelos.some(m => m.slug === modeloParam) ? modeloParam : '';
+  const anoParam = Number(params.get('ano'));
+  const ano = montadora && listarAnos().includes(anoParam) ? anoParam : 0;
   const ordemParam = params.get('ordem');
   const ordem: Ordem = ordemParam === 'codigo' || ordemParam === 'nome' ? ordemParam : ordemParam === 'relevancia' && q ? 'relevancia' : q ? 'relevancia' : 'nome';
   return {
@@ -200,6 +221,7 @@ export function lerConsulta(params: URLSearchParams): Consulta {
     categorias: [...new Set(params.getAll('categoria').filter(c => cats.has(c)))].sort(),
     montadora,
     modelo,
+    ano,
     marcas: [...new Set(params.getAll('marca').filter(m => marcasValidas.has(m)))].sort(),
     promocao: params.get('promocao') === '1',
     ordem,
@@ -212,6 +234,7 @@ export function escreverConsulta(c: Consulta) {
   for (const cat of [...new Set(c.categorias)].sort()) p.append('categoria', cat);
   if (c.montadora) p.set('montadora', c.montadora);
   if (c.montadora && c.modelo) p.set('modelo', c.modelo);
+  if (c.montadora && c.ano) p.set('ano', String(c.ano));
   for (const m of [...new Set(c.marcas)].sort()) p.append('marca', m);
   if (c.promocao) p.set('promocao', '1');
   const padrao = c.q.trim() ? 'relevancia' : 'nome';
@@ -222,17 +245,48 @@ export function escreverConsulta(c: Consulta) {
 
 /** Trocar a montadora limpa o modelo (AC-02). */
 export function trocarMontadora(c: Consulta, montadora: string): Consulta {
-  return { ...c, montadora, modelo: '' };
+  return { ...c, montadora, modelo: '', ano: montadora ? c.ano : 0 };
+}
+
+/* ---------- Ano do veículo (M1) ---------- */
+
+/** Anos oferecidos no filtro: do menor ano cadastrado até o ano atual, do mais novo ao mais antigo. */
+export function listarAnos(hoje = new Date()): number[] {
+  const inicios = ativos.flatMap(p => p.aplicacoes.map(a => a.anoInicio ?? a.anoFim ?? 0)).filter(Boolean);
+  const atual = hoje.getFullYear();
+  const menor = inicios.length ? Math.min(...inicios) : atual;
+  return Array.from({ length: atual - menor + 1 }, (_, i) => atual - i);
+}
+
+const temAno = (a: Aplicacao) => a.anoInicio != null || a.anoFim != null;
+const cobreAno = (a: Aplicacao, ano: number) => (a.anoInicio == null || ano >= a.anoInicio) && (a.anoFim == null || ano <= a.anoFim);
+
+/** Aplicações do produto que casam com marca e modelo da consulta. */
+function aplicacoesDaConsulta(p: Produto, c: Consulta) {
+  return p.aplicacoes.filter(a => a.montadora === c.montadora && (!c.modelo || a.modelo === c.modelo));
+}
+
+/**
+ * Situação do produto no filtro por ano: 'ano' quando um período cadastrado cobre o ano;
+ * 'sem-ano' quando a aplicação que casa não tem ano cadastrado (aparece depois, com aviso);
+ * 'fora' quando todos os períodos cadastrados excluem o ano.
+ */
+export function situacaoAno(p: Produto, c: Consulta): 'ano' | 'sem-ano' | 'fora' {
+  if (!c.montadora || !c.ano) return 'ano';
+  const apl = aplicacoesDaConsulta(p, c);
+  if (apl.some(a => temAno(a) && cobreAno(a, c.ano))) return 'ano';
+  if (apl.some(a => !temAno(a))) return 'sem-ano';
+  return 'fora';
 }
 
 export function contarFiltros(c: Consulta) {
-  return c.categorias.length + (c.montadora ? 1 : 0) + (c.modelo ? 1 : 0) + c.marcas.length + (c.promocao ? 1 : 0);
+  return c.categorias.length + (c.montadora ? 1 : 0) + (c.modelo ? 1 : 0) + (c.ano ? 1 : 0) + c.marcas.length + (c.promocao ? 1 : 0);
 }
 
 function atendeAplicacao(p: Produto, c: Consulta) {
   if (!c.montadora) return true;
   // Sem aplicação cadastrada = "consultar aplicação": não aparece com filtro de veículo (RN-03).
-  return p.aplicacoes.some(a => a.montadora === c.montadora && (!c.modelo || a.modelo === c.modelo));
+  return aplicacoesDaConsulta(p, c).length > 0 && situacaoAno(p, c) !== 'fora';
 }
 
 export function filtrar(lista: Produto[], c: Consulta) {
@@ -256,7 +310,11 @@ export function consultar(c: Consulta, lista: Produto[] = ativos): Produto[] {
   const ordem = c.ordem === 'relevancia' && !c.q.trim() ? 'nome' : c.ordem;
   // Promoções sempre primeiro (pedido do responsável humano); com busca, só desempatam a relevância.
   const promo = (a: Produto, b: Produto) => Number(!!b.promocao) - Number(!!a.promocao);
+  // Filtro por ano (M1): primeiro os produtos com o ano cadastrado, depois os sem ano.
+  const semAno = (p: Produto) => Number(situacaoAno(p, c) === 'sem-ano');
   comBusca.sort((a, b) => {
+    const sa = semAno(a.p) - semAno(b.p);
+    if (sa) return sa;
     if (ordem === 'relevancia') return b.s - a.s || promo(a.p, b.p) || comparaNome(a.p, b.p);
     const pr = promo(a.p, b.p);
     if (pr) return pr;
@@ -279,8 +337,9 @@ export function filtrosAtivos(c: Consulta): FiltroAtivo[] {
   for (const slug of c.categorias) chips.push({ chave: `cat:${slug}`, rotulo: obterCategoria(slug)?.nome ?? slug, proxima: { ...c, categorias: c.categorias.filter(x => x !== slug) } });
   if (c.montadora) {
     const m = obterMontadora(c.montadora);
-    chips.push({ chave: 'montadora', rotulo: m?.nome ?? c.montadora, proxima: { ...c, montadora: '', modelo: '' } });
+    chips.push({ chave: 'montadora', rotulo: m?.nome ?? c.montadora, proxima: { ...c, montadora: '', modelo: '', ano: 0 } });
     if (c.modelo) chips.push({ chave: 'modelo', rotulo: m?.modelos.find(x => x.slug === c.modelo)?.nome ?? c.modelo, proxima: { ...c, modelo: '' } });
+    if (c.ano) chips.push({ chave: 'ano', rotulo: `Ano ${c.ano}`, proxima: { ...c, ano: 0 } });
   }
   for (const marca of c.marcas) chips.push({ chave: `marca:${marca}`, rotulo: `Marca ${marca}`, proxima: { ...c, marcas: c.marcas.filter(x => x !== marca) } });
   if (c.promocao) chips.push({ chave: 'promocao', rotulo: 'Somente promoções', proxima: { ...c, promocao: false } });

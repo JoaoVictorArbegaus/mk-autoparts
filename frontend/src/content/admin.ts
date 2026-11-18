@@ -85,6 +85,18 @@ export const admin = {
     removido: 'Promoção removida nesta demonstração.',
     invalido: 'Escolha o produto e informe um preço maior que zero (e o preço "de" maior que ele).',
     arte: 'Com arte no carrossel',
+    inicio: 'Início (opcional)',
+    fim: 'Fim (opcional)',
+    periodoInvalido: 'O fim da promoção não pode ser antes do início.',
+    situacao: { agendada: 'Agendada', ativa: 'Ativa', encerrada: 'Encerrada' },
+    semPrazo: 'Sem prazo',
+    periodo: (inicio?: string, fim?: string) => {
+      const br = (d: string) => d.split('-').reverse().join('/');
+      if (inicio && fim) return `${br(inicio)} a ${br(fim)}`;
+      if (inicio) return `A partir de ${br(inicio)}`;
+      if (fim) return `Até ${br(fim)}`;
+      return '';
+    },
   },
   vendedores: {
     titulo: 'Vendedores',

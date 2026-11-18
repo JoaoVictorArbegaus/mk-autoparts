@@ -34,6 +34,9 @@ export interface Variante {
 export interface Promocao {
   preco: number;
   precoOriginal?: number;
+  /** Período opcional (M5), em AAAA-MM-DD, horário de Brasília. Sem datas, vale sempre. */
+  inicio?: string;
+  fim?: string;
 }
 
 export interface Produto {

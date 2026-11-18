@@ -809,6 +809,44 @@
   /* Azul vivo clareado: o --vivid sobre o marinho-2 ficava em 4,0:1 (mínimo 4,5:1). */
   color: #6b9bff;
 }
+.compartilhar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 12px;
+}
+.compartilhar__aviso {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--royal);
+}
+.compartilhar__aviso:empty {
+  display: none;
+}
+.card__sem-ano {
+  /* M1: peça sem ano cadastrado no filtro por ano. Amarelo da marca com o * em marinho (contraste). */
+  display: inline-grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  margin-left: 6px;
+  vertical-align: 1px;
+  border-radius: 50%;
+  background: var(--promo-yellow);
+  color: var(--navy);
+  font-weight: 800;
+  font-size: 0.875rem;
+  line-height: 1;
+  cursor: help;
+}
+.cat-nota-ano {
+  margin: 0 0 12px;
+  font-size: 0.8125rem;
+  color: var(--ink-2);
+}
+.cat-nota-ano .card__sem-ano {
+  margin: 0 6px 0 0;
+}
 .card__cod {
   font-size: 0.8125rem;
   color: var(--ink-2);

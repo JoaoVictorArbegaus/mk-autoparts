@@ -9,6 +9,22 @@ export const areaVendedor = {
   },
   sair: 'Sair',
   abas: { lista: 'Orçamentos', novo: 'Novo orçamento', novoCurto: 'Novo' },
+  // M3 e M4: link pessoal do vendedor e QR Code.
+  meuLink: {
+    titulo: 'Meu link e QR Code',
+    apoio: 'Quem entra pelo seu link ou pelo QR fica com o seu atendimento.',
+    compartilhar: 'Compartilhar',
+    copiar: 'Copiar link',
+    baixar: 'Baixar imagem',
+    imprimir: 'Imprimir',
+    copiado: 'Link copiado. Cole no WhatsApp do cliente.',
+    falhou: 'Não deu para copiar o link.',
+    falhouImprimir: 'O navegador bloqueou a janela de impressão. Use "Baixar imagem".',
+    mensagem: (nome: string) => `Olá! Este é o meu link do catálogo da MK Autoparts. Atendimento: ${nome}`,
+    qrRotulo: (nome: string) => `QR Code do link de ${nome}`,
+    dicaSite: 'Navegando pelo site nesta aba, use "Compartilhar com meu link" no produto ou no catálogo para mandar a página certa.',
+    abrirCatalogo: 'Abrir o catálogo',
+  },
   lista: {
     titulo: 'Orçamentos ativos',
     apoio: 'Orçamentos que você enviou e ainda estão em aberto.',

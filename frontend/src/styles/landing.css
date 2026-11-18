@@ -232,6 +232,51 @@
   gap: 16px;
   margin-bottom: 14px;
 }
+.busca-veiculo {
+  margin-top: 22px;
+  padding: 18px 20px 20px;
+  border-radius: var(--raio);
+  background: rgb(255 255 255 / 0.06);
+  border: 1px solid rgb(217 222 229 / 0.14);
+}
+.busca-veiculo__titulo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  font-family: var(--f-tit);
+  font-weight: 800;
+  font-style: italic;
+  font-stretch: 112%;
+  font-size: 1.125rem;
+  color: var(--white);
+}
+.busca-veiculo__titulo svg {
+  color: var(--vivid);
+}
+.busca-veiculo__campos {
+  display: grid;
+  gap: 12px;
+}
+.busca-veiculo__campo {
+  display: grid;
+  gap: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--silver);
+}
+.busca-veiculo__campo select {
+  width: 100%;
+}
+.busca-veiculo__botao {
+  justify-content: center;
+}
+@media (min-width: 720px) {
+  .busca-veiculo__campos {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
+    align-items: end;
+  }
+}
 .marcas__titulo {
   font-size: 1rem;
   font-weight: 600;

@@ -7,6 +7,7 @@ import { Link } from '../../router';
 import { contarPorMontadora, listarMontadoras } from '../../content/catalogo';
 import { textos } from '../../content/site';
 import { Emenda } from '../Emenda';
+import { BuscaVeiculo } from './BuscaVeiculo';
 
 export function Montadoras() {
   const t = textos.montadoras;
@@ -31,6 +32,8 @@ export function Montadoras() {
           {marcas.map(m => item(m, true))}
         </ul>
       </div>
+      {/* M1: busca direta por marca, modelo e ano. */}
+      <BuscaVeiculo />
       <Emenda para="paper" />
     </section>
   );

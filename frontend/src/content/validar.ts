@@ -33,6 +33,10 @@ export function validarDados(existeArquivo?: (caminhoPublico: string) => boolean
     if (p.promocao) {
       if (!(p.promocao.preco > 0)) erros.push(`preço de promoção inválido em ${p.slug}`);
       if (p.promocao.precoOriginal !== undefined && !(p.promocao.precoOriginal > p.promocao.preco)) erros.push(`preço original inválido em ${p.slug}`);
+      const data = /^\d{4}-\d{2}-\d{2}$/;
+      if (p.promocao.inicio && !data.test(p.promocao.inicio)) erros.push(`início da promoção inválido em ${p.slug}`);
+      if (p.promocao.fim && !data.test(p.promocao.fim)) erros.push(`fim da promoção inválido em ${p.slug}`);
+      if (p.promocao.inicio && p.promocao.fim && p.promocao.fim < p.promocao.inicio) erros.push(`fim antes do início da promoção em ${p.slug}`);
     }
     if (existeArquivo) {
       if (p.imagem) {

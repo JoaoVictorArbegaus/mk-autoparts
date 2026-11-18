@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { consultaVazia, consultar, resumoAplicacao, escreverConsulta, filtrosAtivos, lerConsulta, listarMarcas, normalizar, obterProduto, trocarMontadora } from './catalogo';
+import { consultaVazia, consultar, hojeBrasilia, listarAnos, situacaoAno, situacaoPromocao, resumoAplicacao, escreverConsulta, filtrosAtivos, lerConsulta, listarMarcas, normalizar, obterProduto, trocarMontadora } from './catalogo';
 import { validarDados } from './validar';
 
 describe('normalizar', () => {
@@ -94,5 +94,56 @@ describe('resumoAplicacao', () => {
   });
   it('sem aplicação vira universal', () => {
     expect(resumoAplicacao(obterProduto('caixa-de-ferramentas-para-caminhao-e-carreta-50-litros-com-suportes')!)).toMatch(/universal/);
+  });
+});
+
+describe('filtro por ano (M1)', () => {
+  const comAno = consultar({ ...consultaVazia, montadora: 'scania', modelo: 'ntg', ano: 2018 });
+  it('mostra primeiro as peças com o ano e depois as sem ano', () => {
+    const sit = comAno.map(p => situacaoAno(p, { ...consultaVazia, montadora: 'scania', modelo: 'ntg', ano: 2018 }));
+    expect(sit).not.toContain('fora');
+    const primeiroSem = sit.indexOf('sem-ano');
+    if (primeiroSem >= 0) expect(sit.slice(primeiroSem)).not.toContain('ano');
+  });
+  it('tira peça cujo período cadastrado não cobre o ano', () => {
+    // Farol principal Scania Série 5 2011 a 2017 não serve para 2018.
+    const s5 = consultar({ ...consultaVazia, montadora: 'scania', modelo: 'serie-5', ano: 2018 }).map(p => p.slug);
+    expect(s5).not.toContain('farol-principal-scania-serie-5-2011-a-2017-s03-035');
+    const s5ok = consultar({ ...consultaVazia, montadora: 'scania', modelo: 'serie-5', ano: 2012 }).map(p => p.slug);
+    expect(s5ok).toContain('farol-principal-scania-serie-5-2011-a-2017-s03-035');
+  });
+  it('lê e escreve o ano na URL só com marca do veículo', () => {
+    expect(lerConsulta(new URLSearchParams('montadora=scania&ano=2018')).ano).toBe(2018);
+    expect(lerConsulta(new URLSearchParams('ano=2018')).ano).toBe(0);
+    expect(lerConsulta(new URLSearchParams('montadora=scania&ano=1800')).ano).toBe(0);
+    expect(escreverConsulta({ ...consultaVazia, montadora: 'scania', ano: 2018 })).toContain('ano=2018');
+    expect(filtrosAtivos({ ...consultaVazia, montadora: 'scania', ano: 2018 }).map(f => f.rotulo)).toContain('Ano 2018');
+  });
+  it('lista anos do mais novo ao mais antigo até o ano atual', () => {
+    const anos = listarAnos(new Date('2026-06-01'));
+    expect(anos[0]).toBe(2026);
+    expect(anos).toEqual([...anos].sort((a, b) => b - a));
+  });
+});
+
+describe('vigência da promoção (M5)', () => {
+  const p = { preco: 10 };
+  it('sem datas vale sempre', () => {
+    expect(situacaoPromocao(p, '2026-01-01')).toBe('ativa');
+  });
+  it('respeita início e fim, com o dia do fim ainda valendo', () => {
+    const per = { ...p, inicio: '2026-11-10', fim: '2026-11-20' };
+    expect(situacaoPromocao(per, '2026-11-09')).toBe('agendada');
+    expect(situacaoPromocao(per, '2026-11-10')).toBe('ativa');
+    expect(situacaoPromocao(per, '2026-11-20')).toBe('ativa');
+    expect(situacaoPromocao(per, '2026-11-21')).toBe('encerrada');
+  });
+  it('aceita só início ou só fim', () => {
+    expect(situacaoPromocao({ ...p, inicio: '2026-12-01' }, '2026-11-30')).toBe('agendada');
+    expect(situacaoPromocao({ ...p, fim: '2026-11-01' }, '2026-11-02')).toBe('encerrada');
+  });
+  it('usa a data de Brasília', () => {
+    // 02:00 UTC de 18/11 ainda é 17/11 em Brasília.
+    expect(hojeBrasilia(new Date('2026-11-18T02:00:00Z'))).toBe('2026-11-17');
   });
 });

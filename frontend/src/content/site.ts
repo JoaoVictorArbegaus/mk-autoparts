@@ -104,6 +104,21 @@ export const textos = {
     titulo: 'Marcas de veículo atendidas',
   },
 
+  compartilhar: {
+    botao: 'Compartilhar com meu link',
+    dica: (nome: string) => `Link desta página com o atendimento de ${nome}`,
+    copiado: 'Link copiado. Cole no WhatsApp do cliente.',
+    falhou: 'Não deu para copiar o link.',
+    produto: (nome: string) => `Olá! Separei esta peça para você: ${nome}`,
+    catalogo: 'Olá! Separei estas peças para você no catálogo da MK Autoparts',
+  },
+
+  buscaVeiculo: {
+    titulo: 'Buscar pelo veículo',
+    escolha: 'Escolha a marca',
+    verPecas: 'Ver peças',
+  },
+
   categorias: {
     titulo: 'Encontre pela categoria',
     apoio: 'Faróis, lanternas, retrovisores e mais, separados como no catálogo da loja.',
@@ -194,6 +209,10 @@ export const textos = {
     modelo: 'Modelo',
     todosModelos: 'Todos os modelos',
     escolhaMarca: 'Escolha a marca antes',
+    ano: 'Ano',
+    todosAnos: 'Todos os anos',
+    semAno: 'Ano não cadastrado no sistema: confira a aplicação',
+    semAnoNota: 'Primeiro as peças com o ano informado. As marcadas não têm ano cadastrado no sistema: confira a aplicação.',
     marcaPeca: 'Marca da peça',
     somentePromocoes: 'Somente promoções',
     ordenar: 'Ordenar por',

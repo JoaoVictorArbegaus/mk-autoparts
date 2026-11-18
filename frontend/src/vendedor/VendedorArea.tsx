@@ -15,6 +15,7 @@ import { calcularOrcamento, expirado, nomeCliente, type Orcamento } from './orca
 import { brl } from './decimal';
 import { EditorOrcamento } from './EditorOrcamento';
 import { TelaDocumento } from './TelaDocumento';
+import { MeuLink } from './MeuLink';
 
 export function VendedorArea({ tela }: { tela: TelaVendedor }) {
   const [sessao, setSessao] = useState<Vendedor | null | undefined>(undefined);
@@ -161,6 +162,7 @@ function Lista({ vendedor, avisar }: { vendedor: Vendedor; avisar: (t: string) =
           <p>{tl.apoio}</p>
         </div>
       </div>
+      <MeuLink vendedor={vendedor} avisar={avisar} />
       {!lista.length ? (
         <p className="adm-vazio">{tl.vazio}</p>
       ) : (

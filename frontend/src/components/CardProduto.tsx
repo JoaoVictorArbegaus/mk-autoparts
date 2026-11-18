@@ -24,7 +24,7 @@ export function FotoProduto({ produto, tamanhos = '(min-width: 1200px) 260px, (m
   return <img src={img.src} width={img.largura} height={img.altura} alt={produto.nome} loading={prioridade ? 'eager' : 'lazy'} decoding="async" sizes={tamanhos} />;
 }
 
-export function CardProduto({ produto, nivel = 3 }: { produto: Produto; nivel?: 2 | 3 }) {
+export function CardProduto({ produto, nivel = 3, semAno = false }: { produto: Produto; nivel?: 2 | 3; semAno?: boolean }) {
   const { adicionar } = useOrcamento();
   const [escolhendo, setEscolhendo] = useState(false);
   const [feito, setFeito] = useState(false);
@@ -68,6 +68,13 @@ export function CardProduto({ produto, nivel = 3 }: { produto: Produto; nivel?: 
           <span className="card__aplic">
             <span className="sr-only">{textos.card.aplicacao} </span>
             {resumoAplicacao(produto)}
+            {/* Filtro por ano (M1): a aplicação não tem ano cadastrado. */}
+            {semAno && (
+              <span className="card__sem-ano" title={textos.catalogo.semAno}>
+                <span aria-hidden="true">*</span>
+                <span className="sr-only">{textos.catalogo.semAno}</span>
+              </span>
+            )}
           </span>
           {(lados || produto.marca) && (
             <span className="card__meta">
