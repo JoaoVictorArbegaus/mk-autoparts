@@ -63,6 +63,8 @@ export const documento = {
     falarCom: (nome: string) => `Falar com ${nome}`,
     geradoPor: 'Orçamento gerado pelo sistema MK Autoparts',
   },
+  /** Explica a % de desconto quando ela soma o desconto da peça e o do total ("10% no item + 3% no total"). */
+  origemDesconto: { noItem: 'no item', porUnidade: 'por unidade', noTotal: 'no total' },
   // PEND-035: textos de exemplo, a MK ainda precisa aprovar.
   validade: { antes: 'Válido até ', depois: '. Itens “sob consulta” têm o preço informado pelo vendedor no atendimento.' },
   semValidade: 'Itens “sob consulta” têm o preço informado pelo vendedor no atendimento.',

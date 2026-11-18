@@ -541,6 +541,60 @@
   box-shadow: 0 16px 40px -20px rgb(8 19 41 / 0.45), 0 0 0 1px var(--adm-linha);
 }
 
+/* Prévia no celular: um toque abre a folha em tamanho real (a encolhida tem texto de ~5 px). */
+.doc-previa {
+  position: relative;
+}
+.doc-previa__ampliar {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 16px;
+  background: transparent;
+  cursor: zoom-in;
+}
+.doc-previa__ampliar span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 16px;
+  border-radius: 999px;
+  background: var(--navy);
+  color: var(--white);
+  font-weight: 600;
+  font-size: 0.875rem;
+  box-shadow: 0 8px 20px -8px rgb(8 19 41 / 0.6);
+}
+.doc-ampliado {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  background: #2b3445;
+}
+.doc-ampliado__barra {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 16px max(8px, env(safe-area-inset-top));
+  background: var(--adm-sup, #fff);
+  box-shadow: 0 4px 16px -8px rgb(8 19 41 / 0.4);
+}
+.doc-ampliado__folha {
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: 16px;
+}
+.doc-ampliado__folha .doc {
+  margin: 0 auto;
+  box-shadow: 0 16px 40px -20px rgb(0 0 0 / 0.6);
+}
+
 /*
  * Impressão ("Salvar como PDF"): só o documento, em A4, com os fundos. Orçamento longo continua na
  * página seguinte sem repetir o cabeçalho do documento; a linha de títulos da tabela se repete e a
@@ -565,6 +619,8 @@
   .vend-topo,
   .vend-faixa,
   .doc-acoes,
+  .doc-previa__ampliar,
+  .doc-ampliado,
   .adm-aviso,
   .adm-tela__cabeca {
     display: none !important;

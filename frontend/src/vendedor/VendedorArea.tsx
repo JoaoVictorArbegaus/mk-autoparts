@@ -174,6 +174,7 @@ function Lista({ vendedor, avisar }: { vendedor: Vendedor; avisar: (t: string) =
                   <div>
                     <h2>{nomeCliente(o.cliente) || tl.semCliente}</h2>
                     <p className="vend-orc__meta">
+                      {o.numero && <span className="vend-orc__num">{o.numero}</span>}
                       {tl.criado(dataCurta(o.criadoEm))} · {tl.itens(o.itens.length)}
                       {o.validade && ` · ${tl.valido(dataCurta(o.validade))}`}
                       {venceu && <span className="adm-tag vend-tag--expirado">{tl.expirado}</span>}

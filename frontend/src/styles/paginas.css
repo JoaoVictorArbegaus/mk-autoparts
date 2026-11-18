@@ -1694,7 +1694,7 @@ select:disabled {
   padding: 12px 14px;
   color: var(--ink-2);
 }
-/* Barra fixa: total e "Enviar minha lista para <nome>" sempre à vista, ao alcance do polegar. */
+/* Barra fixa: total e "Responder a <nome>" sempre à vista, ao alcance do polegar. */
 .orcl__barra {
   position: sticky;
   bottom: 0;
@@ -1823,4 +1823,38 @@ dd.orcl__resumo-total {
   font-style: italic;
   font-stretch: 112%;
   font-size: 1.25rem;
+}
+
+/* Origem da % de desconto ("10% no item + 3% no total") e o "Baixar em PDF" no resumo. */
+.orcl__preco .orcl__origem {
+  color: var(--royal);
+  font-weight: 600;
+}
+.orcl__pdf {
+  display: grid;
+  justify-items: start;
+  gap: 6px;
+  padding-top: 6px;
+}
+.orcl__pdf small {
+  color: var(--ink-2);
+  font-size: 0.8125rem;
+}
+/* A folha do PDF fica fora da tela; só aparece na impressão. */
+.orcl-impressao {
+  position: fixed;
+  top: 0;
+  left: -10000px;
+}
+@media print {
+  html.imprimindo-orcl body > *:not(.orcl-impressao) {
+    display: none !important;
+  }
+  html.imprimindo-orcl,
+  html.imprimindo-orcl body {
+    background: #fff !important;
+  }
+  html.imprimindo-orcl .orcl-impressao {
+    position: static;
+  }
 }

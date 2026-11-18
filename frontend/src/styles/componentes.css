@@ -553,12 +553,12 @@
 }
 .rodape ul {
   display: grid;
-  gap: 2px;
+  gap: 0;
 }
 .rodape a {
   display: inline-flex;
   align-items: center;
-  min-height: 36px;
+  min-height: 44px;
   text-decoration: none;
 }
 .rodape a:hover {
@@ -569,7 +569,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  min-height: 36px;
+  min-height: 44px;
 }
 .rodape__contatos svg {
   color: var(--vivid);

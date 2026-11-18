@@ -131,11 +131,18 @@ describe('cliente e validação', () => {
   });
 
   it('PJ exige razão social; PF exige nome; documento inválido e % acima de 100 barram', () => {
-    expect(validarOrcamento(base)).toEqual([]);
-    expect(validarOrcamento({ ...base, cliente: { tipo: 'PJ', nome: 'Carlos' } })).toContain('clienteNome');
-    expect(validarOrcamento({ ...base, cliente: { tipo: 'PF', nome: 'Ana', documento: '529.982.247-24' } })).toEqual(['documento']);
-    expect(validarOrcamento({ ...base, descontoTotal: { tipo: 'percentual', valor: '120' } })).toEqual(['descontoPct']);
-    expect(validarOrcamento({ ...base, codigoVenda: 'X'.repeat(21) })).toEqual(['codigoVenda']);
+    expect(validarOrcamento(base, '2026-11-17')).toEqual([]);
+    expect(validarOrcamento({ ...base, cliente: { tipo: 'PJ', nome: 'Carlos' } }, '2026-11-17')).toContain('clienteNome');
+    expect(validarOrcamento({ ...base, cliente: { tipo: 'PF', nome: 'Ana', documento: '529.982.247-24' } }, '2026-11-17')).toEqual(['documento']);
+    expect(validarOrcamento({ ...base, descontoTotal: { tipo: 'percentual', valor: '120' } }, '2026-11-17')).toEqual(['descontoPct']);
+    expect(validarOrcamento({ ...base, codigoVenda: 'X'.repeat(21) }, '2026-11-17')).toEqual(['codigoVenda']);
+  });
+
+  it('validade no passado e peça com lado sem lado barram', () => {
+    expect(validarOrcamento(base, '2026-12-01')).toEqual(['validade']);
+    const semLado = { ...base, itens: [{ slug: 'lanterna-traseira-scania-serie-4-5-6-s03-068', quantidade: 1 }] };
+    expect(validarOrcamento(semLado, '2026-11-17')).toEqual(['lado']);
+    expect(validarOrcamento({ ...semLado, itens: [{ ...semLado.itens[0], lado: 'LE' as const }] }, '2026-11-17')).toEqual([]);
   });
 
   it('lê orçamentos gravados no formato anterior (cliente em texto, valores em número)', () => {

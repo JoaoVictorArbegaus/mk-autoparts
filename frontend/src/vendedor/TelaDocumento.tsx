@@ -23,6 +23,7 @@ export function TelaDocumento({ vendedor, avisar }: { vendedor: Vendedor; avisar
   const [gerando, setGerando] = useState(false);
   const caixa = useRef<HTMLDivElement>(null);
   const [escala, setEscala] = useState(1);
+  const [ampliado, setAmpliado] = useState(false);
 
   useEffect(() => {
     let o = id ? obterOrcamento(id) : undefined;
@@ -111,7 +112,51 @@ export function TelaDocumento({ vendedor, avisar }: { vendedor: Vendedor; avisar
         <div className="doc-zoom" style={{ zoom: escala } as CSSProperties}>
           <DocumentoOrcamento dados={dados} />
         </div>
+        {/* Celular: a folha encolhida não se lê; tocar abre em tamanho real para conferir. */}
+        {escala < 0.95 && (
+          <button type="button" className="doc-previa__ampliar" onClick={() => setAmpliado(true)}>
+            <span>
+              <Icone nome="busca" tamanho={18} />
+              {t.ampliar}
+            </span>
+          </button>
+        )}
       </div>
+      {ampliado && <DocumentoAmpliado dados={dados} fechar={() => setAmpliado(false)} />}
     </section>
+  );
+}
+
+/** A folha em tamanho real, rolando nas duas direções, sobre a tela (fecha com o botão ou Esc). */
+function DocumentoAmpliado({ dados, fechar }: { dados: ReturnType<typeof montarDocumento>; fechar: () => void }) {
+  const botao = useRef<HTMLButtonElement>(null);
+  const aoFechar = useRef(fechar);
+  aoFechar.current = fechar;
+  useEffect(() => {
+    const antes = document.activeElement as HTMLElement | null;
+    botao.current?.focus();
+    const tecla = (e: KeyboardEvent) => e.key === 'Escape' && aoFechar.current();
+    document.addEventListener('keydown', tecla);
+    const overflow = document.documentElement.style.overflow;
+    document.documentElement.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', tecla);
+      document.documentElement.style.overflow = overflow;
+      antes?.focus();
+    };
+  }, []);
+  return (
+    <div className="doc-ampliado" role="dialog" aria-modal="true" aria-label={t.tituloAmpliado}>
+      <div className="doc-ampliado__barra">
+        <strong>{t.tituloAmpliado}</strong>
+        <button ref={botao} type="button" className="adm-btn adm-btn--fantasma" onClick={fechar}>
+          <Icone nome="fechar" tamanho={18} />
+          {t.fechar}
+        </button>
+      </div>
+      <div className="doc-ampliado__folha">
+        <DocumentoOrcamento dados={dados} />
+      </div>
+    </div>
   );
 }

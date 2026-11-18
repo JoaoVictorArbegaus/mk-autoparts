@@ -6,7 +6,7 @@
  * O orçamento também vai codificado na URL do link (demonstração, sem servidor), sem os dados
  * pessoais do cliente.
  */
-import type { Lado } from '../content/catalogo';
+import { obterProduto, temLados, type Lado } from '../content/catalogo';
 import { Dec, decimalDoDado, pctTexto } from './decimal';
 import { cnpjValido, cpfValido } from './documentos';
 
@@ -216,23 +216,41 @@ export function expirado(orc: Pick<Orcamento, 'validade'>, agora = new Date()): 
 
 export type ErroOrcamento =
   | 'semItens'
-  | 'clienteNome'
-  | 'documento'
+  | 'lado'
   | 'quantidade'
   | 'descontoPct'
+  | 'clienteNome'
+  | 'documento'
   | 'codigoVenda'
+  | 'validade'
   | 'observacao';
 
-export function validarOrcamento(orc: Orcamento): ErroOrcamento[] {
+/** Data de hoje (AAAA-MM-DD) no fuso de Brasília. */
+export const hojeISO = (agora = new Date()) => new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Sao_Paulo' }).format(agora);
+
+/** Desconto em % acima de 100 (o campo aceita digitar, a validação barra). */
+export const descontoPctInvalido = (d?: Desconto) => d?.tipo === 'percentual' && !!d.valor && Dec.de(d.valor).comparar(100) > 0;
+
+/** Peça com lado no catálogo (LD/LE) sem o lado escolhido (RN-04). */
+export const faltaLado = (i: ItemOrcamento) => {
+  const p = obterProduto(i.slug);
+  return !!p && temLados(p) && !i.lado;
+};
+
+/** Erros na ordem da tela (peças, cliente, documento), para levar o vendedor ao primeiro. */
+export function validarOrcamento(orc: Orcamento, hoje = hojeISO()): ErroOrcamento[] {
   const erros: ErroOrcamento[] = [];
   if (!orc.itens.length) erros.push('semItens');
+  if (orc.itens.some(faltaLado)) erros.push('lado');
+  if (orc.itens.some(i => !Number.isInteger(i.quantidade) || i.quantidade < QTD_ITEM_MIN || i.quantidade > QTD_ITEM_MAX)) erros.push('quantidade');
+  if (orc.itens.some(i => descontoPctInvalido(i.desconto)) || descontoPctInvalido(orc.descontoTotal)) erros.push('descontoPct');
+  // Os campos do cliente vêm depois das peças na tela.
   if (!nomeCliente(orc.cliente)) erros.push('clienteNome');
   const doc = orc.cliente.documento?.trim();
   if (doc && !(orc.cliente.tipo === 'PJ' ? cnpjValido(doc) : cpfValido(doc))) erros.push('documento');
-  if (orc.itens.some(i => !Number.isInteger(i.quantidade) || i.quantidade < QTD_ITEM_MIN || i.quantidade > QTD_ITEM_MAX)) erros.push('quantidade');
-  const pctInvalido = (d?: Desconto) => d?.tipo === 'percentual' && !!d.valor && Dec.de(d.valor).comparar(100) > 0;
-  if (orc.itens.some(i => pctInvalido(i.desconto)) || pctInvalido(orc.descontoTotal)) erros.push('descontoPct');
   if ((orc.codigoVenda ?? '').length > CODIGO_VENDA_MAX) erros.push('codigoVenda');
+  // Validade no passado: o link já nasceria expirado.
+  if (orc.validade && orc.validade < hoje) erros.push('validade');
   if (orc.observacao.length > 500) erros.push('observacao');
   return erros;
 }

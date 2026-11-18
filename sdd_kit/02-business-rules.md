@@ -215,6 +215,9 @@ Decisões: `DEC-017`, `DEC-018`, `DEC-019`.
 - **Entrega e pagamento (opcionais, texto livre):** endereço de entrega, endereço de
   cobrança (com "igual ao de entrega"), transportadora com o tipo de frete (ex.: "FOB -
   nome"; lista de transportadoras fica para depois) e prazo de pagamento.
+- **Bloqueios ao salvar:** validade antes de hoje (o link nasceria vencido), peça com lado
+  sem o lado escolhido e desconto em peça sem preço (o campo fica desabilitado). Ao salvar com
+  erro, a tela vai até o primeiro campo errado e mostra a mensagem embaixo dele.
 - **Código de venda (opcional):** gerado pela MK fora do sistema; o vendedor digita, até 20
   caracteres. Sem valor, o documento mostra "—".
 - **Itens:** descrição, Nº compatível (códigos originais do catálogo do lado escolhido,
@@ -261,10 +264,12 @@ Decisões: `DEC-017`, `DEC-018`, `DEC-019`.
   pelo cliente entra "sob consulta" e o total é recalculado. Ao adicionar peça com lado, o
   cliente escolhe LD, LE ou Par (os dois), como no catálogo, e pode trocar o lado das peças
   sem preço do vendedor. Ele tem duas ações, ambas
-  só para o vendedor dono do link: "Enviar minha lista para `<nome>`" (envia a lista
-  atual; texto escolhido pelo responsável, porque o cliente já está vendo um orçamento) e
-  "Falar com `<nome>`" (abre a conversa, sem a lista). No celular, o total e o envio ficam
-  numa barra fixa embaixo.
+  só para o vendedor dono do link: "Responder a `<primeiro nome>`" (envia a lista atual
+  pelo WhatsApp; curto para caber numa linha da barra no celular, escolha do responsável na
+  revisão impeccable) e "Falar com `<nome>`" (abre a conversa, sem a lista). No celular, o
+  total e o envio ficam numa barra fixa embaixo. O cliente também pode **baixar o orçamento
+  em PDF** (o mesmo documento, pela impressão do navegador), sem os dados pessoais que não vão
+  no link.
 - **Documento (PDF e Word):** igual à página 1 do modelo pedido pela MK
   (`docs/pfd-regras/MKautoparts/`, fora do Git: especificação, exemplo em PDF e Word e
   guia), na ordem: faixa de topo (selo `DEC-020`, nº do orçamento ORC-0001, código de venda

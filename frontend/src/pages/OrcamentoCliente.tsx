@@ -7,10 +7,11 @@
  * lista para <nome>" (a lista atual, numa barra fixa com o total, pensada para o celular) e "Falar com
  * <nome>". Link expirado ou excluído não mostra o orçamento; link inválido oferece a loja e o catálogo.
  */
-import { useEffect, useMemo, useState, type MouseEvent } from 'react';
+import { useEffect, useMemo, useRef, useState, type ComponentType, type MouseEvent } from 'react';
+import { createPortal } from 'react-dom';
 import { Link, useRouter } from '../router';
 import { imagemProduto, listarProdutos, normalizar, obterProduto, temLados, type Lado } from '../content/catalogo';
-import { documento as doc } from '../content/documento';
+import { documento as doc, primeiroNome } from '../content/documento';
 import { empresa, mensagens, textos, whatsapp } from '../content/site';
 import { obterVendedor } from '../content/vendedores';
 import { useOrcamento } from '../orcamento/OrcamentoContext';
@@ -19,7 +20,8 @@ import { aplicarParametroVendedor } from '../rastreio/vendedor';
 import { gravar, lerJson } from '../rastreio/armazenamento';
 import { calcularOrcamento, decodificarLink, expirado, lerItem, nomeCliente, type ItemOrcamento, type Orcamento } from '../vendedor/orcamento';
 import { brl, num, pctFiscal, pctTexto } from '../vendedor/decimal';
-import { dadosDoItem } from '../vendedor/itens';
+import { dadosDoItem, origemDesconto } from '../vendedor/itens';
+import type { DadosDocumento } from '../vendedor/Documento';
 import { obterOrcamento, registrarAlteracao } from '../vendedor/armazem';
 import { Icone } from '../components/Icons';
 import { Quantidade } from '../components/Quantidade';
@@ -52,6 +54,38 @@ export function OrcamentoCliente() {
     const id = window.setTimeout(() => setRealce([]), 2400);
     return () => clearTimeout(id);
   }, [realce]);
+  // "Baixar PDF": o mesmo documento do vendedor (sem os dados pessoais, que não vêm no link), impresso
+  // pelo navegador ("Salvar como PDF"). O gerador só carrega quando o cliente pede.
+  const [impressao, setImpressao] = useState<{ Doc: ComponentType<{ dados: DadosDocumento }>; dados: DadosDocumento } | null>(null);
+  const [preparando, setPreparando] = useState(false);
+  const folha = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!impressao) return;
+    let ativo = true;
+    const fim = () => {
+      document.documentElement.classList.remove('imprimindo-orcl');
+      if (ativo) setImpressao(null);
+    };
+    (async () => {
+      await document.fonts.ready;
+      // Espera as fotos das peças antes de abrir a impressão.
+      await Promise.all([...(folha.current?.querySelectorAll('img') ?? [])].map(img => img.decode().catch(() => undefined)));
+      if (!ativo) return;
+      setPreparando(false);
+      document.documentElement.classList.add('imprimindo-orcl');
+      window.addEventListener('afterprint', fim, { once: true });
+      const titulo = document.title;
+      document.title = `MKAutoparts-Orcamento-${impressao.dados.numero}`;
+      window.print();
+      document.title = titulo;
+    })();
+    return () => {
+      ativo = false;
+      window.removeEventListener('afterprint', fim);
+      document.documentElement.classList.remove('imprimindo-orcl');
+    };
+  }, [impressao]);
+
   // "Ver": rola até a peça recém-adicionada (fica acima do campo de busca) e a destaca.
   const verAdicionada = () => {
     if (!adicionado) return;
@@ -132,6 +166,15 @@ export function OrcamentoCliente() {
   const calc = calcularOrcamento({ itens, descontoTotal: o.descontoTotal, frete: o.frete, impostosDeducao: o.impostosDeducao });
   const r = doc.rotulos;
   const mensagem = `${mensagemLista({ itens: itens.map(({ slug, lado, quantidade }) => ({ slug, lado, quantidade })), observacao: o.observacao }, vendedor?.nome)}\n\n${t.referencia(o.id)}`;
+  const baixarPdf = async () => {
+    setPreparando(true);
+    try {
+      const m = await import('../vendedor/Documento');
+      setImpressao({ Doc: m.DocumentoOrcamento, dados: m.montarDocumento({ ...o, itens }, window.location.href) });
+    } catch {
+      setPreparando(false);
+    }
+  };
   const solicitar = (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     window.open(whatsapp(vendedor!.whatsapp, mensagem), '_blank', 'noopener');
@@ -198,6 +241,7 @@ export function OrcamentoCliente() {
                     {l.pctDesconto && <s>{brl(l.preco!)}</s>}
                     <strong>{brl(l.liquido!)}</strong>
                     {l.pctDesconto && <span className="orcl__pct">-{pctTexto(l.pctDesconto)}</span>}
+                    {l.pctDesconto && origemDesconto(i, o.descontoTotal) && <small className="orcl__origem">{origemDesconto(i, o.descontoTotal)}</small>}
                     <small>{l.ipiPct.zero ? t.porUnidade : t.comIpi(pctFiscal(l.ipiPct), brl(l.unitario!))}</small>
                     {i.quantidade > 1 && <small>{t.linha(i.quantidade, brl(l.total!))}</small>}
                     {!l.st.zero && <small>{t.st(brl(l.st))}</small>}
@@ -300,8 +344,22 @@ export function OrcamentoCliente() {
             <dt className="orcl__resumo-total">{r.valorTotal}</dt>
             <dd className="orcl__resumo-total">{brl(calc.total)}</dd>
           </dl>
+          <div className="orcl__pdf">
+            <button type="button" className="btn btn--contorno" onClick={baixarPdf} disabled={preparando}>
+              <Icone nome="caixa" tamanho={20} />
+              <span className="btn__texto">{preparando ? t.preparandoPdf : t.baixarPdf}</span>
+            </button>
+            <small>{t.baixarPdfDica}</small>
+          </div>
         </section>
       )}
+      {impressao &&
+        createPortal(
+          <div className="orcl-impressao" ref={folha} aria-hidden="true">
+            <impressao.Doc dados={impressao.dados} />
+          </div>,
+          document.body,
+        )}
 
       {o.observacao && <p className="orcl__obs">{t.observacao(o.observacao)}</p>}
       <AvisoHorario />
@@ -338,7 +396,7 @@ export function OrcamentoCliente() {
         </div>
         <a className="btn btn--primario btn--lg orcl__enviar" href={whatsapp(vendedor!.whatsapp, mensagem)} target="_blank" rel="noopener" onClick={solicitar}>
           <Icone nome="whatsapp" tamanho={22} />
-          <span className="btn__texto">{t.solicitar(vendedor!.nome)}</span>
+          <span className="btn__texto">{t.solicitar(primeiroNome(vendedor!.nome))}</span>
         </a>
       </div>
     </section>
