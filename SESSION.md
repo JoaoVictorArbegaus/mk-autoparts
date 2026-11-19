@@ -28,7 +28,7 @@ pertencem ao `sdd_kit/`.
 - Docker: `frontend/docker-compose.yml` (nginx, porta 8084): `docker compose up -d --build`
   em `frontend/`.
 - Publicação ativa em `https://mkautoparts.jksoftware.com.br`, pública e sem
-  Cloudflare Access (`DEC-016`). Release `1656463cd8eb` (anterior `65e611cc3dd0` em `previous`) em Compose/rede isolados,
+  Cloudflare Access (`DEC-016`). Release `a2fed0e0d92a` (anterior `689c84f5f038` em `previous`) em Compose/rede isolados,
   atrás do Nginx central e proxy Cloudflare; TLS `Strict`, renovação simulada e origem
   restrita às faixas oficiais da Cloudflare. Smoke público aprovado nas rotas
   principais e 404; Chrome desktop/celular sem mensagens de console ou rolagem
