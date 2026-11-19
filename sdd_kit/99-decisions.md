@@ -55,6 +55,10 @@ autorização humana, atualização dos documentos afetados e novo registro aqui
   servidor; o guia do modelo recomenda Chrome headless no servidor para o produto definitivo.
 - **Extensão (REU-18, M4):** biblioteca `uqr` (0.1.2, versão fixa, MIT, sem dependências) para
   o QR Code do link do vendedor, carregada só na área do vendedor (pedaço separado de ~10 KB).
+- **Extensão (REU-20):** biblioteca `html-to-image` (1.11.11, versão fixa, MIT) para transformar a
+  folha do orçamento em imagem e gerar o PDF como arquivo no navegador (o PDF em si é montado por
+  código próprio, `src/vendedor/pdfArquivo.ts`), carregada só na tela do documento. Substitui a
+  impressão como caminho principal do "Salvar PDF"; a impressão fica de reserva se a geração falhar.
 
 ### DEC-004 — Preço único e promoção individual
 
@@ -452,3 +456,28 @@ autorização humana, atualização dos documentos afetados e novo registro aqui
   "Encerrada" (o dia do fim ainda vale); fora do período o site mostra o produto sem preço e sem
   a arte. O admin de demonstração edita as datas e mostra a situação. Nenhuma data foi inventada
   nos dados; a regra final depende de `PEND-004`.
+
+### DEC-027 — Pedidos da reunião de validação: enviar o PDF, exportar a foto e colar a foto
+
+- **Status:** APROVADA pelo responsável (protótipo).
+- **Contexto:** Na reunião de validação, a MK pediu: mandar o PDF do orçamento para quem quiser
+  sem baixar e procurar o arquivo; exportar a foto do produto (os vendedores fazem muito isso);
+  trocar a foto do produto copiando a imagem e colando (Ctrl+V).
+- **Tela "Orçamento pronto":** a primeira ação é "PDF e Word"; as ações do link (enviar ao
+  cliente, copiar e abrir) ficam em "Gerenciar link", fechado até o vendedor clicar.
+- **PDF arrastável (REU-20):** ao abrir o documento, o PDF é gerado em segundo plano. Um selo
+  amarelo diz que está preparando; pronto, fica verde e diz para arrastar o arquivo para onde
+  quiser encaminhar. A prévia e a ficha com o nome do arquivo podem ser arrastadas como um
+  arquivo de pasta (Chrome e Edge: área de trabalho, pastas, WhatsApp do computador; o WhatsApp
+  Web depende de teste). "Enviar PDF" abre o compartilhamento do aparelho (celular e Windows);
+  sem ele, baixa o arquivo. No protótipo o arquivo é PDF; no PDF o texto é imagem (não
+  selecionável). **Sistema definitivo:** o PDF sai do servidor e o perfil do usuário (vendedor ou
+  admin) define se, ao abrir o documento, ele já baixa em PDF, em Word ou não baixa.
+- **Exportar foto (REU-21):** no produto, só com o vendedor logado (regra do M3), "Exportar foto"
+  abre uma janela com a imagem do produto (foto, nome, códigos, logo da MK, preço opcional digitado
+  pelo vendedor e o nome e WhatsApp dele). Com o mesmo selo amarelo/verde, o vendedor arrasta a
+  imagem para a conversa, compartilha (celular), copia (Ctrl+V no WhatsApp do computador) ou baixa.
+  Gerada no navegador, sem biblioteca.
+- **Colar a foto (REU-22):** no admin de demonstração, clicar na foto do produto (na lista ou no
+  cadastro) e colar (Ctrl+V) troca a foto; arrastar um arquivo para cima também. No celular segue
+  "Trocar foto". Como o resto do admin, a troca vale só na sessão.

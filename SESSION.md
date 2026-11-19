@@ -68,10 +68,10 @@ pertencem ao `sdd_kit/`.
   fora do horário comercial (`DEC-023`). Nomes confirmados (nome e sobrenome quando houver).
   Documento do orçamento: o responsável produz o modelo e o coloca no repositório
   (`PEND-035`); validade definida pelo vendedor, que também exclui o link.
-- PROTO-05: Lighthouse no celular (`RNF-05`) e roteiro de apresentação.
-- PROTO-06: placeholders aguardam a MK; listar no documento de apresentação da reunião.
+- PROTO-05: Lighthouse no celular (`RNF-05`). PROTO-06: placeholders aguardam a MK.
 - Melhorias feitas (`DEC-026`): busca por ano (M1), vigência de promoção (M5), compartilhar
-  com meu link (M3) e QR do vendedor (M4, `uqr`).
+  com meu link (M3) e QR do vendedor (M4, `uqr`). Pedidos da validação (`DEC-027`): PDF
+  arrastável (`html-to-image`), exportar foto do produto e colar foto no admin.
 - DOC-01 e proposta comercial prontos, fora do Git (`JKsoftware/Documentos/MKautoparts/Proposta/`;
   geradores em `Orcamento/_fonte/`). Aguardam revisão do responsável; valores não entram no repositório.
 

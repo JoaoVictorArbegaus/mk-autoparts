@@ -112,6 +112,26 @@ export const textos = {
     produto: (nome: string) => `Olá! Separei esta peça para você: ${nome}`,
     catalogo: 'Olá! Separei estas peças para você no catálogo da MK Autoparts',
   },
+  // REU-21: imagem do produto para o vendedor mandar no WhatsApp (só com o vendedor logado).
+  exportarFoto: {
+    botao: 'Exportar foto',
+    titulo: 'Foto do produto para enviar',
+    fechar: 'Fechar',
+    alt: (nome: string) => `Imagem de ${nome} para enviar ao cliente`,
+    preco: 'Preço na imagem (opcional)',
+    precoDica: 'Ex.: 489,90',
+    precoApoio: 'Deixe em branco para enviar sem preço.',
+    preparando: 'Preparando a imagem…',
+    pronto: 'Imagem pronta: arraste para a conversa ou use os botões.',
+    prontoToque: 'Imagem pronta: toque em "Compartilhar" para mandar pelo WhatsApp.',
+    falhou: 'Não deu para gerar a imagem. Feche e tente de novo.',
+    compartilhar: 'Compartilhar',
+    copiar: 'Copiar imagem',
+    baixar: 'Baixar',
+    copiada: 'Imagem copiada. Cole (Ctrl+V) na conversa do WhatsApp.',
+    falhouCopiar: 'Este navegador não copia imagens. Use "Baixar".',
+    baixada: 'Imagem salva na pasta de downloads.',
+  },
 
   buscaVeiculo: {
     titulo: 'Buscar pelo veículo',

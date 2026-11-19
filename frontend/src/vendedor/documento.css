@@ -595,6 +595,89 @@
   box-shadow: 0 16px 40px -20px rgb(0 0 0 / 0.6);
 }
 
+/* ---------- Arquivo PDF (REU-20): selo de estado, ficha arrastável e folha fora da tela ---------- */
+.doc-estado {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px 14px;
+  width: 100%;
+  max-width: 820px;
+  min-height: 56px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: 2px solid;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  text-align: center;
+}
+.doc-estado--preparando {
+  background: #fff6d6;
+  border-color: #f2c230;
+  color: #6b4d00;
+}
+.doc-estado--pronto {
+  background: #e3f4ea;
+  border-color: #2e9e5b;
+  color: #1d6a3a;
+}
+.doc-estado--falhou {
+  background: #fdeeee;
+  border-color: #c81e2a;
+  color: #8f1520;
+}
+.doc-estado__giro {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 3px solid currentColor;
+  border-right-color: transparent;
+  animation: doc-giro 0.8s linear infinite;
+}
+@keyframes doc-giro {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .doc-estado__giro {
+    animation-duration: 2.4s;
+  }
+}
+.doc-ficha {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 14px;
+  border-radius: 8px;
+  background: #fff;
+  color: var(--navy);
+  border: 1px dashed #2e9e5b;
+  font-size: 0.875rem;
+  cursor: grab;
+  user-select: none;
+}
+.doc-ficha:active,
+.doc-previa--arrastavel:active {
+  cursor: grabbing;
+}
+.doc-previa--arrastavel {
+  cursor: grab;
+  box-shadow: 0 16px 40px -20px rgb(8 19 41 / 0.45), 0 0 0 3px #2e9e5b;
+}
+.doc-previa--arrastavel img {
+  -webkit-user-drag: none;
+}
+.doc-exportar {
+  position: fixed;
+  top: 0;
+  left: -10000px;
+  width: 210mm;
+  pointer-events: none;
+}
+
 /*
  * Impressão ("Salvar como PDF"): só o documento, em A4, com os fundos. Orçamento longo continua na
  * página seguinte sem repetir o cabeçalho do documento; a linha de títulos da tabela se repete e a
@@ -619,6 +702,8 @@
   .vend-topo,
   .vend-faixa,
   .doc-acoes,
+  .doc-estado,
+  .doc-exportar,
   .doc-previa__ampliar,
   .doc-ampliado,
   .adm-aviso,

@@ -8,6 +8,7 @@ import { admin } from '../content/admin';
 import { imagemProduto, listarCategorias, listarMontadoras, obterMontadora } from '../content/catalogo';
 import { Icone } from '../components/Icons';
 import { gerarSlug, useAdmin } from './AdminDemo';
+import { FotoColavel } from './FotoColavel';
 import type { Aplicacao, Produto, Variante } from '../content/tipos';
 
 const lista = (s: string) =>
@@ -252,7 +253,9 @@ export function TelaProdutoForm({ editar = false }: { editar?: boolean }) {
         <aside className="adm-form__lateral">
           <fieldset className="adm-bloco">
             <legend>{t.secoes.foto}</legend>
-            <div className="adm-foto">{foto ? <img src={foto} alt="" /> : <Icone nome="peca" tamanho={40} />}</div>
+            <FotoColavel nome={nome || 'novo produto'} aoTrocar={setFoto} avisar={avisar} className="adm-foto">
+              {foto ? <img src={foto} alt="" /> : <Icone nome="peca" tamanho={40} />}
+            </FotoColavel>
             <label className="adm-btn adm-btn--fantasma adm-arquivo">
               <input
                 type="file"

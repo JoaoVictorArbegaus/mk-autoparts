@@ -31,6 +31,45 @@ export async function compartilharLink(url: string, texto: string): Promise<'com
   return copiarTexto(url);
 }
 
+/**
+ * Envia um arquivo (PDF, imagem) pelo compartilhamento do aparelho: no celular abre WhatsApp e outros
+ * apps; no Windows/Chrome, a janela de compartilhar do sistema. Sem suporte, devolve 'indisponivel'.
+ */
+export async function compartilharArquivo(arquivo: File, texto: string): Promise<'compartilhado' | 'cancelado' | 'indisponivel'> {
+  const nav = typeof navigator === 'undefined' ? undefined : navigator;
+  if (!nav?.share || !nav.canShare?.({ files: [arquivo] })) return 'indisponivel';
+  try {
+    await nav.share({ files: [arquivo], title: arquivo.name, text: texto });
+    return 'compartilhado';
+  } catch (e) {
+    return (e as Error)?.name === 'AbortError' ? 'cancelado' : 'indisponivel';
+  }
+}
+
+/** Baixa um arquivo gerado no navegador. */
+export function baixarArquivo(arquivo: Blob, nome: string) {
+  const url = URL.createObjectURL(arquivo);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = nome;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(url), 2000);
+}
+
+/** No arraste, entrega o arquivo como se viesse de uma pasta (Chrome/Edge: área de trabalho, WhatsApp). */
+export function arrastarArquivo(e: DragEvent, arquivo: File, url: string) {
+  const dt = e.dataTransfer;
+  if (!dt) return;
+  dt.clearData();
+  dt.effectAllowed = 'copy';
+  dt.setData('DownloadURL', `${arquivo.type}:${arquivo.name}:${url}`);
+  try {
+    dt.items.add(arquivo);
+  } catch {
+    /* navegador sem suporte a arquivo no arraste: fica só o DownloadURL */
+  }
+}
+
 export async function copiarTexto(texto: string): Promise<'copiado' | 'falhou'> {
   try {
     await navigator.clipboard.writeText(texto);

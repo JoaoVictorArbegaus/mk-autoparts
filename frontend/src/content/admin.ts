@@ -1,5 +1,14 @@
 // Textos do admin de demonstração (DEC-015). Nada aqui é publicado no site público.
 export const admin = {
+  // REU-22: trocar a foto colando (Ctrl+V) ou arrastando um arquivo.
+  fotoColar: {
+    rotulo: (nome: string) => `Foto de ${nome}: clique e cole uma imagem (Ctrl+V) para trocar`,
+    dica: 'Clique e cole (Ctrl+V) uma imagem, ou arraste um arquivo para cá',
+    ativo: 'Cole a imagem (Ctrl+V)',
+    trocada: (nome: string) => `Foto de ${nome} trocada (só nesta demonstração).`,
+    naoImagem: 'O que foi colado não é uma imagem. Copie a foto e tente de novo.',
+    dicaLista: 'Para trocar uma foto: copie a imagem, clique na foto do produto e cole (Ctrl+V).',
+  },
   selo: 'Demonstração: nada é salvo no site',
   menu: [
     { tela: 'produtos', rotulo: 'Produtos', href: '/admin/produtos', icone: 'caixa' },

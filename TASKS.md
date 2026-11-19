@@ -42,6 +42,9 @@ apresentadas.
 | REU-19 | M5: promoção com início e fim opcionais (regra no catálogo, admin com situação) | DONE | Regra final em `PEND-004` |
 | REU-17 | M3: "Compartilhar com meu link" no produto e no catálogo, com o vendedor logado | DONE | — |
 | REU-18 | M4: link pessoal e QR Code na área do vendedor (baixar e imprimir), `uqr` em `DEC-003` | DONE | — |
+| REU-20 | PDF arrastável e "Enviar PDF" no documento; "Orçamento pronto" com "PDF e Word" primeiro e "Gerenciar link" (`DEC-027`, `html-to-image` em `DEC-003`) | DONE | Teste do arraste no WhatsApp Web e no WhatsApp do computador pelo responsável |
+| REU-21 | "Exportar foto" do produto para o vendedor logado (`DEC-027`) | DONE | — |
+| REU-22 | Colar a foto (Ctrl+V) ou arrastar arquivo no admin, na lista e no cadastro (`DEC-027`) | DONE | — |
 
 ## Depois da apresentação
 

@@ -1503,16 +1503,24 @@
   border-color: var(--royal);
   scroll-margin: 80px;
 }
-.vend-resultado__link summary {
-  color: var(--royal);
-  font-weight: 600;
-  cursor: pointer;
+.vend-gerenciar {
+  display: grid;
+  gap: 10px;
+  margin-top: 4px;
+  padding: 14px;
+  border-radius: 10px;
+  background: var(--adm-fundo, #f3f5f8);
 }
-.vend-resultado__link code {
+.vend-gerenciar p {
+  margin: 0;
+}
+.vend-gerenciar__url {
   display: block;
-  margin-top: 6px;
   word-break: break-all;
   font-size: 0.8125rem;
+}
+.vend-gira {
+  rotate: 180deg;
 }
 .vend-outro {
   display: inline-flex;
@@ -1524,7 +1532,8 @@
   text-decoration: none;
 }
 @media (max-width: 559px) {
-  .vend-resultado .vend-orc__acoes > * {
+  .vend-resultado .vend-orc__acoes > *,
+  .vend-gerenciar .vend-orc__acoes > * {
     flex: 1 1 100%;
   }
 }
@@ -1985,5 +1994,50 @@
   .meu-link {
     grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
+  }
+}
+
+/* REU-22: foto que aceita Ctrl+V e arrastar arquivo. */
+.foto-colar {
+  position: relative;
+  padding: 0;
+  cursor: copy;
+  font: inherit;
+}
+.foto-colar:hover {
+  border-color: var(--royal);
+}
+.foto-colar:focus,
+.foto-colar--sobre {
+  outline: 3px solid var(--royal);
+  outline-offset: 2px;
+}
+.foto-colar__dica {
+  position: absolute;
+  inset: auto 8px 8px;
+  display: none;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: var(--navy);
+  color: var(--white);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-align: center;
+}
+.adm-foto.foto-colar:hover .foto-colar__dica,
+.adm-foto.foto-colar:focus .foto-colar__dica,
+.adm-foto.foto-colar--sobre .foto-colar__dica {
+  display: block;
+}
+.adm-dica--colar {
+  margin: -4px 0 10px;
+}
+@media (pointer: coarse) {
+  .foto-colar {
+    cursor: default;
+  }
+  .adm-dica--colar,
+  .adm-foto.foto-colar .foto-colar__dica {
+    display: none !important;
   }
 }

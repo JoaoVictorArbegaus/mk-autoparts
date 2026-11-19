@@ -111,3 +111,12 @@
   (`DEC-026`).
 - **RF-42** Promoção com início e fim opcionais, editáveis no admin de demonstração
   (`DEC-026`, `RN-02A`).
+- **RF-43** O documento do orçamento gera o PDF ao abrir, com selo de estado (preparando em
+  amarelo, pronto em verde), e o vendedor arrasta o arquivo para a conversa ou usa "Enviar PDF";
+  na tela "Orçamento pronto", "PDF e Word" vem primeiro e o link fica em "Gerenciar link"
+  (`DEC-027`).
+- **RF-44** "Exportar foto" no produto para o vendedor logado: imagem com foto, nome, códigos,
+  logo, preço opcional e contato do vendedor, para arrastar, compartilhar, copiar ou baixar
+  (`DEC-027`).
+- **RF-45** No admin, a foto do produto troca colando uma imagem (Ctrl+V) ou arrastando um
+  arquivo, na lista e no cadastro (`DEC-027`).

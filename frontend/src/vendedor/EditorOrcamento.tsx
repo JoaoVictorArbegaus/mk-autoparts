@@ -732,6 +732,7 @@ function ItemAberto({
 
 function Resultado({ orc, avisar, refEl }: { orc: Orcamento; avisar: (t: string) => void; refEl: RefObject<HTMLDivElement | null> }) {
   const link = linkDoOrcamento(orc);
+  const [gerenciar, setGerenciar] = useState(false);
   const enviar = async () => {
     const r = await enviarLink(orc);
     if (r === 'copiado') avisar(tl.copiado);
@@ -743,26 +744,41 @@ function Resultado({ orc, avisar, refEl }: { orc: Orcamento; avisar: (t: string)
       <h2 id="vend-resultado-titulo">{t.resultado}</h2>
       <p>{t.resultadoApoio}</p>
       <div className="vend-orc__acoes">
-        <button type="button" className="adm-btn adm-btn--primario vend-enviar" onClick={enviar}>
-          <Icone nome="whatsapp" tamanho={18} />
-          {tl.enviar}
-        </button>
-        <button type="button" className="adm-btn adm-btn--fantasma" onClick={copiar}>
-          <Icone nome="copiar" tamanho={16} />
-          {tl.copiar}
-        </button>
-        <a className="adm-btn adm-btn--fantasma" href={link} target="_blank" rel="noopener">
-          {tl.abrir}
-        </a>
-        <Link className="adm-btn adm-btn--fantasma" href={`/vendedor/documento?id=${orc.id}`}>
-          <Icone nome="caixa" tamanho={16} />
+        <Link className="adm-btn adm-btn--primario vend-enviar" href={`/vendedor/documento?id=${orc.id}`}>
+          <Icone nome="caixa" tamanho={18} />
           {t.documento}
         </Link>
+        <button
+          type="button"
+          className="adm-btn adm-btn--fantasma"
+          aria-expanded={gerenciar}
+          aria-controls="vend-gerenciar-link"
+          onClick={() => setGerenciar(g => !g)}
+        >
+          <Icone nome="link" tamanho={16} />
+          {t.gerenciarLink}
+          <Icone nome="chevron" tamanho={16} className={gerenciar ? 'vend-gira' : undefined} />
+        </button>
       </div>
-      <details className="vend-resultado__link">
-        <summary>{t.verLink}</summary>
-        <code>{link}</code>
-      </details>
+      {gerenciar && (
+        <div id="vend-gerenciar-link" className="vend-gerenciar">
+          <p>{t.gerenciarApoio}</p>
+          <div className="vend-orc__acoes">
+            <button type="button" className="adm-btn adm-btn--fantasma" onClick={enviar}>
+              <Icone nome="whatsapp" tamanho={18} />
+              {tl.enviar}
+            </button>
+            <button type="button" className="adm-btn adm-btn--fantasma" onClick={copiar}>
+              <Icone nome="copiar" tamanho={16} />
+              {tl.copiar}
+            </button>
+            <a className="adm-btn adm-btn--fantasma" href={link} target="_blank" rel="noopener">
+              {tl.abrir}
+            </a>
+          </div>
+          <code className="vend-gerenciar__url">{link}</code>
+        </div>
+      )}
       <Link className="vend-outro" href="/vendedor/novo">
         <Icone nome="mais" tamanho={16} />
         {t.outro}

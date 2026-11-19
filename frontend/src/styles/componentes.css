@@ -1143,3 +1143,143 @@
     font-size: 0.875rem;
   }
 }
+
+/* ---------- REU-21: exportar a foto do produto (vendedor logado) ---------- */
+.produto__vendedor {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+.produto__vendedor:empty {
+  display: none;
+}
+.foto-exp {
+  width: min(920px, calc(100vw - 32px));
+  max-height: calc(100dvh - 32px);
+  padding: 0;
+  border: 0;
+  border-radius: 16px;
+  background: var(--white, #fff);
+  color: var(--navy);
+  box-shadow: 0 24px 60px -20px rgb(8 19 41 / 0.6);
+}
+.foto-exp::backdrop {
+  background: rgb(8 19 41 / 0.6);
+}
+.foto-exp__cabeca {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px 14px 20px;
+  border-bottom: 1px solid #e2e6ec;
+}
+.foto-exp__cabeca h2 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+.foto-exp__fechar {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--navy);
+}
+.foto-exp__fechar:hover {
+  background: #eef1f6;
+}
+.foto-exp__corpo {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 20px;
+  padding: 20px;
+}
+.foto-exp__previa {
+  display: grid;
+  place-items: center;
+}
+.foto-exp__img,
+.foto-exp__vazia {
+  width: 100%;
+  max-width: 360px;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  border-radius: 10px;
+  background: #f3f5f8;
+  box-shadow: 0 0 0 1px #e2e6ec;
+}
+.foto-exp__img--pronta {
+  cursor: grab;
+  box-shadow: 0 0 0 3px #2e9e5b;
+}
+.foto-exp__img--pronta:active {
+  cursor: grabbing;
+}
+.foto-exp__lado {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+}
+.foto-exp__campo {
+  display: grid;
+  gap: 6px;
+  font-weight: 600;
+}
+.foto-exp__campo input {
+  min-height: 48px;
+  padding: 0 14px;
+  border: 1px solid #c9d0da;
+  border-radius: 10px;
+  font: inherit;
+  font-weight: 400;
+}
+.foto-exp__campo small {
+  font-weight: 400;
+  color: var(--ink-2);
+}
+.foto-exp__estado {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 2px solid;
+  font-weight: 600;
+}
+.foto-exp__estado--preparando {
+  background: #fff6d6;
+  border-color: #f2c230;
+  color: #6b4d00;
+}
+.foto-exp__estado--pronto {
+  background: #e3f4ea;
+  border-color: #2e9e5b;
+  color: #1d6a3a;
+}
+.foto-exp__estado--falhou {
+  background: #fdeeee;
+  border-color: #c81e2a;
+  color: #8f1520;
+}
+.foto-exp__acoes {
+  display: grid;
+  gap: 8px;
+}
+.foto-exp__aviso {
+  margin: 0;
+  min-height: 1.5em;
+  font-weight: 600;
+  color: var(--royal);
+}
+@media (max-width: 639px) {
+  .foto-exp__corpo {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    padding: 16px;
+  }
+  .foto-exp__img,
+  .foto-exp__vazia {
+    max-width: 240px;
+  }
+}

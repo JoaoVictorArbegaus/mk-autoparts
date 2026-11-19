@@ -5,6 +5,7 @@ import { admin } from '../content/admin';
 import { codigosMK, formatarPreco, imagemProduto, listarCategorias, normalizar, obterCategoria, obterMontadora } from '../content/catalogo';
 import { Icone } from '../components/Icons';
 import { useAdmin } from './AdminDemo';
+import { FotoColavel } from './FotoColavel';
 import type { Produto } from '../content/tipos';
 
 type Situacao = 'todos' | 'ativos' | 'inativos' | 'promocao';
@@ -13,7 +14,7 @@ const veiculos = (p: Produto) => [...new Set(p.aplicacoes.map(a => obterMontador
 
 export function TelaProdutos() {
   const t = admin.produtos;
-  const { produtos, alternarAtivo, avisar, fotos } = useAdmin();
+  const { produtos, alternarAtivo, avisar, fotos, definirFoto } = useAdmin();
   const [q, setQ] = useState('');
   const [cat, setCat] = useState('');
   const [sit, setSit] = useState<Situacao>('todos');
@@ -75,6 +76,7 @@ export function TelaProdutos() {
       </div>
 
       <p className="adm-contagem">{t.contagem(lista.length, produtos.length)}</p>
+      <p className="adm-dica adm-dica--colar">{admin.fotoColar.dicaLista}</p>
 
       {lista.length === 0 ? (
         <p className="adm-vazio">{t.vazio}</p>
@@ -95,7 +97,14 @@ export function TelaProdutos() {
             return (
               <div key={p.slug} className={`adm-tabela__linha${p.ativo ? '' : ' adm-tabela__linha--inativa'}`} role="row">
                 <span role="cell" className="adm-prod">
-                  <span className={`adm-prod__foto${p.promocao ? ' adm-prod__foto--escura' : ''}`}>{fotos[p.slug] ? <img src={fotos[p.slug]} alt="" loading="lazy" /> : img && <img src={img.src} alt="" width={img.largura} height={img.altura} loading="lazy" />}</span>
+                  <FotoColavel
+                    nome={p.nome}
+                    aoTrocar={url => definirFoto(p.slug, url)}
+                    avisar={avisar}
+                    className={`adm-prod__foto${p.promocao && !fotos[p.slug] ? ' adm-prod__foto--escura' : ''}`}
+                  >
+                    {fotos[p.slug] ? <img src={fotos[p.slug]} alt="" loading="lazy" /> : img && <img src={img.src} alt="" width={img.largura} height={img.altura} loading="lazy" />}
+                  </FotoColavel>
                   <span>
                     <strong>{p.nome}</strong>
                     {p.promocao && (
