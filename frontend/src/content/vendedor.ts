@@ -8,6 +8,8 @@ export const areaVendedor = {
     apoio: 'Demonstração: escolha quem você é. No sistema final, cada vendedor terá login próprio, liberado pelo administrador.',
   },
   sair: 'Sair',
+  verSite: 'Ver o site',
+  voltarSite: 'Voltar para o site',
   abas: { lista: 'Orçamentos', novo: 'Novo orçamento', novoCurto: 'Novo' },
   // M3 e M4: link pessoal do vendedor e QR Code.
   meuLink: {
@@ -166,6 +168,8 @@ export const areaVendedor = {
     envioBaixado: 'Este navegador não abre o compartilhamento: o PDF foi salvo. Arraste o arquivo para a conversa.',
     preparando: 'Preparando o PDF… aguarde alguns segundos.',
     pronto: 'PDF pronto: use "Enviar PDF" para mandar pelo WhatsApp, ou arraste o arquivo para uma pasta.',
+    prontoBaixado: 'PDF pronto e salvo em Downloads. Para mandar: clique no ícone de downloads do navegador (↓, no alto à direita) e arraste o arquivo para a conversa. Ou use "Enviar PDF".',
+    baixarAuto: 'Baixar o PDF automaticamente ao abrir',
     prontoToque: 'PDF pronto: toque em "Enviar PDF" para mandar pelo WhatsApp ou outro app.',
     arrasteFicha: 'Arraste para a conversa ou para uma pasta',
     falhou: 'Não deu para preparar o PDF.',

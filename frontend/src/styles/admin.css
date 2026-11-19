@@ -2041,3 +2041,18 @@
     display: none !important;
   }
 }
+
+/* Área do vendedor: atalho para o site (cabeçalho e tela de escolha). */
+.vend-login__site {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 44px;
+  color: var(--royal);
+  font-weight: 700;
+  text-decoration: none;
+}
+.vend-login__site:hover {
+  text-decoration: underline;
+}

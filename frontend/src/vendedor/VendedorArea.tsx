@@ -48,6 +48,10 @@ export function VendedorArea({ tela }: { tela: TelaVendedor }) {
               <span className="vend-abas__longo">{t.abas.novo}</span>
               <span className="vend-abas__curto">{t.abas.novoCurto}</span>
             </Link>
+            <Link href="/" className="vend-abas__site" aria-label={t.verSite}>
+              <Icone nome="setaDiag" tamanho={16} />
+              <span className="vend-abas__longo">{t.verSite}</span>
+            </Link>
           </nav>
           <span className="vend-topo__quem">
             <span className="adm-vend__avatar vend-topo__avatar" aria-hidden="true">
@@ -119,6 +123,10 @@ function Login({ aoEntrar }: { aoEntrar: (v: Vendedor) => void }) {
             </li>
           ))}
         </ul>
+        <Link href="/" className="vend-login__site">
+          <Icone nome="setaEsq" tamanho={16} />
+          {t.voltarSite}
+        </Link>
       </div>
     </div>
   );

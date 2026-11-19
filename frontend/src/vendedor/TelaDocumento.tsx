@@ -1,9 +1,10 @@
 /*
  * Tela do documento (/vendedor/documento?id=…, REU-06 e REU-20): prévia do orçamento em A4 (em escala
  * para caber no celular). O PDF é gerado em segundo plano ao abrir (selo amarelo "preparando", verde
- * "pronto"); pronto, o vendedor arrasta a prévia para a conversa (Chrome/Edge), toca em "Enviar PDF"
- * (compartilhamento do aparelho) ou salva. "Baixar Word" gera o .docx no navegador. O vendedor edita
- * o orçamento antes, na tela de edição; o arquivo em si não se edita.
+ * "pronto"). No computador, pronto, ele baixa sozinho (preferência que o vendedor pode desligar): o
+ * arquivo baixado sai do painel de downloads do navegador arrastando para qualquer conversa, o que
+ * uma página não consegue fazer direto. "Enviar PDF" abre o compartilhamento do aparelho; a prévia
+ * arrasta para pastas. "Baixar Word" gera o .docx no navegador.
  */
 import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type DragEvent } from 'react';
 import { Link, useRouter } from '../router';
@@ -18,6 +19,24 @@ import { gerarPdfDaFolha } from './pdfArquivo';
 
 const t = areaVendedor.documento;
 const LARGURA_A4 = 793.7; // 210 mm em px (96 dpi)
+/** Preferência do vendedor neste navegador (no sistema definitivo, no perfil: PDF, Word ou nada). */
+const CHAVE_PREFS = 'mk-vendedor-prefs';
+
+function lerBaixarAuto(): boolean {
+  try {
+    return JSON.parse(localStorage.getItem(CHAVE_PREFS) ?? '{}').baixarPdf !== false;
+  } catch {
+    return true;
+  }
+}
+
+/** Assinatura do orçamento: baixa de novo só quando ele mudou (não a cada vez que a tela abre). */
+function assinatura(o: Orcamento): string {
+  const s = JSON.stringify(o);
+  let h = 0;
+  for (let i = 0; i < s.length; i++) h = (Math.imul(31, h) + s.charCodeAt(i)) | 0;
+  return `${o.id}:${(h >>> 0).toString(36)}`;
+}
 
 export function TelaDocumento({ vendedor, avisar }: { vendedor: Vendedor; avisar: (t: string) => void }) {
   const { busca } = useRouter();
@@ -33,8 +52,36 @@ export function TelaDocumento({ vendedor, avisar }: { vendedor: Vendedor; avisar
   const [estado, setEstado] = useState<'preparando' | 'pronto' | 'falhou'>('preparando');
   const [tentativa, setTentativa] = useState(0);
   const [toque, setToque] = useState(false);
+  const [baixarAuto, setBaixarAuto] = useState(true);
+  const [baixado, setBaixado] = useState(false);
 
-  useEffect(() => setToque(window.matchMedia?.('(pointer: coarse)').matches ?? false), []);
+  useEffect(() => {
+    setToque(window.matchMedia?.('(pointer: coarse)').matches ?? false);
+    setBaixarAuto(lerBaixarAuto());
+  }, []);
+
+  // No computador, o PDF pronto baixa sozinho uma vez por versão do orçamento.
+  useEffect(() => {
+    if (!pdf || !orc || toque || !baixarAuto) return;
+    const chave = `mk-pdf-baixado:${assinatura(orc)}`;
+    try {
+      if (sessionStorage.getItem(chave)) return setBaixado(true);
+      sessionStorage.setItem(chave, '1');
+    } catch {
+      /* sem armazenamento: baixa assim mesmo */
+    }
+    baixarArquivo(pdf.arquivo, pdf.arquivo.name);
+    setBaixado(true);
+  }, [pdf, orc, toque, baixarAuto]);
+
+  const mudarBaixarAuto = (v: boolean) => {
+    setBaixarAuto(v);
+    try {
+      localStorage.setItem(CHAVE_PREFS, JSON.stringify({ ...JSON.parse(localStorage.getItem(CHAVE_PREFS) ?? '{}'), baixarPdf: v }));
+    } catch {
+      /* preferência só nesta visita */
+    }
+  };
 
   useEffect(() => {
     let o = id ? obterOrcamento(id) : undefined;
@@ -178,7 +225,7 @@ export function TelaDocumento({ vendedor, avisar }: { vendedor: Vendedor; avisar
               <Icone nome="caixa" tamanho={18} />
               {pdf!.arquivo.name}
             </span>
-            <span>{toque ? t.prontoToque : t.pronto}</span>
+            <span>{toque ? t.prontoToque : baixado ? t.prontoBaixado : t.pronto}</span>
           </>
         )}
         {estado === 'falhou' && (
@@ -190,6 +237,13 @@ export function TelaDocumento({ vendedor, avisar }: { vendedor: Vendedor; avisar
           </>
         )}
       </div>
+
+      {!toque && (
+        <label className="doc-auto">
+          <input type="checkbox" checked={baixarAuto} onChange={e => mudarBaixarAuto(e.target.checked)} />
+          {t.baixarAuto}
+        </label>
+      )}
 
       <div ref={caixa} className={`doc-previa${pronto ? ' doc-previa--arrastavel' : ''}`} draggable={pronto} onDragStart={aoArrastar}>
         <div className="doc-zoom" style={{ zoom: escala } as CSSProperties}>

@@ -470,7 +470,11 @@ autorização humana, atualização dos documentos afetados e novo registro aqui
   para uma pasta. "Enviar PDF" abre o compartilhamento do aparelho (celular e Windows, com o
   WhatsApp do computador; testado pelo responsável); sem ele, baixa o arquivo. A prévia e a ficha
   com o nome do arquivo podem ser arrastadas como arquivo só para a área de trabalho e pastas
-  (Chrome e Edge): o navegador não entrega o arquivo a outros apps nem a outra aba. No protótipo o arquivo é PDF; no PDF o texto é imagem (não
+  (Chrome e Edge): o navegador não entrega o arquivo a outros apps nem a outra aba. Por isso, no
+  computador, o PDF pronto **baixa sozinho** (uma vez por versão do orçamento; o vendedor pode
+  desligar em "Baixar o PDF automaticamente ao abrir", guardado no navegador) e o selo orienta a
+  arrastar o arquivo do painel de downloads do navegador para a conversa: um arquivo baixado vai
+  para qualquer app ou aba. No protótipo o arquivo é PDF; no PDF o texto é imagem (não
   selecionável). **Sistema definitivo:** o PDF sai do servidor e o perfil do usuário (vendedor ou
   admin) define se, ao abrir o documento, ele já baixa em PDF, em Word ou não baixa.
 - **Exportar foto (REU-21):** no produto, "Exportar foto" abre uma janela com a imagem do produto
@@ -479,6 +483,8 @@ autorização humana, atualização dos documentos afetados e novo registro aqui
   quem estiver logado com conta da MK (admin, vendedor). Com o mesmo selo amarelo/verde, o vendedor arrasta a
   imagem para a conversa, compartilha (celular), copia (Ctrl+V no WhatsApp do computador) ou baixa.
   Gerada no navegador, sem biblioteca.
+- **Atalho para o site:** a área do vendedor tem "Ver o site" no cabeçalho e "Voltar para o site"
+  na escolha do vendedor, na mesma aba (a sessão do vendedor continua ao navegar pelo site).
 - **Colar a foto (REU-22):** no admin de demonstração, clicar na foto do produto (na lista ou no
   cadastro) e colar (Ctrl+V) troca a foto; arrastar um arquivo para cima também. No celular segue
   "Trocar foto". Como o resto do admin, a troca vale só na sessão.

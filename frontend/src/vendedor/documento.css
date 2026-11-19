@@ -670,6 +670,21 @@
 .doc-previa--arrastavel img {
   -webkit-user-drag: none;
 }
+.doc-auto {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 32px;
+  margin-top: -6px;
+  color: var(--ink-2);
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+.doc-auto input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--royal);
+}
 .doc-exportar {
   position: fixed;
   top: 0;
@@ -703,6 +718,7 @@
   .vend-faixa,
   .doc-acoes,
   .doc-estado,
+  .doc-auto,
   .doc-exportar,
   .doc-previa__ampliar,
   .doc-ampliado,
