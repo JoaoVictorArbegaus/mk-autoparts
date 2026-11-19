@@ -165,7 +165,7 @@ export const areaVendedor = {
     mensagemEnvio: (numero: string) => `Orçamento ${numero} da MK Autoparts.`,
     envioBaixado: 'Este navegador não abre o compartilhamento: o PDF foi salvo. Arraste o arquivo para a conversa.',
     preparando: 'Preparando o PDF… aguarde alguns segundos.',
-    pronto: 'PDF pronto: arraste o arquivo para onde quiser encaminhar.',
+    pronto: 'PDF pronto: use "Enviar PDF" para mandar pelo WhatsApp, ou arraste o arquivo para uma pasta.',
     prontoToque: 'PDF pronto: toque em "Enviar PDF" para mandar pelo WhatsApp ou outro app.',
     arrasteFicha: 'Arraste para a conversa ou para uma pasta',
     falhou: 'Não deu para preparar o PDF.',

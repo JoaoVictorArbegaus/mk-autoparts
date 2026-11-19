@@ -466,16 +466,17 @@ autorização humana, atualização dos documentos afetados e novo registro aqui
 - **Tela "Orçamento pronto":** a primeira ação é "PDF e Word"; as ações do link (enviar ao
   cliente, copiar e abrir) ficam em "Gerenciar link", fechado até o vendedor clicar.
 - **PDF arrastável (REU-20):** ao abrir o documento, o PDF é gerado em segundo plano. Um selo
-  amarelo diz que está preparando; pronto, fica verde e diz para arrastar o arquivo para onde
-  quiser encaminhar. A prévia e a ficha com o nome do arquivo podem ser arrastadas como um
-  arquivo de pasta (Chrome e Edge: área de trabalho, pastas, WhatsApp do computador; o WhatsApp
-  Web depende de teste). "Enviar PDF" abre o compartilhamento do aparelho (celular e Windows);
-  sem ele, baixa o arquivo. No protótipo o arquivo é PDF; no PDF o texto é imagem (não
+  amarelo diz que está preparando; pronto, fica verde e orienta usar "Enviar PDF" ou arrastar
+  para uma pasta. "Enviar PDF" abre o compartilhamento do aparelho (celular e Windows, com o
+  WhatsApp do computador; testado pelo responsável); sem ele, baixa o arquivo. A prévia e a ficha
+  com o nome do arquivo podem ser arrastadas como arquivo só para a área de trabalho e pastas
+  (Chrome e Edge): o navegador não entrega o arquivo a outros apps nem a outra aba. No protótipo o arquivo é PDF; no PDF o texto é imagem (não
   selecionável). **Sistema definitivo:** o PDF sai do servidor e o perfil do usuário (vendedor ou
   admin) define se, ao abrir o documento, ele já baixa em PDF, em Word ou não baixa.
-- **Exportar foto (REU-21):** no produto, só com o vendedor logado (regra do M3), "Exportar foto"
-  abre uma janela com a imagem do produto (foto, nome, códigos, logo da MK, preço opcional digitado
-  pelo vendedor e o nome e WhatsApp dele). Com o mesmo selo amarelo/verde, o vendedor arrasta a
+- **Exportar foto (REU-21):** no produto, "Exportar foto" abre uma janela com a imagem do produto
+  (foto, nome, códigos, logo da MK, preço opcional e o contato: vendedor logado, senão o vendedor do
+  link, senão o WhatsApp da MK). No protótipo aparece para todos; no sistema definitivo, só para
+  quem estiver logado com conta da MK (admin, vendedor). Com o mesmo selo amarelo/verde, o vendedor arrasta a
   imagem para a conversa, compartilha (celular), copia (Ctrl+V no WhatsApp do computador) ou baixa.
   Gerada no navegador, sem biblioteca.
 - **Colar a foto (REU-22):** no admin de demonstração, clicar na foto do produto (na lista ou no

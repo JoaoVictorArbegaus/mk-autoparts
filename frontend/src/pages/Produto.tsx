@@ -175,7 +175,7 @@ export function Produto({ slug }: { slug: string }) {
             <Button href={whatsapp(destinoWhatsApp(vendedor), mensagemProduto(p, vendedor?.nome, ladoMsg))} externo variante="contorno" icone="whatsapp" onClick={() => registrar('whatsapp_clicado', { produto: p.slug, dados: { origem: 'produto' } })}>
               {t.solicitar}
             </Button>
-            {/* M3 e REU-21: só com o vendedor logado. */}
+            {/* M3: só com o vendedor logado. REU-21: para todos no protótipo. */}
             <div className="produto__vendedor">
               <CompartilharVendedor texto={textos.compartilhar.produto(p.nome)} />
               <ExportarFotoProduto produto={p} />

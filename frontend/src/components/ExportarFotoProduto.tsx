@@ -1,13 +1,15 @@
 /*
- * "Exportar foto" (REU-21): só com o vendedor logado (mesma regra do "Compartilhar com meu link").
- * Abre uma janela com a imagem do produto (foto, nome, código, logo, preço opcional e o contato do
- * vendedor). Pronta (selo verde), o vendedor arrasta a imagem para a conversa, compartilha (celular),
- * copia (Ctrl+V no WhatsApp do computador) ou baixa. Lido depois da montagem: o HTML pré-renderizado
- * não tem sessão.
+ * "Exportar foto" (REU-21): no protótipo aparece para todos; no sistema definitivo, só para quem
+ * estiver logado com uma conta da MK (admin, vendedor). Abre uma janela com a imagem do produto
+ * (foto, nome, código, logo, preço opcional e o contato). Contato: o vendedor logado; senão o
+ * vendedor do link (?v=, DEC-017); senão o WhatsApp da MK. Pronta (selo verde): compartilhar
+ * (celular), copiar (Ctrl+V no WhatsApp do computador), baixar ou arrastar. Contato lido depois da
+ * montagem: o HTML pré-renderizado não tem sessão.
  */
 import { useEffect, useRef, useState, type DragEvent } from 'react';
 import type { Produto } from '../content/tipos';
-import type { Vendedor } from '../content/vendedores';
+import { WHATSAPP_EMPRESA, type Vendedor } from '../content/vendedores';
+import { useOrcamento } from '../orcamento/OrcamentoContext';
 import { textos } from '../content/site';
 import { vendedorDaSessao } from '../vendedor/armazem';
 import { arrastarArquivo, baixarArquivo, compartilharArquivo } from '../vendedor/compartilhar';
@@ -16,11 +18,15 @@ import { Icone } from './Icons';
 
 const t = textos.exportarFoto;
 
+/** Contato que vai na imagem quando não há vendedor: o WhatsApp da MK. */
+const EMPRESA: Vendedor = { codigo: 'mk', nome: 'MK Autoparts', whatsapp: WHATSAPP_EMPRESA, ativo: true };
+
 export function ExportarFotoProduto({ produto }: { produto: Produto }) {
-  const [vendedor, setVendedor] = useState<Vendedor | undefined>();
+  const { vendedor: doLink } = useOrcamento();
+  const [logado, setLogado] = useState<Vendedor | undefined>();
   const [aberto, setAberto] = useState(false);
-  useEffect(() => setVendedor(vendedorDaSessao()), []);
-  if (!vendedor) return null;
+  useEffect(() => setLogado(vendedorDaSessao()), []);
+  const vendedor = logado ?? doLink ?? EMPRESA;
   return (
     <>
       <button type="button" className="btn btn--contorno btn--sm" onClick={() => setAberto(true)}>
